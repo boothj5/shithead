@@ -23,5 +23,21 @@ public class Shithead {
 		}
 
 		System.out.println() ;
+		
+		Random generator = new Random() ;
+		
+		Card card1 = deck.cards.get(generator.nextInt(52)) ;
+		Card card2 = deck.cards.get(generator.nextInt(52)) ;
+
+		String outcome ;
+		if (card1.compareTo(card2) < 0) outcome = " loses to " ;
+		else if (card1.compareTo(card2) > 0) outcome = " beats " ;
+		else outcome = " draws with " ;
+		
+		System.out.println(card1 + outcome + card2) ;
+		
 	}
+
+	
+
 }
