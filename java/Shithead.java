@@ -5,6 +5,7 @@ public class Shithead {
 	
 	public static void main(String[] args) {
 
+		boolean debug = false ;
 		Console c = System.console();
 		
 		String numPlayersString = c.readLine("How many players? ") ;
@@ -20,37 +21,10 @@ public class Shithead {
 		ShitheadGame game = new ShitheadGame(numPlayers, numCards, 
 												playerNames) ;
 		
-		
-		System.out.println(game.toString()) ;
-/*		
-		Iterator<Player> playerIterator = game.players.iterator() ;
-		while (playerIterator.hasNext()) {
-			Player player = playerIterator.next() ;
-			StringBuffer faceDown = new StringBuffer(player.name + 
-														" face down = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				faceDown.append(player.faceDown.get(i) + ", ") ;
-			}
-			
-			StringBuffer faceUp = new StringBuffer(player.name + 
-														" face up = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				faceUp.append(player.faceUp.get(i) + ", ") ;
-			}
+		if (debug) System.out.println(game.toString()) ;
 
-			StringBuffer hand = new StringBuffer(player.name + 
-														" hand = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				hand.append(player.hand.get(i) + ", ") ;
-			}
-
-			System.out.println() ;
-			System.out.println(faceDown.toString()) ;
-			System.out.println(faceUp.toString()) ;
-			System.out.println(hand.toString()) ;
-		}
+		game.swapCards() ;
 		
-*/		
 		
 	}
 }

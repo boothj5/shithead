@@ -1,5 +1,5 @@
 import java.util.* ;
-
+import java.io.* ;
 
 public class ShitheadGame {
 	
@@ -7,6 +7,9 @@ public class ShitheadGame {
 	private Deck deck = new Deck() ;
 	private int numPlayers ;
 	private int numCards ;
+	
+	private List<Card> pile = new ArrayList<Card>() ;
+	private List<Card> burnt = new ArrayList<Card>() ;
 	
 	public ShitheadGame(int numPlayers, int numCards, 
 							List<String> playerNames) {
@@ -44,6 +47,46 @@ public class ShitheadGame {
 		}
 	}
 	
+	public void swapCards() {
+	    Console c = System.console();
+		
+		Iterator<Player> playerIterator = players.iterator() ;
+		while (playerIterator.hasNext()) {
+			Player player = playerIterator.next() ;
+			System.out.println("\n" + player.showHand()) ;
+			System.out.println(player.showFaceUp() + "\n") ;
+			String swap = c.readLine(player.name + 
+									", do you want to swap cards (y/n) ? ") ;
+			boolean swapMore = false ;
+			if ("y".equals(swap)) {
+				swapCards(player) ;
+			}
+		}
+	}		
+	
+	public void swapCards(Player player) {
+	    Console c = System.console();
+
+		System.out.println("\n" + player.showHand()) ;
+		System.out.println(player.showFaceUp() + "\n") ;
+
+		int cardFromHand = Integer.parseInt(c.readLine("Which card from your" + 
+								" hand do you want to swap (1-4) ? ")) ;
+		
+		int cardFromPile = Integer.parseInt(c.readLine("Which card from the " + 
+								"pile do you want to swap (1-4) ? ")) ;
+			
+		Card savedFromHand = player.hand.get(cardFromHand-1) ;
+		Card savedFromPile = player.faceUp.get(cardFromPile-1) ;
+		
+		player.faceUp.set((cardFromPile-1), savedFromHand) ;
+		player.hand.set((cardFromHand-1), savedFromPile) ;
+
+		System.out.println("\n" + player.showHand()) ;
+		System.out.println(player.showFaceUp() + "\n") ;
+
+	}
+	
 	public String toString() {
 
 		StringBuffer output = new StringBuffer("---- GAME INFO ----\n") ;
@@ -55,22 +98,31 @@ public class ShitheadGame {
 		while (playerIterator.hasNext()) {
 			Player player = playerIterator.next() ;
 			output.append("Player : " + player.name + "\n") ;
-			output.append("\tFace down = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				output.append(player.faceDown.get(i) + ", ") ;
-			}
+			output.append("\t" + player.showHand()) ;
 			output.append("\n") ;
-			output.append("\tFace up = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				output.append(player.faceUp.get(i) + ", ") ;
-			}
+			output.append("\t" + player.showFaceUp()) ;
 			output.append("\n") ;
-			output.append("\tHand = ") ;
-			for (int i = 0 ; i < numCards ; i++ ) {
-				output.append(player.hand.get(i) + ", ") ;
-			}
+			output.append("\t" + player.showFaceDown()) ;
 			output.append("\n\n") ;
 		}
+		
+	    Iterator<Card> pileIterator = pile.iterator() ;
+	    int pileRemaining = pile.size() ;
+		output.append(pileRemaining + " on pile:\n") ;
+	    while (pileIterator.hasNext()) {
+			Card card = pileIterator.next() ;
+			output.append("\t" + card.toString() + "\n") ;
+		}
+		output.append("\n") ;
+		
+	    Iterator<Card> burntIterator = burnt.iterator() ;
+	    int burntRemaining = burnt.size() ;
+		output.append(burntRemaining + " burnt:\n") ;
+	    while (burntIterator.hasNext()) {
+			Card card = burntIterator.next() ;
+			output.append("\t" + card.toString() + "\n") ;
+		}
+		output.append("\n") ;
 		
 	    Iterator<Card> deckIterator = deck.cards.iterator() ;
 	    int remaining = deck.cards.size() ;
