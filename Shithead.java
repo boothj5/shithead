@@ -5,7 +5,7 @@ public class Shithead {
 	
 	public static void main(String[] args) {
 
-		boolean debug = true ;
+		boolean debug = false ;
 		Console c = System.console();
 		
 		String numPlayersString = c.readLine("How many players? ") ;
@@ -24,6 +24,8 @@ public class Shithead {
 		if (debug) System.out.println(game.toString()) ;
 
 		game.swapCards() ;
+		
+		game.firstMove() ;
 		
 		if (debug) System.out.println(game.toString()) ;
 		

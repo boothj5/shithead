@@ -4,6 +4,7 @@ import java.io.* ;
 public class ShitheadGame {
 	
 	public List<Player> players = new ArrayList<Player>() ;
+	
 	private Deck deck = new Deck() ;
 	private int numPlayers ;
 	private int numCards ;
@@ -11,6 +12,10 @@ public class ShitheadGame {
 	private List<Card> pile = new ArrayList<Card>() ;
 	private List<Card> burnt = new ArrayList<Card>() ;
 	
+	private enum bestRanks {TWO, SEVEN, TEN, ACE} ;
+	private enum normalRanks {THREE, FOUR, FIVE, SIX, EIGHT, NINE, JACK, QUEEN,
+		KING} ;
+
 	public ShitheadGame(int numPlayers, int numCards, 
 							List<String> playerNames) {
 		
@@ -53,39 +58,67 @@ public class ShitheadGame {
 		Iterator<Player> playerIterator = players.iterator() ;
 		while (playerIterator.hasNext()) {
 			Player player = playerIterator.next() ;
-			System.out.println("\n" + player.showHand()) ;
-			System.out.println(player.showFaceUp() + "\n") ;
+			System.out.println() ;
+			System.out.println(player.showHand()) ;
+			System.out.println(player.showFaceUp()) ;
+			System.out.println() ;
+
 			String swap = c.readLine(player.name + 
-									", do you want to swap cards (y/n) ? ") ;
-			boolean swapMore = false ;
+								", do you want to swap cards (y/n) ? ") ;
 			if ("y".equals(swap)) {
 				swapCards(player) ;
 			}
 		}
 	}		
 	
-	public void swapCards(Player player) {
+	private void swapCards(Player player) {
 	    Console c = System.console();
 
-		System.out.println("\n" + player.showHand()) ;
-		System.out.println(player.showFaceUp() + "\n") ;
-
-		int cardFromHand = Integer.parseInt(c.readLine("Which card from your" + 
-								" hand do you want to swap (1-" + numCards + ") ? ")) ;
+	    boolean keepSwapping = true ;
+	    while (keepSwapping) {
+	    	int cardFromHand = Integer.parseInt(
+	    		c.readLine("Which card from your" + 
+				" hand do you want to swap (1-" + numCards + ") ? ")) ;
 		
-		int cardFromPile = Integer.parseInt(c.readLine("Which card from the " + 
-								"pile do you want to swap (1-" + numCards + ") ? ")) ;
-			
-		Card savedFromHand = player.hand.get(cardFromHand-1) ;
-		Card savedFromPile = player.faceUp.get(cardFromPile-1) ;
+			int cardFromPile = Integer.parseInt(
+				c.readLine("Which card from the " + 
+					"pile do you want to swap (1-" + numCards + ") ? ")) ;
 		
-		player.faceUp.set((cardFromPile-1), savedFromHand) ;
-		player.hand.set((cardFromHand-1), savedFromPile) ;
+			swap(player.hand, player.faceUp, cardFromHand, cardFromPile) ;
 
-		System.out.println("\n" + player.showHand()) ;
-		System.out.println(player.showFaceUp() + "\n") ;
+			System.out.println() ;
+			System.out.println(player.showHand()) ;
+			System.out.println(player.showFaceUp()) ;
+			System.out.println() ;
 
+			String swap = c.readLine(player.name + 
+								", do you want to swap more cards (y/n) ? ") ;
+		
+			keepSwapping = ("y".equals(swap)) ;
+		}
+		
 	}
+	
+	private void swap(List<Card> hand1, List<Card> hand2, 
+										int card1, int card2) {
+		Card savedHand1 = hand1.get(card1-1) ;
+		Card savedHand2 = hand2.get(card2-1) ;
+		hand2.set((card2-1), savedHand1) ;
+		hand1.set((card1-1), savedHand2) ;
+	}
+	
+	public void firstMove() {
+		Iterator<Player> playerIterator = players.iterator() ;
+		
+		while (playerIterator.hasNext()) {
+			getPlayersLowest
+			
+			Player player = playerIterator.next() ;
+			List<Card> handCopy = player.hand.clone() ;
+			handCopy.sort()
+			
+		
+	
 	
 	public String toString() {
 
