@@ -71,10 +71,10 @@ public class ShitheadGame {
 		System.out.println(player.showFaceUp() + "\n") ;
 
 		int cardFromHand = Integer.parseInt(c.readLine("Which card from your" + 
-								" hand do you want to swap (1-4) ? ")) ;
+								" hand do you want to swap (1-" + numCards + ") ? ")) ;
 		
 		int cardFromPile = Integer.parseInt(c.readLine("Which card from the " + 
-								"pile do you want to swap (1-4) ? ")) ;
+								"pile do you want to swap (1-" + numCards + ") ? ")) ;
 			
 		Card savedFromHand = player.hand.get(cardFromHand-1) ;
 		Card savedFromPile = player.faceUp.get(cardFromPile-1) ;
