@@ -2,7 +2,7 @@ import java.util.* ;
 
 public class Card implements Comparable {
 
-	public enum Rank {TWO, THREE, FOUR, FIvE, SIX, SEVEN, EIGHT, NINE,TEN,
+	public enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
 		JACK, QUEEN, KING, ACE} ;
 	
 	public enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
