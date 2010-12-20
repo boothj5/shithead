@@ -25,7 +25,7 @@ public class Shithead {
 
 		game.swapCards() ;
 		
-		game.firstMove() ;
+//		game.firstMove() ;
 		
 		if (debug) System.out.println(game.toString()) ;
 		

@@ -107,15 +107,15 @@ public class ShitheadGame {
 		hand1.set((card1-1), savedHand2) ;
 	}
 	
-	public void firstMove() {
-		Iterator<Player> playerIterator = players.iterator() ;
-		
-		while (playerIterator.hasNext()) {
-			getPlayersLowest
-			
-			Player player = playerIterator.next() ;
-			List<Card> handCopy = player.hand.clone() ;
-			handCopy.sort()
+//	public void firstMove() {
+//		Iterator<Player> playerIterator = players.iterator() ;
+//		
+//		while (playerIterator.hasNext()) {
+//			getPlayersLowest
+//			
+//			Player player = playerIterator.next() ;
+//			List<Card> handCopy = player.hand.clone() ;
+//			handCopy.sort()
 			
 		
 	
