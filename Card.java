@@ -18,7 +18,7 @@ public class Card implements Comparable {
 	public String toString () {
 		return (rank + " of " + suit) ;
 	}
-	
+//
 	public int compareTo(Object o) {
 		Card otherCard = (Card) o ;
 		return this.rank.compareTo(otherCard.rank) ;
