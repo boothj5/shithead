@@ -3,18 +3,20 @@ import java.io.* ;
 
 public class ShitheadGame {
 	
+	public final boolean debug = true ;
 	public List<Player> players = new ArrayList<Player>() ;
 	
 	private Deck deck = new Deck() ;
 	private int numPlayers ;
 	private int numCards ;
 	
-	private List<Card> pile = new ArrayList<Card>() ;
+	private Stack<Card> pile = new Stack<Card>() ;
 	private List<Card> burnt = new ArrayList<Card>() ;
 	
-	private enum bestRanks {TWO, SEVEN, TEN, ACE} ;
-	private enum normalRanks {THREE, FOUR, FIVE, SIX, EIGHT, NINE, JACK, QUEEN,
-		KING} ;
+	public static final EnumSet<Card.Rank> layOnAnythingRanks = 
+		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
+	public static final EnumSet<Card.Rank> normalRanks = 
+		EnumSet.complementOf(layOnAnythingRanks) ;
 
 	public ShitheadGame(int numPlayers, int numCards, 
 							List<String> playerNames) {
@@ -107,22 +109,77 @@ public class ShitheadGame {
 		hand1.set((card1-1), savedHand2) ;
 	}
 	
-//	public void firstMove() {
-//		Iterator<Player> playerIterator = players.iterator() ;
-//		
-//		while (playerIterator.hasNext()) {
-//			getPlayersLowest
-//			
-//			Player player = playerIterator.next() ;
-//			List<Card> handCopy = player.hand.clone() ;
-//			handCopy.sort()
-			
+	public void firstMove() {
+		int playerToLayIndex ;
+		List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
+		List<Card> cardsToPlay = new ArrayList<Card>() ;
 		
+		System.out.println("Looking for first player") ;
+		
+		// add lowest card of each player to a list
+		Iterator<Player> playerIterator = players.iterator() ;
+		while (playerIterator.hasNext()) {
+			lowestCardsByPlayerIndex.add(
+					Collections.min(playerIterator.next().hand, 
+										new ShitheadCardComparator())) ;
+		}
+		
+		// get the index of the player with the lowest card
+		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(
+					Collections.min(lowestCardsByPlayerIndex, 
+										new ShitheadCardComparator())) ; 
+		
+		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
+		// check if any more of same rank and add to list to play
+		
+		// iterate of the players cards for any of the same rank
+		Iterator<Card> playersCardsIterator = 
+			players.get(playerToLayIndex).hand.iterator() ;
+		while (playersCardsIterator.hasNext()) {
+			Card toCompare = playersCardsIterator.next() ;
+			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
+				(!cardsToPlay.get(0).equals(toCompare))) {
+				cardsToPlay.add(toCompare) ;
+			}
+		}
+		
+		StringBuffer output = 
+			new StringBuffer(players.get(playerToLayIndex).name + 
+				" must play with : ") ;
+		
+		Iterator<Card> cardsToPlayIterator = cardsToPlay.iterator() ;
+		while (cardsToPlayIterator.hasNext()) {
+			Card toPlay = cardsToPlayIterator.next() ;
+			output.append(toPlay + ", ") ;
+		}
+		
+		play(playerToLayIndex, cardsToPlay) ;
+		
+		System.out.println(output.toString()) ;
+		
+				
+	}
 	
+	public void play(int player, List<Card> toPlay) {
+		pile.addAll(toPlay) ;
+		players.get(player).hand.removeAll(toPlay) ;
+		
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			if (!deck.cards.isEmpty()) {
+					Card pickup = deck.cards.get(0) ;
+					players.get(player).hand.add(pickup) ;
+					deck.cards.remove(0) ;
+			}
+		}	
+	}
 	
 	public String toString() {
 
 		StringBuffer output = new StringBuffer("---- GAME INFO ----\n") ;
+		
+		output.append("\nRules:\n") ;
+		output.append("Lay on anything ranks = " + layOnAnythingRanks + "\n") ;
+		output.append("Normal ranks = " + normalRanks + "\n") ;
 		
 		output.append("\nNumber of players : " + numPlayers + "\n") ;
 		output.append("Number of cards each : " + numCards + "\n") ;
@@ -136,16 +193,25 @@ public class ShitheadGame {
 			output.append("\t" + player.showFaceUp()) ;
 			output.append("\n") ;
 			output.append("\t" + player.showFaceDown()) ;
+			output.append("\n") ;
+			output.append("\tLowest card in hand = " + 
+							Collections.min(player.hand, 
+										new ShitheadCardComparator()))  ;
 			output.append("\n\n") ;
 		}
 		
 	    Iterator<Card> pileIterator = pile.iterator() ;
 	    int pileRemaining = pile.size() ;
 		output.append(pileRemaining + " on pile:\n") ;
-	    while (pileIterator.hasNext()) {
-			Card card = pileIterator.next() ;
-			output.append("\t" + card.toString() + "\n") ;
-		}
+	    
+		for (int i = pileRemaining - 1 ; i >= 0 ; i--) {
+			Card card = pile.get(i) ;
+			if (card.equals(pile.peek())) 
+				output.append("\t(*)" + card.toString() + "\n") ;
+			else
+				output.append("\t" + card.toString() + "\n") ;
+		}			
+		
 		output.append("\n") ;
 		
 	    Iterator<Card> burntIterator = burnt.iterator() ;

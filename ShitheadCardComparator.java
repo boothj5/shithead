@@ -1,0 +1,32 @@
+import java.util.* ;
+
+public class ShitheadCardComparator implements Comparator<Card> {
+
+	public int compare(Card o1, Card o2) {
+		Card card1 = (Card) o1 ;
+		Card card2 = (Card) o2 ;
+		
+		// both special cards
+		if (ShitheadGame.layOnAnythingRanks.contains(card1.rank) 
+					&& ShitheadGame.layOnAnythingRanks.contains(card2.rank)) {
+			return 0 ;
+		}
+		
+		// card1 is special
+		else if (ShitheadGame.layOnAnythingRanks.contains(card1.rank)
+					&& !ShitheadGame.layOnAnythingRanks.contains(card2.rank)) {
+			return 1 ;
+		}
+		
+		// card2 is special
+		else if (!ShitheadGame.layOnAnythingRanks.contains(card1.rank)
+					&& ShitheadGame.layOnAnythingRanks.contains(card2.rank)) {
+			return -1 ;
+		}
+		
+		// both normal cards
+		else {
+			return card1.compareTo(card2) ;
+		}
+	}
+}

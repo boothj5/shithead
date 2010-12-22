@@ -1,14 +1,14 @@
 import java.util.* ;
 
-public class Card implements Comparable {
+public class Card {
 
-	public enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
+	public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
 		JACK, QUEEN, KING, ACE} ;
 	
-	public enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
+	public static enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
 		
-	public Rank rank  ;
-	public Suit suit ;
+	public final Rank rank  ;
+	public final Suit suit ;
 
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank ;
@@ -18,7 +18,7 @@ public class Card implements Comparable {
 	public String toString () {
 		return (rank + " of " + suit) ;
 	}
-//
+
 	public int compareTo(Object o) {
 		Card otherCard = (Card) o ;
 		return this.rank.compareTo(otherCard.rank) ;

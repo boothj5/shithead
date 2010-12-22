@@ -5,7 +5,6 @@ public class Shithead {
 	
 	public static void main(String[] args) {
 
-		boolean debug = false ;
 		Console c = System.console();
 		
 		String numPlayersString = c.readLine("How many players? ") ;
@@ -18,16 +17,22 @@ public class Shithead {
 			playerNames.add(c.readLine("Enter name for player " + i + ": ")) ;
 		}
 
-		ShitheadGame game = new ShitheadGame(numPlayers, numCards, 
-												playerNames) ;
+		ShitheadGame game = 
+			new ShitheadGame(numPlayers, numCards, playerNames) ;
 		
-		if (debug) System.out.println(game.toString()) ;
+		debug(game) ;
 
 		game.swapCards() ;
+		game.firstMove() ;
 		
-//		game.firstMove() ;
-		
-		if (debug) System.out.println(game.toString()) ;
-		
+		debug(game) ;
+	}
+	
+	private static void debug(ShitheadGame game) {
+		if (game.debug) {
+			System.out.println(game.toString()) ;
+			Console c = System.console();
+			c.readLine("Press enter") ;
+		}
 	}
 }
