@@ -10,8 +10,8 @@ public class DeckTest {
 		
 		assertTrue(deck.cards.size() == 52) ;
 		
-//		for (Card.Suit suit : Card.Suit.values())
-//			for (Card.Rank rank : Card.Rank.values())
-//				assertTrue(deck.cards.contains(new Card(rank, suit))) ;
+		for (Card.Suit suit : Card.Suit.values())
+			for (Card.Rank rank : Card.Rank.values())
+				assertTrue(deck.cards.contains(new Card(rank, suit))) ;
 	}
 }

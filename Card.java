@@ -23,4 +23,14 @@ public class Card {
 		Card otherCard = (Card) o ;
 		return this.rank.compareTo(otherCard.rank) ;
 	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof Card)) {
+				return false ;
+		}
+		else {
+			Card other = (Card) o ;
+			return (this.rank == other.rank && this.suit == other.suit) ;
+		}
+	}
 }

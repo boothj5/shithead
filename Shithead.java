@@ -5,27 +5,16 @@ public class Shithead {
 	
 	public static void main(String[] args) {
 
-		Console c = System.console();
-		
-		String numPlayersString = c.readLine("How many players? ") ;
-		int numPlayers = Integer.parseInt(numPlayersString) ;
-		String numCardsString = c.readLine("How many cards each? ") ;
-		int numCards = Integer.parseInt(numCardsString) ;
+		ShitheadGameEngine engine = new ShitheadGameEngine() ;
+	
+		engine.setupGame() ;
+		debug(engine.game) ;
 
-		List<String> playerNames = new ArrayList<String>() ;
-		for (int i = 1 ; i <= numPlayers ; i++) {
-			playerNames.add(c.readLine("Enter name for player " + i + ": ")) ;
-		}
+		engine.swapCards() ;
+		debug(engine.game) ;
 
-		ShitheadGame game = 
-			new ShitheadGame(numPlayers, numCards, playerNames) ;
-		
-		debug(game) ;
-
-		game.swapCards() ;
-		game.firstMove() ;
-		
-		debug(game) ;
+		engine.firstMove() ;
+		debug(engine.game) ;
 	}
 	
 	private static void debug(ShitheadGame game) {

@@ -7,8 +7,8 @@ public class ShitheadGame {
 	public List<Player> players = new ArrayList<Player>() ;
 	
 	private Deck deck = new Deck() ;
-	private int numPlayers ;
-	private int numCards ;
+	public int numPlayers ;
+	public int numCards ;
 	
 	private Stack<Card> pile = new Stack<Card>() ;
 	private List<Card> burnt = new ArrayList<Card>() ;
@@ -54,54 +54,7 @@ public class ShitheadGame {
 		}
 	}
 	
-	public void swapCards() {
-	    Console c = System.console();
-		
-		Iterator<Player> playerIterator = players.iterator() ;
-		while (playerIterator.hasNext()) {
-			Player player = playerIterator.next() ;
-			System.out.println() ;
-			System.out.println(player.showHand()) ;
-			System.out.println(player.showFaceUp()) ;
-			System.out.println() ;
-
-			String swap = c.readLine(player.name + 
-								", do you want to swap cards (y/n) ? ") ;
-			if ("y".equals(swap)) {
-				swapCards(player) ;
-			}
-		}
-	}		
-	
-	private void swapCards(Player player) {
-	    Console c = System.console();
-
-	    boolean keepSwapping = true ;
-	    while (keepSwapping) {
-	    	int cardFromHand = Integer.parseInt(
-	    		c.readLine("Which card from your" + 
-				" hand do you want to swap (1-" + numCards + ") ? ")) ;
-		
-			int cardFromPile = Integer.parseInt(
-				c.readLine("Which card from the " + 
-					"pile do you want to swap (1-" + numCards + ") ? ")) ;
-		
-			swap(player.hand, player.faceUp, cardFromHand, cardFromPile) ;
-
-			System.out.println() ;
-			System.out.println(player.showHand()) ;
-			System.out.println(player.showFaceUp()) ;
-			System.out.println() ;
-
-			String swap = c.readLine(player.name + 
-								", do you want to swap more cards (y/n) ? ") ;
-		
-			keepSwapping = ("y".equals(swap)) ;
-		}
-		
-	}
-	
-	private void swap(List<Card> hand1, List<Card> hand2, 
+	public void swap(List<Card> hand1, List<Card> hand2, 
 										int card1, int card2) {
 		Card savedHand1 = hand1.get(card1-1) ;
 		Card savedHand2 = hand2.get(card2-1) ;
@@ -109,58 +62,8 @@ public class ShitheadGame {
 		hand1.set((card1-1), savedHand2) ;
 	}
 	
-	public void firstMove() {
-		int playerToLayIndex ;
-		List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
-		List<Card> cardsToPlay = new ArrayList<Card>() ;
-		
-		System.out.println("Looking for first player") ;
-		
-		// add lowest card of each player to a list
-		Iterator<Player> playerIterator = players.iterator() ;
-		while (playerIterator.hasNext()) {
-			lowestCardsByPlayerIndex.add(
-					Collections.min(playerIterator.next().hand, 
-										new ShitheadCardComparator())) ;
-		}
-		
-		// get the index of the player with the lowest card
-		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(
-					Collections.min(lowestCardsByPlayerIndex, 
-										new ShitheadCardComparator())) ; 
-		
-		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
-		// check if any more of same rank and add to list to play
-		
-		// iterate of the players cards for any of the same rank
-		Iterator<Card> playersCardsIterator = 
-			players.get(playerToLayIndex).hand.iterator() ;
-		while (playersCardsIterator.hasNext()) {
-			Card toCompare = playersCardsIterator.next() ;
-			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-				(!cardsToPlay.get(0).equals(toCompare))) {
-				cardsToPlay.add(toCompare) ;
-			}
-		}
-		
-		StringBuffer output = 
-			new StringBuffer(players.get(playerToLayIndex).name + 
-				" must play with : ") ;
-		
-		Iterator<Card> cardsToPlayIterator = cardsToPlay.iterator() ;
-		while (cardsToPlayIterator.hasNext()) {
-			Card toPlay = cardsToPlayIterator.next() ;
-			output.append(toPlay + ", ") ;
-		}
-		
-		play(playerToLayIndex, cardsToPlay) ;
-		
-		System.out.println(output.toString()) ;
-		
-				
-	}
 	
-	public void play(int player, List<Card> toPlay) {
+	public void playFromHand(int player, List<Card> toPlay) {
 		pile.addAll(toPlay) ;
 		players.get(player).hand.removeAll(toPlay) ;
 		
