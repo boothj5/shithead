@@ -9,6 +9,7 @@ public class ShitheadGameEngine {
 	private void clearScreen() {
 		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
 		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
 	}
 	
 	public void setupGame(boolean debug) {
@@ -28,6 +29,7 @@ public class ShitheadGameEngine {
 	
 	public void swapCards() {
 		for (Player player : game.players) {
+			clearScreen() ;
 			System.out.println() ;
 			System.out.println(player.showHand()) ;
 			System.out.println(player.showFaceUp()) ;
@@ -53,6 +55,7 @@ public class ShitheadGameEngine {
 		
 			game.swap(player.hand, player.faceUp, cardFromHand, cardFromPile) ;
 
+			clearScreen() ;
 			System.out.println() ;
 			System.out.println(player.showHand()) ;
 			System.out.println(player.showFaceUp()) ;
@@ -116,9 +119,9 @@ public class ShitheadGameEngine {
 
 		System.out.println(game.showPile()) ;
 
-		System.out.println("HAND:\t\t" + game.players.get(game.currentPlayer).showHand()) ;
-		System.out.println("FACE UP:\t" + game.players.get(game.currentPlayer).showFaceUp()) ;
-		System.out.println("FACE DOWN:\t" + game.players.get(game.currentPlayer).showFaceDown(false)) ;
+		System.out.println(game.players.get(game.currentPlayer).showHand()) ;
+		System.out.println(game.players.get(game.currentPlayer).showFaceUp()) ;
+		System.out.println(game.players.get(game.currentPlayer).showFaceDown(false)) ;
 
 	    System.out.println() ;
 	    
@@ -142,8 +145,11 @@ public class ShitheadGameEngine {
 		// iterate of the players cards for any of the same rank
 		for (Card toCompare : game.players.get(game.currentPlayer).hand)
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-								(!cardsToPlay.get(0).equals(toCompare))) 
-				cardsToPlay.add(toCompare) ;
+								(!cardsToPlay.get(0).equals(toCompare)))  {
+				String add = c.readLine("Do you want to add the " + toCompare + "?") ;
+				if ("y".equals(add)) 			
+					cardsToPlay.add(toCompare) ;
+			}
 		
 		game.playFromHand(game.currentPlayer, cardsToPlay) ;
 		

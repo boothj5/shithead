@@ -1,5 +1,4 @@
 import java.util.* ;
-import java.io.* ;
 
 public class ShitheadGame {
 	
@@ -20,6 +19,10 @@ public class ShitheadGame {
 	public static final EnumSet<Card.Rank> normalRanks = 
 		EnumSet.complementOf(layOnAnythingRanks) ;
 
+	public ShitheadGame() {
+		// do nothing
+	}
+	
 	public ShitheadGame(int numPlayers, int numCards, 
 							List<String> playerNames, boolean debug) {
 		this.debug = debug ;
@@ -104,7 +107,6 @@ public class ShitheadGame {
 	
 	public String showPile() {
 		StringBuffer output = new StringBuffer() ;
-		Iterator<Card> pileIterator = pile.iterator() ;
 	    int pileRemaining = pile.size() ;
 		output.append(pileRemaining + " on pile:\n") ;
 	    

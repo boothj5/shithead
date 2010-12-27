@@ -1,5 +1,4 @@
 import java.util.* ;
-import java.io.* ;
 
 public class Player {
 	
@@ -15,7 +14,7 @@ public class Player {
 	
 	public String showHand() {
 		StringBuffer output = new StringBuffer() ;
-		output.append("Hand = ") ;
+		output.append("HAND:\t\t") ;
 		
 		for (Card card : hand) 
 			output.append(card + ", ") ;
@@ -25,7 +24,7 @@ public class Player {
 
 	public String showFaceUp() {
 		StringBuffer output = new StringBuffer() ;
-		output.append("Face up = ") ;
+		output.append("FACE UP:\t") ;
 		
 		for (Card card : faceUp) 
 			output.append(card + ", ") ;
@@ -35,7 +34,7 @@ public class Player {
 	
 	public String showFaceDown(boolean reallyShow) {
 		StringBuffer output = new StringBuffer() ;
-		output.append("Face down = ") ;
+		output.append("FACE DOWN:\t") ;
 		
 		for (Card card : faceDown) {
 			if (reallyShow) 
