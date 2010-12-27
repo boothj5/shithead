@@ -17,9 +17,9 @@ public class Shithead {
 		debug(engine.game) ;
 
 		boolean keepPlaying = true;
-		do {
+		do 
 			keepPlaying = engine.nextMove() ;
-		} while (keepPlaying) ;
+		while (keepPlaying) ;
 		
 	}
 	

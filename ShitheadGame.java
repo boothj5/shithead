@@ -27,33 +27,29 @@ public class ShitheadGame {
 		this.numCards = numCards ;
 		deck.shuffle() ;
 
+		// set player names
 		for (int i = 0 ; i < numPlayers ; i++) {
 			Player player = new Player(playerNames.get(i)) ;
 			players.add(player) ;
 		}
-		
+
+		// deal the cards
 		Iterator<Card> deckIterator = deck.cards.iterator() ;
-		for (int i = 0 ; i < numCards ; i++) {
-			for (int j = 0 ; j < numPlayers ; j++) {
+
+		for (int i = 0 ; i < numCards ; i++) 
+			for (int j = 0 ; j < numPlayers ; j++) 
 				players.get(j).faceDown.add(deckIterator.next()) ;
-			}
-		}
-		for (int i = 0 ; i < numCards ; i++) {
-			for (int j = 0 ; j < numPlayers ; j++) {
+		for (int i = 0 ; i < numCards ; i++) 
+			for (int j = 0 ; j < numPlayers ; j++) 
 				players.get(j).faceUp.add(deckIterator.next()) ;
-			}
-		}
-		for (int i = 0 ; i < numCards ; i++) {
-			for (int j = 0 ; j < numPlayers ; j++) {
+		for (int i = 0 ; i < numCards ; i++) 
+			for (int j = 0 ; j < numPlayers ; j++)
 				players.get(j).hand.add(deckIterator.next()) ;
-			}
-		}
 		
 		// remove the dealt cards from the pack
 		int totalToRemove = (numCards * 3) * numPlayers ;
-		for (int i = 0 ; i < totalToRemove ; i++) {
+		for (int i = 0 ; i < totalToRemove ; i++) 
 			deck.cards.remove(0) ;
-		}
 	}
 	
 	public void swap(List<Card> hand1, List<Card> hand2, 
@@ -89,9 +85,9 @@ public class ShitheadGame {
 	public String showGame() {
 		StringBuffer output = new StringBuffer("Hands:") ;
 		output.append("\n------\n") ;
-		for (Player player : players) {
+		
+		for (Player player : players) 
 			output.append(player.showHand()) ;
-		}
 		
 		return output.toString() ;
 	}
@@ -99,13 +95,10 @@ public class ShitheadGame {
 	public boolean checkValidMove(Card cardToLay) {
 		Card onPile = pile.peek() ;
 
-	    if (layOnAnythingRanks.contains(cardToLay.rank)) {
+	    if (layOnAnythingRanks.contains(cardToLay.rank)) 
 	    	return true ;
-	    }
-	    else {
-	    	return (onPile.compareTo(cardToLay) <= 0);
-	    }
-		
+	    else 
+	    	return (onPile.compareTo(cardToLay) <= 0);		
 	}
 	
 	
@@ -137,9 +130,7 @@ public class ShitheadGame {
 		output.append("\nNumber of players : " + numPlayers + "\n") ;
 		output.append("Number of cards each : " + numCards + "\n") ;
 		
-	    Iterator<Player> playerIterator = players.iterator() ;
-		while (playerIterator.hasNext()) {
-			Player player = playerIterator.next() ;
+	    for (Player player : players) {
 			output.append("Player : " + player.name + "\n") ;
 			output.append("\t" + player.showHand()) ;
 			output.append("\n") ;
@@ -154,25 +145,21 @@ public class ShitheadGame {
 		}
 		
 		output.append(showPile()) ;		
-		
 		output.append("\n") ;
 		
-	    Iterator<Card> burntIterator = burnt.iterator() ;
 	    int burntRemaining = burnt.size() ;
 		output.append(burntRemaining + " burnt:\n") ;
-	    while (burntIterator.hasNext()) {
-			Card card = burntIterator.next() ;
+	    
+		for (Card card : burnt) 
 			output.append("\t" + card.toString() + "\n") ;
-		}
+		
 		output.append("\n") ;
 		
-	    Iterator<Card> deckIterator = deck.cards.iterator() ;
 	    int remaining = deck.cards.size() ;
 		output.append(remaining + " cards remaining:\n") ;
-	    while (deckIterator.hasNext()) {
-			Card card = deckIterator.next() ;
+
+		for (Card card : deck.cards) 
 			output.append("\t" + card.toString() + "\n") ;
-		}
 		
 		output.append("\n---- END GAME INFO ----\n") ;
 		

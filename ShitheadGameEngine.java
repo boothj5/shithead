@@ -19,18 +19,15 @@ public class ShitheadGameEngine {
 		int numCards = Integer.parseInt(numCardsString) ;
 
 		List<String> playerNames = new ArrayList<String>() ;
-		for (int i = 1 ; i <= numPlayers ; i++) {
+		for (int i = 1 ; i <= numPlayers ; i++) 
 			playerNames.add(c.readLine("Enter name for player " + i + ": ")) ;
-		}
 
 		game = new ShitheadGame(numPlayers, numCards, playerNames, debug) ;
 	}	
 	
 	
 	public void swapCards() {
-		Iterator<Player> playerIterator = game.players.iterator() ;
-		while (playerIterator.hasNext()) {
-			Player player = playerIterator.next() ;
+		for (Player player : game.players) {
 			System.out.println() ;
 			System.out.println(player.showHand()) ;
 			System.out.println(player.showFaceUp()) ;
@@ -38,9 +35,8 @@ public class ShitheadGameEngine {
 
 			String swap = c.readLine(player.name + 
 								", do you want to swap cards (y/n) ? ") ;
-			if ("y".equals(swap)) {
+			if ("y".equals(swap)) 
 				swapCards(player) ;
-			}
 		}
 	}		
 	
@@ -80,12 +76,8 @@ public class ShitheadGameEngine {
 		System.out.println() ;
 		
 		// add lowest card of each player to a list
-		Iterator<Player> playerIterator = game.players.iterator() ;
-		while (playerIterator.hasNext()) {
-			lowestCardsByPlayerIndex.add(
-					Collections.min(playerIterator.next().hand, 
-										new ShitheadCardComparator())) ;
-		}
+		for (Player player : game.players) 
+			lowestCardsByPlayerIndex.add(Collections.min(player.hand, new ShitheadCardComparator())) ;
 		
 		// get the index of the player with the lowest card
 		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(
@@ -95,25 +87,17 @@ public class ShitheadGameEngine {
 		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
 	
 		// iterate of the players cards for any of the same rank
-		Iterator<Card> playersCardsIterator = 
-			game.players.get(playerToLayIndex).hand.iterator() ;
-		while (playersCardsIterator.hasNext()) {
-			Card toCompare = playersCardsIterator.next() ;
+		for (Card toCompare : game.players.get(playerToLayIndex).hand)
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-				(!cardsToPlay.get(0).equals(toCompare))) {
+								(!cardsToPlay.get(0).equals(toCompare))) 
 				cardsToPlay.add(toCompare) ;
-			}
-		}
 		
 		StringBuffer output = 
 			new StringBuffer(game.players.get(playerToLayIndex).name + 
 				" must play with : ") ;
 		
-		Iterator<Card> cardsToPlayIterator = cardsToPlay.iterator() ;
-		while (cardsToPlayIterator.hasNext()) {
-			Card toPlay = cardsToPlayIterator.next() ;
+		for (Card toPlay : cardsToPlay) 
 			output.append(toPlay + ", ") ;
-		}
 		
 		output.append("\n") ;
 		

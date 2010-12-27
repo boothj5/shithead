@@ -17,17 +17,11 @@ public class ShitheadGameTest {
 		
 		List<String> playerNamesInGame = new ArrayList<String>() ;
 		
-		Iterator<Player> playerIterator = game.players.iterator() ;
-		while (playerIterator.hasNext()) {
-				Player player = playerIterator.next() ;
+		for (Player player : game.players) 
 				playerNamesInGame.add(player.name) ;
-		}
 		
-		Iterator<String> testNamesIterator = names.iterator() ;
-		while (testNamesIterator.hasNext()) {
-			String name = testNamesIterator.next() ;
+		for (String name : names) 
 			assertTrue(playerNamesInGame.contains(name)) ;
-		}
 	}
 	
 	@Test
@@ -42,17 +36,11 @@ public class ShitheadGameTest {
 		
 		List<String> playerNamesInGame = new ArrayList<String>() ;
 		
-		Iterator<Player> playerIterator = game.players.iterator() ;
-		while (playerIterator.hasNext()) {
-				Player player = playerIterator.next() ;
+		for (Player player : game.players) 
 				playerNamesInGame.add(player.name) ;
-		}
 		
-		Iterator<String> testNamesIterator = names.iterator() ;
-		while (testNamesIterator.hasNext()) {
-			String name = testNamesIterator.next() ;
+		for (String name : names) 
 			assertTrue(playerNamesInGame.contains(name)) ;
-		}
 	}
 
 	// laying on a TWO

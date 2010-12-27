@@ -17,10 +17,9 @@ public class Player {
 		StringBuffer output = new StringBuffer() ;
 		output.append("Hand = ") ;
 		
-		Iterator<Card> cardIterator = hand.iterator() ;
-		while (cardIterator.hasNext()) {
-			output.append(cardIterator.next() + ", ") ;
-		}
+		for (Card card : hand) 
+			output.append(card + ", ") ;
+		
 		return output.toString() ;
 	}
 
@@ -28,10 +27,9 @@ public class Player {
 		StringBuffer output = new StringBuffer() ;
 		output.append("Face up = ") ;
 		
-		Iterator<Card> cardIterator = faceUp.iterator() ;
-		while (cardIterator.hasNext()) {
-			output.append(cardIterator.next() + ", ") ;
-		}
+		for (Card card : faceUp) 
+			output.append(card + ", ") ;
+
 		return output.toString() ;
 	}
 	
@@ -39,15 +37,11 @@ public class Player {
 		StringBuffer output = new StringBuffer() ;
 		output.append("Face down = ") ;
 		
-		Iterator<Card> cardIterator = faceDown.iterator() ;
-		while (cardIterator.hasNext()) {
-			if (reallyShow) {
-				output.append(cardIterator.next() + ", ") ;
-			}
-			else {
-				cardIterator.next() ; 
+		for (Card card : faceDown) {
+			if (reallyShow) 
+				output.append(card + ", ") ;
+			else 
 				output.append("****, ") ;
-			}
 		}
 		return output.toString() ;
 	}
