@@ -7,7 +7,7 @@ public class Shithead {
 
 		ShitheadGameEngine engine = new ShitheadGameEngine() ;
 	
-		engine.setupGame() ;
+		engine.setupGame(false) ;
 		debug(engine.game) ;
 
 		engine.swapCards() ;
@@ -15,6 +15,12 @@ public class Shithead {
 
 		engine.firstMove() ;
 		debug(engine.game) ;
+
+		boolean keepPlaying = true;
+		do {
+			keepPlaying = engine.nextMove() ;
+		} while (keepPlaying) ;
+		
 	}
 	
 	private static void debug(ShitheadGame game) {

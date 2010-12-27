@@ -6,7 +6,13 @@ public class ShitheadGameEngine {
 	ShitheadGame game ;
 	Console c = System.console();
 
-	public void setupGame() {
+	private void clearScreen() {
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
+		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
+	}
+	
+	public void setupGame(boolean debug) {
+		
 		String numPlayersString = c.readLine("How many players? ") ;
 		int numPlayers = Integer.parseInt(numPlayersString) ;
 		String numCardsString = c.readLine("How many cards each? ") ;
@@ -17,7 +23,7 @@ public class ShitheadGameEngine {
 			playerNames.add(c.readLine("Enter name for player " + i + ": ")) ;
 		}
 
-		game = new ShitheadGame(numPlayers, numCards, playerNames) ;
+		game = new ShitheadGame(numPlayers, numCards, playerNames, debug) ;
 	}	
 	
 	
@@ -109,8 +115,48 @@ public class ShitheadGameEngine {
 			output.append(toPlay + ", ") ;
 		}
 		
+		output.append("\n") ;
+		
 		game.playFromHand(playerToLayIndex, cardsToPlay) ;
 		
 		System.out.println(output.toString()) ;
+	}
+	
+	public boolean nextMove() {
+		game.moveToNextPlayer() ;
+		
+		clearScreen() ;
+		System.out.println("-----------------------------------------") ;
+		System.out.println("PLAYER:\t" + game.players.get(game.currentPlayer).name) ;
+		System.out.println("-----------------------------------------") ;
+
+		System.out.println(game.showPile()) ;
+
+		System.out.println("HAND:\t\t" + game.players.get(game.currentPlayer).showHand()) ;
+		System.out.println("FACE UP:\t" + game.players.get(game.currentPlayer).showFaceUp()) ;
+		System.out.println("FACE DOWN:\t" + game.players.get(game.currentPlayer).showFaceDown(false)) ;
+
+	    System.out.println() ;
+	    
+	    int cardToPlay = 
+	    	(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+	    		game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;
+		
+		boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+		
+		while (!validMove) {
+			System.out.println("YOU CAN'T DO THAT!!") ;
+			cardToPlay = 
+	    		(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+	    			game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;			
+			validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+		}
+		
+		List<Card> cardsToPlay = new ArrayList<Card>() ;
+		cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+		
+		game.playFromHand(game.currentPlayer, cardsToPlay) ;
+		
+		return true ;
 	}
 }

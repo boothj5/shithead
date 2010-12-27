@@ -35,13 +35,19 @@ public class Player {
 		return output.toString() ;
 	}
 	
-	public String showFaceDown() {
+	public String showFaceDown(boolean reallyShow) {
 		StringBuffer output = new StringBuffer() ;
 		output.append("Face down = ") ;
 		
 		Iterator<Card> cardIterator = faceDown.iterator() ;
 		while (cardIterator.hasNext()) {
-			output.append(cardIterator.next() + ", ") ;
+			if (reallyShow) {
+				output.append(cardIterator.next() + ", ") ;
+			}
+			else {
+				cardIterator.next() ; 
+				output.append("****, ") ;
+			}
 		}
 		return output.toString() ;
 	}

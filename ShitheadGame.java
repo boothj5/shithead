@@ -3,15 +3,17 @@ import java.io.* ;
 
 public class ShitheadGame {
 	
-	public final boolean debug = true ;
+	public boolean debug = false ;
 	public List<Player> players = new ArrayList<Player>() ;
 	
 	private Deck deck = new Deck() ;
 	public int numPlayers ;
 	public int numCards ;
 	
-	private Stack<Card> pile = new Stack<Card>() ;
-	private List<Card> burnt = new ArrayList<Card>() ;
+	public int currentPlayer ;
+	
+	public Stack<Card> pile = new Stack<Card>() ;
+	public List<Card> burnt = new ArrayList<Card>() ;
 	
 	public static final EnumSet<Card.Rank> layOnAnythingRanks = 
 		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
@@ -19,8 +21,8 @@ public class ShitheadGame {
 		EnumSet.complementOf(layOnAnythingRanks) ;
 
 	public ShitheadGame(int numPlayers, int numCards, 
-							List<String> playerNames) {
-		
+							List<String> playerNames, boolean debug) {
+		this.debug = debug ;
 		this.numPlayers = numPlayers ;
 		this.numCards = numCards ;
 		deck.shuffle() ;
@@ -64,6 +66,8 @@ public class ShitheadGame {
 	
 	
 	public void playFromHand(int player, List<Card> toPlay) {
+		currentPlayer = player ;
+		
 		pile.addAll(toPlay) ;
 		players.get(player).hand.removeAll(toPlay) ;
 		
@@ -76,6 +80,52 @@ public class ShitheadGame {
 		}	
 	}
 	
+	public void moveToNextPlayer() {
+		currentPlayer ++ ;
+		if (currentPlayer >= players.size())
+			currentPlayer = 0 ;
+	}
+
+	public String showGame() {
+		StringBuffer output = new StringBuffer("Hands:") ;
+		output.append("\n------\n") ;
+		for (Player player : players) {
+			output.append(player.showHand()) ;
+		}
+		
+		return output.toString() ;
+	}
+	
+	public boolean checkValidMove(Card cardToLay) {
+		Card onPile = pile.peek() ;
+
+	    if (layOnAnythingRanks.contains(cardToLay.rank)) {
+	    	return true ;
+	    }
+	    else {
+	    	return (onPile.compareTo(cardToLay) <= 0);
+	    }
+		
+	}
+	
+	
+	public String showPile() {
+		StringBuffer output = new StringBuffer() ;
+		Iterator<Card> pileIterator = pile.iterator() ;
+	    int pileRemaining = pile.size() ;
+		output.append(pileRemaining + " on pile:\n") ;
+	    
+		for (int i = pileRemaining - 1 ; i >= 0 ; i--) {
+			Card card = pile.get(i) ;
+			if (card.equals(pile.peek())) 
+				output.append("\t(*)" + card.toString() + "\n") ;
+			else
+				output.append("\t" + card.toString() + "\n") ;
+		}
+		
+		return output.toString() ;
+	}
+
 	public String toString() {
 
 		StringBuffer output = new StringBuffer("---- GAME INFO ----\n") ;
@@ -95,7 +145,7 @@ public class ShitheadGame {
 			output.append("\n") ;
 			output.append("\t" + player.showFaceUp()) ;
 			output.append("\n") ;
-			output.append("\t" + player.showFaceDown()) ;
+			output.append("\t" + player.showFaceDown(true)) ;
 			output.append("\n") ;
 			output.append("\tLowest card in hand = " + 
 							Collections.min(player.hand, 
@@ -103,17 +153,7 @@ public class ShitheadGame {
 			output.append("\n\n") ;
 		}
 		
-	    Iterator<Card> pileIterator = pile.iterator() ;
-	    int pileRemaining = pile.size() ;
-		output.append(pileRemaining + " on pile:\n") ;
-	    
-		for (int i = pileRemaining - 1 ; i >= 0 ; i--) {
-			Card card = pile.get(i) ;
-			if (card.equals(pile.peek())) 
-				output.append("\t(*)" + card.toString() + "\n") ;
-			else
-				output.append("\t" + card.toString() + "\n") ;
-		}			
+		output.append(showPile()) ;		
 		
 		output.append("\n") ;
 		
