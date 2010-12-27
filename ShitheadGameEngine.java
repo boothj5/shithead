@@ -138,6 +138,12 @@ public class ShitheadGameEngine {
 		
 		List<Card> cardsToPlay = new ArrayList<Card>() ;
 		cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+
+		// iterate of the players cards for any of the same rank
+		for (Card toCompare : game.players.get(game.currentPlayer).hand)
+			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
+								(!cardsToPlay.get(0).equals(toCompare))) 
+				cardsToPlay.add(toCompare) ;
 		
 		game.playFromHand(game.currentPlayer, cardsToPlay) ;
 		
