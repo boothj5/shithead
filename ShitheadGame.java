@@ -140,16 +140,27 @@ public class ShitheadGame {
 	public boolean checkValidMove(Card cardToLay) {
 		if (pile.empty()) 
 			return true ;
-		else {
-			Card onPile = pile.peek() ;
-			
-			if (layOnAnythingRanks.contains(cardToLay.rank)) 
+		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
+			//look for first non invisible and check that
+			Card testCard = pile.peek() ;
+			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(Card.Rank.SEVEN))) ; i-- ) {
+				testCard = pile.get(i) ;
+			}
+			if (testCard.rank.equals(Card.Rank.SEVEN))
 				return true ;
-			else 
-				return (onPile.compareTo(cardToLay) <= 0);		
-
+			else
+				return checkValidMove(testCard, cardToLay) ;
 		}
+		else 
+			return checkValidMove(pile.peek(), cardToLay) ;	
 	}
+	
+	public boolean checkValidMove(Card onPile, Card toLay) {
+		if (layOnAnythingRanks.contains(toLay.rank)) 
+			return true ;
+		else
+			return (onPile.compareTo(toLay) <= 0);
+	}		
 	
 	public String showPile() {
 		StringBuffer output = new StringBuffer() ;

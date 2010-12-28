@@ -195,9 +195,7 @@ public class ShitheadGameTest {
 	// laying on a SIX
 	@Test
 	public void testLayingOnASix() {
-		names.add("James") ;
-		names.add("Monkey") ;
-		ShitheadGame game = new ShitheadGame(2,4, names, false) ;
+		ShitheadGame game = new ShitheadGame() ;
 		Card cardToLay ;		
 	
 		Card cardOnPile = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
@@ -233,18 +231,138 @@ public class ShitheadGameTest {
 
 	// laying on a SEVEN
 	@Test
-	public void testLayingOnASeven() {
+	public void testValidLayingOnASeven() {
 		ShitheadGame game = new ShitheadGame() ;
-	
-		assertTrue(1+1==2) ;
+		Card seven = new Card(Card.Rank.SEVEN, Card.Suit.CLUBS) ;
+		Card cardOnPile ;
+		Card cardToLay ;
+		
+		cardOnPile = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardOnPile = new Card(Card.Rank.KING, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardOnPile = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.FOUR, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
 	}
+
+	// laying on three SEVENs
+	@Test
+	public void testValidLayingThreeSevens() {
+		ShitheadGame game = new ShitheadGame() ;
+		Card seven1 = new Card(Card.Rank.SEVEN, Card.Suit.CLUBS) ;
+		Card seven2 = new Card(Card.Rank.SEVEN, Card.Suit.HEARTS) ;
+		Card seven3 = new Card(Card.Rank.SEVEN, Card.Suit.DIAMONDS) ;
+		Card cardOnPile ;
+		Card cardToLay ;
+		
+		cardOnPile = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardOnPile = new Card(Card.Rank.KING, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardOnPile = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
+		cardToLay = new Card(Card.Rank.FOUR, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+	}
+
+
+	// laying on only SEVENs
+	@Test
+	public void testValidLayingOnlySevens() {
+		ShitheadGame game = new ShitheadGame() ;
+		Card seven1 = new Card(Card.Rank.SEVEN, Card.Suit.CLUBS) ;
+		Card seven2 = new Card(Card.Rank.SEVEN, Card.Suit.HEARTS) ;
+		Card seven3 = new Card(Card.Rank.SEVEN, Card.Suit.DIAMONDS) ;
+		Card cardOnPile ;
+		Card cardToLay ;
+		
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardToLay = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;		
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardToLay = new Card(Card.Rank.THREE, Card.Suit.CLUBS) ;		
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardToLay = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		game.pile.push(seven1) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardToLay = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;		
+		game.pile.push(seven1) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+
+		cardToLay = new Card(Card.Rank.THREE, Card.Suit.CLUBS) ;		
+		game.pile.push(seven1) ;
+		assertTrue(game.checkValidMove(cardToLay)) ;
+	}
+	
+	// laying invalid on SEVENs
+	@Test
+	public void testInvalidLayingSeven() {
+		ShitheadGame game = new ShitheadGame() ;
+		Card seven1 = new Card(Card.Rank.SEVEN, Card.Suit.CLUBS) ;
+		Card seven2 = new Card(Card.Rank.SEVEN, Card.Suit.HEARTS) ;
+		Card seven3 = new Card(Card.Rank.SEVEN, Card.Suit.DIAMONDS) ;
+		Card cardOnPile ;
+		Card cardToLay ;
+		
+		cardOnPile = new Card(Card.Rank.ACE, Card.Suit.CLUBS) ;		
+		cardToLay = new Card(Card.Rank.KING, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven1) ;
+		assertFalse(game.checkValidMove(cardToLay)) ;
+
+		cardOnPile = new Card(Card.Rank.FOUR, Card.Suit.CLUBS) ;		
+		cardToLay = new Card(Card.Rank.THREE, Card.Suit.CLUBS) ;		
+		game.pile.push(cardOnPile) ;
+		game.pile.push(seven1) ;
+		game.pile.push(seven2) ;
+		game.pile.push(seven3) ;
+		assertFalse(game.checkValidMove(cardToLay)) ;
+	}
+
 	
 	// laying on a EIGHT
 	@Test
 	public void testLayingOnAEight() {
-		names.add("James") ;
-		names.add("Monkey") ;
-		ShitheadGame game = new ShitheadGame(2,4, names, false) ;
+		ShitheadGame game = new ShitheadGame() ;
 		Card cardToLay ;		
 		
 		Card cardOnPile = new Card(Card.Rank.EIGHT, Card.Suit.HEARTS) ;
