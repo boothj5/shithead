@@ -118,6 +118,10 @@ public class ShitheadGameEngine {
 		System.out.println("-----------------------------------------") ;
 
 		System.out.println(game.showPile()) ;
+		System.out.println(game.deck.cards.size() + " remaing on deck") ;
+		System.out.println() ;		
+		System.out.println(game.burnt.size() + " burnt") ;
+		System.out.println() ;		
 
 		System.out.println(game.players.get(game.currentPlayer).showHand()) ;
 		System.out.println(game.players.get(game.currentPlayer).showFaceUp()) ;

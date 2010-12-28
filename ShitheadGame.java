@@ -5,7 +5,7 @@ public class ShitheadGame {
 	public boolean debug = false ;
 	public List<Player> players = new ArrayList<Player>() ;
 	
-	private Deck deck = new Deck() ;
+	public Deck deck = new Deck() ;
 	public int numPlayers ;
 	public int numCards ;
 	
