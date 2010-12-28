@@ -1,2 +1,6 @@
-Implement four of a kind burn
-Implement 7
+Implement miss a go card (8)
+Implement end game
+
+DONE-Implement four of a kind burn
+DONE-Implement 7
+
