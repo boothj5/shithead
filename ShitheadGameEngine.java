@@ -160,6 +160,13 @@ public class ShitheadGameEngine {
 				}
 			
 			game.playFromHand(game.currentPlayer, cardsToPlay) ;
+			
+			// count missed turn if miss a go card
+			for (Card card : cardsToPlay) {
+				if (card.rank.equals(Card.Rank.EIGHT))
+					game.moveToNextPlayer() ;
+			}
+				
 		}
 		else { // cannot play
 			//FAIL!

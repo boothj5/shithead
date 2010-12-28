@@ -6,9 +6,10 @@ Make special cards constants
 Show/choose rules at start
 
 To finish:
-Implement miss a go card (8)
 Implement end game
+Show who made first move
 
+DONE-Implement miss a go card (8)
 DONE-Implement four of a kind burn
 DONE-Implement 7
 
