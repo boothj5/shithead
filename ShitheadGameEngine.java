@@ -125,34 +125,43 @@ public class ShitheadGameEngine {
 
 	    System.out.println() ;
 	    
-	    int cardToPlay = 
-	    	(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
-	    		game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;
+		boolean canPlay = game.canPlay(game.players.get(game.currentPlayer)) ;
 		
-		boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+		if (canPlay) {
 		
-		while (!validMove) {
-			System.out.println("YOU CAN'T DO THAT!!") ;
-			cardToPlay = 
-	    		(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
-	    			game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;			
-			validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
-		}
-		
-		List<Card> cardsToPlay = new ArrayList<Card>() ;
-		cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
-
-		// iterate of the players cards for any of the same rank
-		for (Card toCompare : game.players.get(game.currentPlayer).hand)
-			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-								(!cardsToPlay.get(0).equals(toCompare)))  {
-				String add = c.readLine("Do you want to add the " + toCompare + "?") ;
-				if ("y".equals(add)) 			
-					cardsToPlay.add(toCompare) ;
+			int cardToPlay = 
+				(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+					game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;
+				
+			boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+			
+			while (!validMove) {
+				System.out.println("YOU CAN'T DO THAT!!") ;
+				cardToPlay = 
+					(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+						game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;			
+				validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
 			}
 		
-		game.playFromHand(game.currentPlayer, cardsToPlay) ;
-		
+			List<Card> cardsToPlay = new ArrayList<Card>() ;
+			cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+
+			// iterate of the players cards for any of the same rank
+			for (Card toCompare : game.players.get(game.currentPlayer).hand)
+				if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
+									(!cardsToPlay.get(0).equals(toCompare)))  {
+					String add = c.readLine("Do you want to add the " + toCompare + "?") ;
+					if ("y".equals(add)) 			
+						cardsToPlay.add(toCompare) ;
+				}
+			
+			game.playFromHand(game.currentPlayer, cardsToPlay) ;
+		}
+		else { // cannot play
+			//FAIL!
+			c.readLine("UH OH, YOU GOTTA PICK UP!!!! (Press enter):") ;
+			game.pickupPile(game.currentPlayer) ;
+		}
 		return true ;
 	}
 }

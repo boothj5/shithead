@@ -25,6 +25,9 @@ public class ShitheadGame {
 	
 	public ShitheadGame(int numPlayers, int numCards, 
 							List<String> playerNames, boolean debug) {
+
+		assert (totalCardsInGame() == 52) ;
+
 		this.debug = debug ;
 		this.numPlayers = numPlayers ;
 		this.numCards = numCards ;
@@ -53,30 +56,56 @@ public class ShitheadGame {
 		int totalToRemove = (numCards * 3) * numPlayers ;
 		for (int i = 0 ; i < totalToRemove ; i++) 
 			deck.cards.remove(0) ;
+		
+		assert (totalCardsInGame() == 52) ;
 	}
 	
 	public void swap(List<Card> hand1, List<Card> hand2, 
 										int card1, int card2) {
+		assert (totalCardsInGame() == 52) ;
+
 		Card savedHand1 = hand1.get(card1-1) ;
 		Card savedHand2 = hand2.get(card2-1) ;
 		hand2.set((card2-1), savedHand1) ;
 		hand1.set((card1-1), savedHand2) ;
+
+		assert (totalCardsInGame() == 52) ;
 	}
 	
 	
 	public void playFromHand(int player, List<Card> toPlay) {
+		assert (totalCardsInGame() == 52) ;
+
 		currentPlayer = player ;
 		
 		pile.addAll(toPlay) ;
 		players.get(player).hand.removeAll(toPlay) ;
 		
 		for (int i = 0 ; i < toPlay.size() ; i++) {
-			if (!deck.cards.isEmpty()) {
+			if (!deck.cards.isEmpty() && players.get(player).hand.size() < numCards) {
 					Card pickup = deck.cards.get(0) ;
 					players.get(player).hand.add(pickup) ;
 					deck.cards.remove(0) ;
 			}
-		}	
+		}
+		
+		// burn if required
+		if (toPlay.get(0).rank.equals(Card.Rank.TEN)) {
+			currentPlayer-- ;
+			burnt.addAll(pile) ;
+			pile.removeAllElements() ;
+		}
+
+		assert (totalCardsInGame() == 52) ;
+	}
+	
+	public void pickupPile(int playerIndex) {
+		assert (totalCardsInGame() == 52) ;
+
+		players.get(playerIndex).hand.addAll(pile) ;
+		pile.removeAllElements() ;
+
+		assert (totalCardsInGame() == 52) ;
 	}
 	
 	public void moveToNextPlayer() {
@@ -96,14 +125,18 @@ public class ShitheadGame {
 	}
 	
 	public boolean checkValidMove(Card cardToLay) {
-		Card onPile = pile.peek() ;
-
-	    if (layOnAnythingRanks.contains(cardToLay.rank)) 
-	    	return true ;
-	    else 
-	    	return (onPile.compareTo(cardToLay) <= 0);		
-	}
+		if (pile.empty()) 
+			return true ;
+		else {
+			Card onPile = pile.peek() ;
 	
+			if (layOnAnythingRanks.contains(cardToLay.rank)) 
+				return true ;
+			else 
+				return (onPile.compareTo(cardToLay) <= 0);		
+
+		}
+	}
 	
 	public String showPile() {
 		StringBuffer output = new StringBuffer() ;
@@ -120,6 +153,18 @@ public class ShitheadGame {
 		
 		return output.toString() ;
 	}
+	
+	public boolean canPlay(Player player) {
+		boolean canPlay = false ;
+		
+		// test all cards see if they are playable
+		Iterator<Card> cardIterator = player.hand.iterator() ;
+		while (!canPlay && cardIterator.hasNext()) {
+				canPlay = checkValidMove(cardIterator.next()) ;
+		}
+		return canPlay ;
+	}
+			
 
 	public String toString() {
 
@@ -166,5 +211,19 @@ public class ShitheadGame {
 		output.append("\n---- END GAME INFO ----\n") ;
 		
 		return output.toString() ;
+	}
+	
+	public int totalCardsInGame() {
+		int pileCards = pile.size() + deck.cards.size() + burnt.size() ;
+		
+		int playerCards = 0 ;
+		for (Player player : players) {
+			playerCards += player.hand.size() ;
+			playerCards += player.faceUp.size() ;
+			playerCards += player.faceDown.size() ;
+		}
+		
+		return pileCards + playerCards ;
+		
 	}
 }
