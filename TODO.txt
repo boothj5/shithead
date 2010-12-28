@@ -1,3 +1,11 @@
+
+Nice:
+Error handling on input
+Better message when burning
+Make special cards constants
+Show/choose rules at start
+
+To finish:
 Implement miss a go card (8)
 Implement end game
 
