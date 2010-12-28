@@ -569,5 +569,126 @@ public class ShitheadGameTest {
 		
 		assertTrue(game.currentPlayer == 0) ;
 	}
+	
+	@Test
+	public void testBurnWithEmptyPile() {
+		ShitheadGame game = new ShitheadGame() ;
+		game.burnIfPossible() ;
+		assertTrue((game.pile.size() == 0) && (game.burnt.size() == 0)) ; 
+	}
 
+	@Test
+	public void testBurnWithOnlyBurnCard() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		game.pile.push(burnCard) ;
+		
+		game.burnIfPossible() ;
+		assertTrue((game.pile.size() == 0) && (game.burnt.size() == 1)) ; 
+	}
+
+	@Test
+	public void testBurnWithBurnCardPlusAnother() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card otherCard = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
+		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		
+		game.pile.push(otherCard) ;
+		game.pile.push(burnCard) ;
+		
+		game.burnIfPossible() ;
+		assertTrue((game.pile.size() == 0) && (game.burnt.size() == 2)) ; 
+	}	
+
+	@Test
+	public void testBurnWithBurnCardPlusFive() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card otherCard1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
+		Card otherCard2 = new Card(Card.Rank.SIX, Card.Suit.DIAMONDS) ;
+		Card otherCard3 = new Card(Card.Rank.FIVE, Card.Suit.SPADES) ;
+		Card otherCard4 = new Card(Card.Rank.NINE, Card.Suit.HEARTS) ;
+		Card otherCard5 = new Card(Card.Rank.KING, Card.Suit.CLUBS) ;
+		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		
+		game.pile.push(otherCard1) ;
+		game.pile.push(otherCard2) ;
+		game.pile.push(otherCard3) ;
+		game.pile.push(otherCard4) ;
+		game.pile.push(otherCard5) ;
+		game.pile.push(burnCard) ;
+		
+		game.burnIfPossible() ;
+		assertTrue((game.pile.size() == 0) && (game.burnt.size() == 6)) ; 
+	}	
+	
+	@Test
+	public void testBurnWithFourOfAKindOnly() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card otherCard1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
+		Card otherCard2 = new Card(Card.Rank.SIX, Card.Suit.DIAMONDS) ;
+		Card otherCard3 = new Card(Card.Rank.SIX, Card.Suit.SPADES) ;
+		Card otherCard4 = new Card(Card.Rank.SIX, Card.Suit.CLUBS) ;
+		
+		game.pile.push(otherCard1) ;
+		game.pile.push(otherCard2) ;
+		game.pile.push(otherCard3) ;
+		game.pile.push(otherCard4) ;
+	
+		game.burnIfPossible() ;
+		assertTrue((game.pile.size() == 0) && (game.burnt.size() == 4)) ; 
+	}	
+
+	@Test
+	public void testBurnWithFourOfAKindPlusAnother() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card otherCard1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
+		Card otherCard2 = new Card(Card.Rank.SIX, Card.Suit.DIAMONDS) ;
+		Card otherCard3 = new Card(Card.Rank.SIX, Card.Suit.SPADES) ;
+		Card otherCard4 = new Card(Card.Rank.SIX, Card.Suit.CLUBS) ;
+		Card otherCard5 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
+		
+		game.pile.push(otherCard5) ;
+		game.pile.push(otherCard1) ;
+		game.pile.push(otherCard2) ;
+		game.pile.push(otherCard3) ;
+		game.pile.push(otherCard4) ;
+	
+		game.burnIfPossible() ;
+		assertTrue(game.pile.size() == 0);
+		assertTrue(game.burnt.size() == 5); 
+	}
+
+	@Test
+	public void testBurnWithFourOfAKindPlusFive() {
+		ShitheadGame game = new ShitheadGame() ;
+		
+		Card otherCard1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
+		Card otherCard2 = new Card(Card.Rank.SIX, Card.Suit.DIAMONDS) ;
+		Card otherCard3 = new Card(Card.Rank.SIX, Card.Suit.SPADES) ;
+		Card otherCard4 = new Card(Card.Rank.SIX, Card.Suit.CLUBS) ;
+		Card otherCard5 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
+		Card otherCard6 = new Card(Card.Rank.JACK, Card.Suit.CLUBS) ;
+		Card otherCard7 = new Card(Card.Rank.TWO, Card.Suit.DIAMONDS) ;
+		Card otherCard8 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
+		Card otherCard9 = new Card(Card.Rank.FOUR, Card.Suit.HEARTS) ;
+		
+		game.pile.push(otherCard5) ;
+		game.pile.push(otherCard6) ;
+		game.pile.push(otherCard7) ;
+		game.pile.push(otherCard8) ;
+		game.pile.push(otherCard9) ;
+		game.pile.push(otherCard1) ;
+		game.pile.push(otherCard2) ;
+		game.pile.push(otherCard3) ;
+		game.pile.push(otherCard4) ;
+	
+		game.burnIfPossible() ;
+		assertTrue(game.pile.size() == 0) ;
+		assertTrue(game.burnt.size() == 9) ; 
+	}		
 }

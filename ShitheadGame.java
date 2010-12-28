@@ -90,15 +90,28 @@ public class ShitheadGame {
 		}
 		
 		// burn if required
-		if (toPlay.get(0).rank.equals(Card.Rank.TEN)) {
-			currentPlayer-- ;
-			burnt.addAll(pile) ;
-			pile.removeAllElements() ;
-		}
+		burnIfPossible() ;
 
 		assert (totalCardsInGame() == 52) ;
 	}
 	
+	public void burnIfPossible() {
+		// burn card
+		if ((!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN))) {
+			currentPlayer-- ;
+			burnt.addAll(pile) ;
+			pile.removeAllElements() ;
+		}
+		else if ((pile.size() >= 4) && 
+				((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
+				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
+			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ) {
+			currentPlayer-- ;
+			burnt.addAll(pile) ;
+			pile.removeAllElements() ;
+		}
+	}		
+
 	public void pickupPile(int playerIndex) {
 		assert (totalCardsInGame() == 52) ;
 
@@ -129,7 +142,7 @@ public class ShitheadGame {
 			return true ;
 		else {
 			Card onPile = pile.peek() ;
-	
+			
 			if (layOnAnythingRanks.contains(cardToLay.rank)) 
 				return true ;
 			else 
