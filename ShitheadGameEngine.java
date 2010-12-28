@@ -159,7 +159,7 @@ public class ShitheadGameEngine {
 		}
 		else { // cannot play
 			//FAIL!
-			c.readLine("UH OH, YOU GOTTA PICK UP!!!! (Press enter):") ;
+			c.readLine("!!!! UH OH, YOU GOTTA PICK UP !!!! (Press enter):") ;
 			game.pickupPile(game.currentPlayer) ;
 		}
 		return true ;

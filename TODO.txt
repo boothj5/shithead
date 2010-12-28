@@ -1,0 +1,2 @@
+Implement four of a kind burn
+Implement 7
