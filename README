@@ -10,12 +10,13 @@ Show/choose rules at start
 Make picking card from large hand easier
 
 To finish:
-Implement end game
 Show who made first move
+Refactor duplicated code in nextMove
 
 DONE-Implement miss a go card (8)
 DONE-Implement four of a kind burn
 DONE-Implement 7
+DONE-Implement end game
 
 
 Rules for end game
