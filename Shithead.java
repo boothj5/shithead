@@ -20,6 +20,10 @@ public class Shithead {
 			keepPlaying = engine.nextMove() ;
 		while (keepPlaying) ;
 		
+		System.out.println(engine.game.getShithead().name + " IS A SHITHEAD!!!!!") ;
+		Console c = System.console();
+		c.readLine("Press enter to finish") ;
+		
 	}
 	
 	private static void debug(ShitheadGame game) {

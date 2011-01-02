@@ -60,6 +60,17 @@ public class ShitheadGame {
 		assert (totalCardsInGame() == 52) ;
 	}
 	
+	public Player getShithead() {
+		Player shithead = null ;
+		
+		for (Player player : players) {
+			if (player.hasCards())
+				shithead = player ;
+		}
+		
+		return shithead ;
+	}
+
 	public void swap(List<Card> hand1, List<Card> hand2, 
 										int card1, int card2) {
 		assert (totalCardsInGame() == 52) ;
@@ -95,6 +106,53 @@ public class ShitheadGame {
 		assert (totalCardsInGame() == 52) ;
 	}
 	
+		
+	public void playFromFaceUp(int player, List<Card> toPlay) {
+		assert (totalCardsInGame() == 52) ;
+
+		currentPlayer = player ;
+		
+		pile.addAll(toPlay) ;
+		players.get(player).faceUp.removeAll(toPlay) ;
+		
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			if (!deck.cards.isEmpty() && players.get(player).hand.size() < numCards) {
+					Card pickup = deck.cards.get(0) ;
+					players.get(player).hand.add(pickup) ;
+					deck.cards.remove(0) ;
+			}
+		}
+		
+		// burn if required
+		burnIfPossible() ;
+
+		assert (totalCardsInGame() == 52) ;
+	}
+
+	public void playFromFaceDown(int player, List<Card> toPlay) {
+		assert (totalCardsInGame() == 52) ;
+
+		currentPlayer = player ;
+		
+		pile.addAll(toPlay) ;
+		players.get(player).faceDown.removeAll(toPlay) ;
+		
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			if (!deck.cards.isEmpty() && players.get(player).hand.size() < numCards) {
+					Card pickup = deck.cards.get(0) ;
+					players.get(player).hand.add(pickup) ;
+					deck.cards.remove(0) ;
+			}
+		}
+		
+		// burn if required
+		burnIfPossible() ;
+
+		assert (totalCardsInGame() == 52) ;
+	}
+
+
+	
 	public void burnIfPossible() {
 		// burn card
 		if ((!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN))) {
@@ -125,6 +183,11 @@ public class ShitheadGame {
 		currentPlayer ++ ;
 		if (currentPlayer >= players.size())
 			currentPlayer = 0 ;
+		while (!players.get(currentPlayer).hasCards()) {
+			currentPlayer++ ;
+			if (currentPlayer >= players.size())
+				currentPlayer = 0 ;
+		}
 	}
 
 	public String showGame() {
@@ -178,17 +241,27 @@ public class ShitheadGame {
 		return output.toString() ;
 	}
 	
-	public boolean canPlay(Player player) {
+	public boolean canPlayFromHand(Player player) {
 		boolean canPlay = false ;
 		
-		// test all cards see if they are playable
 		Iterator<Card> cardIterator = player.hand.iterator() ;
 		while (!canPlay && cardIterator.hasNext()) {
 				canPlay = checkValidMove(cardIterator.next()) ;
 		}
+		
 		return canPlay ;
 	}
-			
+
+	public boolean canPlayFromFaceUp(Player player) {
+		boolean canPlay = false ;
+		
+		Iterator<Card> cardIterator = player.faceUp.iterator() ;
+		while (!canPlay && cardIterator.hasNext()) {
+				canPlay = checkValidMove(cardIterator.next()) ;
+		}
+		
+		return canPlay ;
+	}		
 
 	public String toString() {
 

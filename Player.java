@@ -45,4 +45,14 @@ public class Player {
 		return output.toString() ;
 	}
 	
+	public boolean hasCards() {
+		if (!faceUp.isEmpty()) 
+			return true ;
+		else if (!faceDown.isEmpty())
+			return true ;
+		else if (!hand.isEmpty())
+			return true ;
+		else 
+			return false ;
+	}
 }

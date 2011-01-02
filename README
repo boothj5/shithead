@@ -7,6 +7,7 @@ Error handling on input
 Better message when burning
 Make special cards constants
 Show/choose rules at start
+Make picking card from large hand easier
 
 To finish:
 Implement end game
@@ -15,4 +16,17 @@ Show who made first move
 DONE-Implement miss a go card (8)
 DONE-Implement four of a kind burn
 DONE-Implement 7
+
+
+Rules for end game
+------------------
+
+Number of cards in hand == 0 means start of end game for that player
+Once the player is in end game
+	either they must
+		play from hand if hand > 0
+		play from faceup if hand == 0 && faceup > 0
+		play from facedown if hand == 0 && faceup == 0 and facedown > 0
+		
+	
 

@@ -129,50 +129,153 @@ public class ShitheadGameEngine {
 
 	    System.out.println() ;
 	    
-		boolean canPlay = game.canPlay(game.players.get(game.currentPlayer)) ;
-		
-		if (canPlay) {
-		
-			int cardToPlay = 
-				(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
-					game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;
-				
-			boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+		// if cards in hand
+	    if (game.players.get(game.currentPlayer).hand.size() > 0) {
+	    
+			boolean canPlayFromHand = game.canPlayFromHand(game.players.get(game.currentPlayer)) ;
+			if (canPlayFromHand) {
 			
-			while (!validMove) {
-				System.out.println("YOU CAN'T DO THAT!!") ;
-				cardToPlay = 
+				int cardToPlay = 
 					(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
-						game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;			
-				validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
-			}
-		
-			List<Card> cardsToPlay = new ArrayList<Card>() ;
-			cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
-
-			// iterate of the players cards for any of the same rank
-			for (Card toCompare : game.players.get(game.currentPlayer).hand)
-				if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-									(!cardsToPlay.get(0).equals(toCompare)))  {
-					String add = c.readLine("Do you want to add the " + toCompare + "?") ;
-					if ("y".equals(add)) 			
-						cardsToPlay.add(toCompare) ;
+						game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;
+					
+				boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+				
+				while (!validMove) {
+					System.out.println("YOU CAN'T DO THAT!!") ;
+					cardToPlay = 
+						(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+							game.players.get(game.currentPlayer).hand.size() + ") :"))) -1 ;			
+					validMove = game.checkValidMove(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
 				}
 			
-			game.playFromHand(game.currentPlayer, cardsToPlay) ;
-			
-			// count missed turn if miss a go card
-			for (Card card : cardsToPlay) {
-				if (card.rank.equals(Card.Rank.EIGHT))
-					game.moveToNextPlayer() ;
-			}
+				List<Card> cardsToPlay = new ArrayList<Card>() ;
+				cardsToPlay.add(game.players.get(game.currentPlayer).hand.get(cardToPlay)) ;
+	
+				// iterate of the players cards for any of the same rank
+				for (Card toCompare : game.players.get(game.currentPlayer).hand)
+					if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
+										(!cardsToPlay.get(0).equals(toCompare)))  {
+						String add = c.readLine("Do you want to add the " + toCompare + "?") ;
+						if ("y".equals(add)) 			
+							cardsToPlay.add(toCompare) ;
+					}
 				
+				game.playFromHand(game.currentPlayer, cardsToPlay) ;
+				
+				// count missed turn if miss a go card
+				for (Card card : cardsToPlay) {
+					if (card.rank.equals(Card.Rank.EIGHT))
+						game.moveToNextPlayer() ;
+				}
+					
+			}
+			else { // cannot play
+				//FAIL!
+				c.readLine("!!!! UH OH, YOU GOTTA PICK UP !!!! (Press enter):") ;
+				game.pickupPile(game.currentPlayer) ;
+			}
 		}
-		else { // cannot play
-			//FAIL!
-			c.readLine("!!!! UH OH, YOU GOTTA PICK UP !!!! (Press enter):") ;
-			game.pickupPile(game.currentPlayer) ;
+		
+		// else if empty hand and cards face up
+		else if ((game.players.get(game.currentPlayer).hand.size() == 0) &&
+					(game.players.get(game.currentPlayer).faceUp.size() > 0)) {
+			boolean canPlayFromFaceUp = game.canPlayFromFaceUp(game.players.get(game.currentPlayer)) ;
+			if (canPlayFromFaceUp) {
+
+				int cardToPlay = 
+					(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+						game.players.get(game.currentPlayer).faceUp.size() + ") :"))) -1 ;
+					
+				boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).faceUp.get(cardToPlay)) ;
+				
+				while (!validMove) {
+					System.out.println("YOU CAN'T DO THAT!!") ;
+					cardToPlay = 
+						(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+							game.players.get(game.currentPlayer).faceUp.size() + ") :"))) -1 ;			
+					validMove = game.checkValidMove(game.players.get(game.currentPlayer).faceUp.get(cardToPlay)) ;
+				}
+			
+				List<Card> cardsToPlay = new ArrayList<Card>() ;
+				cardsToPlay.add(game.players.get(game.currentPlayer).faceUp.get(cardToPlay)) ;
+	
+				// iterate of the players cards for any of the same rank
+				for (Card toCompare : game.players.get(game.currentPlayer).faceUp)
+					if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
+										(!cardsToPlay.get(0).equals(toCompare)))  {
+						String add = c.readLine("Do you want to add the " + toCompare + "?") ;
+						if ("y".equals(add)) 			
+							cardsToPlay.add(toCompare) ;
+					}
+				
+				game.playFromFaceUp(game.currentPlayer, cardsToPlay) ;
+				
+				// count missed turn if miss a go card
+				for (Card card : cardsToPlay) {
+					if (card.rank.equals(Card.Rank.EIGHT))
+						game.moveToNextPlayer() ;
+				}
+					
+			}
+			else { // cannot play
+				//FAIL!
+				c.readLine("!!!! UH OH, YOU GOTTA PICK UP !!!! (Press enter):") ;
+				game.pickupPile(game.currentPlayer) ;
+			}
 		}
-		return true ;
+		
+		else { // play from hand down
+			int cardToPlay = 
+					(Integer.parseInt(c.readLine("Which card do you want to play? (1 - " + 
+						game.players.get(game.currentPlayer).faceDown.size() + ") :"))) -1 ;
+			
+			boolean validMove = game.checkValidMove(game.players.get(game.currentPlayer).faceDown.get(cardToPlay)) ;		
+		
+			if (!validMove) {
+				System.out.println("OH DEAR, it's the " + 
+					game.players.get(game.currentPlayer).faceDown.get(cardToPlay) + 
+				    ", thats no good, your pickup up the deck.") ;
+				c.readLine("Press enter to continue") ;
+				game.pickupPile(game.currentPlayer) ;
+				
+				//also add the chosen card from faceDown
+				game.players.get(game.currentPlayer).hand.add(
+					game.players.get(game.currentPlayer).faceDown.get(cardToPlay)) ;
+				game.players.get(game.currentPlayer).faceDown.remove(cardToPlay) ;
+			}                              
+			else {
+				System.out.println("PHEW! It's the " + 
+					game.players.get(game.currentPlayer).faceDown.get(cardToPlay)) ;
+				c.readLine("Press enter to continue") ;
+				
+				List<Card> cardsToPlay = new ArrayList<Card>() ;
+				cardsToPlay.add(game.players.get(game.currentPlayer).faceDown.get(cardToPlay)) ;				
+
+				game.playFromFaceDown(game.currentPlayer, cardsToPlay) ;
+				
+				// count missed turn if miss a go card
+				for (Card card : cardsToPlay) {
+					if (card.rank.equals(Card.Rank.EIGHT))
+						game.moveToNextPlayer() ;				
+				}
+			}
+		}
+					
+					
+		boolean continueGame = true ;
+		
+		// if more than one player with cards, continue
+		int numPlayersWithCards = 0 ;
+		for (Player player : game.players) 
+			if (player.hasCards()) 
+				numPlayersWithCards++ ;
+		
+		if (numPlayersWithCards >= 2)
+			continueGame = true ;
+		else 
+			continueGame = false ;
+
+		return continueGame ;
 	}
 }
