@@ -699,7 +699,7 @@ public class ShitheadGameTest {
 	public void testBurnWithOnlyBurnCard() {
 		ShitheadGame game = new ShitheadGame() ;
 		
-		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		Card burnCard = new Card(ShitheadGame.burnRank, Card.Suit.DIAMONDS) ;
 		game.pile.push(burnCard) ;
 		
 		game.burnIfPossible() ;
@@ -711,7 +711,7 @@ public class ShitheadGameTest {
 		ShitheadGame game = new ShitheadGame() ;
 		
 		Card otherCard = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
-		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		Card burnCard = new Card(ShitheadGame.burnRank, Card.Suit.DIAMONDS) ;
 		
 		game.pile.push(otherCard) ;
 		game.pile.push(burnCard) ;
@@ -729,7 +729,7 @@ public class ShitheadGameTest {
 		Card otherCard3 = new Card(Card.Rank.FIVE, Card.Suit.SPADES) ;
 		Card otherCard4 = new Card(Card.Rank.NINE, Card.Suit.HEARTS) ;
 		Card otherCard5 = new Card(Card.Rank.KING, Card.Suit.CLUBS) ;
-		Card burnCard = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+		Card burnCard = new Card(ShitheadGame.burnRank, Card.Suit.DIAMONDS) ;
 		
 		game.pile.push(otherCard1) ;
 		game.pile.push(otherCard2) ;

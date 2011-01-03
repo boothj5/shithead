@@ -165,7 +165,7 @@ public class ShitheadGameEngine {
 				
 				// count missed turn if miss a go card
 				for (Card card : cardsToPlay) {
-					if (card.rank.equals(Card.Rank.EIGHT))
+					if (card.rank.equals(ShitheadGame.missTurnRank))
 						game.moveToNextPlayer() ;
 				}
 					
@@ -213,7 +213,7 @@ public class ShitheadGameEngine {
 				
 				// count missed turn if miss a go card
 				for (Card card : cardsToPlay) {
-					if (card.rank.equals(Card.Rank.EIGHT))
+					if (card.rank.equals(ShitheadGame.missTurnRank))
 						game.moveToNextPlayer() ;
 				}
 					
@@ -256,7 +256,7 @@ public class ShitheadGameEngine {
 				
 				// count missed turn if miss a go card
 				for (Card card : cardsToPlay) {
-					if (card.rank.equals(Card.Rank.EIGHT))
+					if (card.rank.equals(ShitheadGame.missTurnRank))
 						game.moveToNextPlayer() ;				
 				}
 			}

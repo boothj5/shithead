@@ -13,12 +13,16 @@ public class ShitheadGame {
 	
 	public Stack<Card> pile = new Stack<Card>() ;
 	public List<Card> burnt = new ArrayList<Card>() ;
-	
+
 	public static final EnumSet<Card.Rank> layOnAnythingRanks = 
 		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
 	public static final EnumSet<Card.Rank> normalRanks = 
 		EnumSet.complementOf(layOnAnythingRanks) ;
 
+	public static final Card.Rank invisibleRank = Card.Rank.SEVEN ;
+	public static final Card.Rank missTurnRank = Card.Rank.EIGHT ;
+	public static final Card.Rank burnRank = Card.Rank.TEN ;	
+	
 	public ShitheadGame() {
 		// do nothing
 	}
@@ -155,11 +159,12 @@ public class ShitheadGame {
 	
 	public void burnIfPossible() {
 		// burn card
-		if ((!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN))) {
+		if ((!pile.empty()) && (pile.peek().rank.equals(burnRank))) {
 			currentPlayer-- ;
 			burnt.addAll(pile) ;
 			pile.removeAllElements() ;
 		}
+		// four of a kind
 		else if ((pile.size() >= 4) && 
 				((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
 				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
@@ -203,13 +208,13 @@ public class ShitheadGame {
 	public boolean checkValidMove(Card cardToLay) {
 		if (pile.empty()) 
 			return true ;
-		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
+		else if (invisibleRank.equals(pile.peek().rank)) {
 			//look for first non invisible and check that
 			Card testCard = pile.peek() ;
-			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(Card.Rank.SEVEN))) ; i-- ) {
+			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(invisibleRank))) ; i-- ) {
 				testCard = pile.get(i) ;
 			}
-			if (testCard.rank.equals(Card.Rank.SEVEN))
+			if (testCard.rank.equals(invisibleRank))
 				return true ;
 			else
 				return checkValidMove(testCard, cardToLay) ;
