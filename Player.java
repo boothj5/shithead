@@ -1,48 +1,21 @@
 import java.util.* ;
 
-public class Player {
+public abstract class Player {
 	
-	String name ;
+	public static enum Hand {HAND, FACEUP, FACEDOWN } ;
 	
-	public List<Card> faceDown = new ArrayList<Card>() ;
-	public List<Card> faceUp = new ArrayList<Card>() ;
-	public List<Card> hand = new ArrayList<Card>() ;
+	private String name ;
+	
+	private List<Card> faceDown = new ArrayList<Card>() ;
+	private List<Card> faceUp = new ArrayList<Card>() ;
+	private List<Card> hand = new ArrayList<Card>() ;
 	
 	public Player(String name) {
 		this.name = name ;
 	}
 	
-	public String showHand() {
-		StringBuffer output = new StringBuffer() ;
-		output.append("HAND:\t\t") ;
-		
-		for (Card card : hand) 
-			output.append(card + ", ") ;
-		
-		return output.toString() ;
-	}
-
-	public String showFaceUp() {
-		StringBuffer output = new StringBuffer() ;
-		output.append("FACE UP:\t") ;
-		
-		for (Card card : faceUp) 
-			output.append(card + ", ") ;
-
-		return output.toString() ;
-	}
-	
-	public String showFaceDown(boolean reallyShow) {
-		StringBuffer output = new StringBuffer() ;
-		output.append("FACE DOWN:\t") ;
-		
-		for (Card card : faceDown) {
-			if (reallyShow) 
-				output.append(card + ", ") ;
-			else 
-				output.append("****, ") ;
-		}
-		return output.toString() ;
+	public String getName() {
+		return name ;
 	}
 	
 	public boolean hasCards() {
@@ -54,5 +27,13 @@ public class Player {
 			return true ;
 		else 
 			return false ;
+	}
+	
+	public void pickUp(List<Card> cards) {
+		// pick up these cards to hand
+	}
+	
+	public void deal(Hand hand, Card card) {
+		// accept card to defined hand
 	}
 }
