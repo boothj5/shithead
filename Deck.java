@@ -13,4 +13,8 @@ public class Deck {
 	public void shuffle() {
 		Collections.shuffle(cards) ;
 	}
+	
+	public int getSize() {
+		return cards.size() ;
+	}
 }
