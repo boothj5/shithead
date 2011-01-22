@@ -1,4 +1,6 @@
+package com.boothj5.shithead.card;
 import java.util.* ;
+
 
 public class Deck {
 

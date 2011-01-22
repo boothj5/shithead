@@ -1,6 +1,11 @@
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.* ;
 import org.junit.Test ;
+
+import com.boothj5.shithead.game.ShitheadGame;
+import com.boothj5.shithead.game.ShitheadGameDetails;
+import com.boothj5.shithead.player.Player;
+
 import static org.junit.Assert.* ;
 import java.util.* ;
 
@@ -54,9 +59,9 @@ public class ShitheadGameTest {
 		
 		int playerCards = 0 ;
 		for (Player player : details.getPlayers()) {
-			playerCards += player.getHand().size() ;
-			playerCards += player.getFaceUp().size() ;
-			playerCards += player.getFaceDown().size() ;
+			playerCards += player.getHand(Player.Hand.HAND).size() ;
+			playerCards += player.getHand(Player.Hand.FACEUP).size() ;
+			playerCards += player.getHand(Player.Hand.FACEDOWN).size() ;
 		}
 		
 		

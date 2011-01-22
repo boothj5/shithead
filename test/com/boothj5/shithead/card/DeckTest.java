@@ -1,4 +1,8 @@
 import org.junit.Test ;
+
+import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.card.Deck;
+
 import static org.junit.Assert.* ;
 
 public class DeckTest {

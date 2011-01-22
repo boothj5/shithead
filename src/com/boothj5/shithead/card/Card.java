@@ -1,3 +1,4 @@
+package com.boothj5.shithead.card;
 public class Card {
 
 	public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,

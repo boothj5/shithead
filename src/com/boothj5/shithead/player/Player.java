@@ -1,4 +1,9 @@
+package com.boothj5.shithead.player;
+
 import java.util.* ;
+
+import com.boothj5.shithead.card.Card;
+
 
 public abstract class Player {
 	
@@ -26,16 +31,13 @@ public abstract class Player {
 		return name ;
 	}
 	
-	public List<Card> getHand() {
-		return hand ;
-	}
-	
-	public List<Card> getFaceUp() {
-		return faceUp ;
-	}
-
-	public List<Card> getFaceDown() {
-		return faceDown ;
+	public List<Card> getHand(Player.Hand hand) {
+		if (hand.equals(Player.Hand.HAND))
+			return this.hand ;
+		else if (hand.equals(Player.Hand.FACEDOWN))
+			return faceDown ;
+		else 
+			return faceUp ;
 	}
 
 	public boolean hasCards() {
@@ -49,7 +51,7 @@ public abstract class Player {
 			return false ;
 	}
 	
-	public void pickUp(List<Card> cards) {
+	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
 	}
 	

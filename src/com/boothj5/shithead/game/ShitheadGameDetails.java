@@ -1,5 +1,10 @@
+package com.boothj5.shithead.game;
 import java.util.List;
 import java.util.Stack;
+
+import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.card.Deck;
+import com.boothj5.shithead.player.Player;
 
 
 public class ShitheadGameDetails {
@@ -24,7 +29,7 @@ public class ShitheadGameDetails {
 		this.pile = pile ;
 		this.burnt = burnt ;
 	}
-	
+
 	public List<Player> getPlayers() {
 		return players;
 	}

@@ -1,4 +1,7 @@
+package com.boothj5.shithead.card;
 import java.util.* ;
+
+import com.boothj5.shithead.game.ShitheadGame;
 
 public class ShitheadCardComparator implements Comparator<Card> {
 

@@ -1,3 +1,5 @@
+package com.boothj5.shithead.player;
+
 public class PlayerFactory {
 
 	public static Player createPlayer(String playerType, String name, int cardsPerHand)

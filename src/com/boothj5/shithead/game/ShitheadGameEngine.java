@@ -1,5 +1,11 @@
+package com.boothj5.shithead.game;
+
 import java.io.Console ;
 import java.util.* ;
+
+import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.player.SwapResponse;
 
 public class ShitheadGameEngine {
 
@@ -96,7 +102,6 @@ public class ShitheadGameEngine {
 
 						clearScreen() ;
 						System.out.println() ;
-						details = game.getGameDetails() ;
 						showHand(details, player, false) ;
 						showFaceUp(player) ;
 						System.out.println() ;
@@ -113,7 +118,9 @@ public class ShitheadGameEngine {
 	}
 	
 	private void firstMove() {
-		
+		LastMove lastMove = game.firstMove() ;
+		showGame() ;
+		showLastMove(lastMove) ;
 	}
 	
 	private void play() {
@@ -124,6 +131,13 @@ public class ShitheadGameEngine {
 		
 	}
 
+	private void showLastMove(LastMove lastMove) {
+		StringBuffer buffer = new StringBuffer() ;
+		for (Card card : lastMove.getCards())
+			buffer.append(card.toString() + ", ") ;
+		System.out.print(lastMove.getPlayer().getName() + " played: " + buffer.toString()) ;
+	}
+	
 	private void showGame() {
 		ShitheadGameDetails details = game.getGameDetails() ;
 
@@ -140,6 +154,7 @@ public class ShitheadGameEngine {
 			else
 				System.out.println("\t" + card.toString()) ;
 		}
+		System.out.println() ;
 		
 		// deck left
 		System.out.println(details.getDeck().getSize() + " remaing on deck") ;
@@ -162,7 +177,7 @@ public class ShitheadGameEngine {
 	private void showFaceDown(Player player) {
 		// player face down
 		System.out.print("FACE UP: ") ;
-		for (Card card : player.getFaceDown()) {
+		for (Card card : player.getHand(Player.Hand.FACEDOWN)) {
 			System.out.print("****, ") ;
 		}			
 		System.out.println() ;
@@ -171,7 +186,7 @@ public class ShitheadGameEngine {
 	private void showFaceUp(Player player) {
 		// player face up
 		System.out.print("FACE UP: ") ;
-		for (Card card : player.getFaceUp()) {
+		for (Card card : player.getHand(Player.Hand.FACEUP)) {
 			System.out.print(card + ", ") ;
 		}			
 		System.out.println() ;
@@ -180,11 +195,11 @@ public class ShitheadGameEngine {
 	private void showHand(ShitheadGameDetails details, Player player, boolean hideWhenNotCurrent) {
 		if (hideWhenNotCurrent && !details.isCurrentPlayer(player)) {
 			System.out.print("HAND:    ") ;
-			System.out.println(player.getHand().size() + " cards."); 
+			System.out.println(player.getHand(Player.Hand.HAND).size() + " cards."); 
 		}
 		else {
 				System.out.print("HAND:    ") ;
-				for (Card card : player.getHand()) { 
+				for (Card card : player.getHand(Player.Hand.HAND)) { 
 					System.out.print(card + ", ") ;
 				}
 				System.out.println() ;

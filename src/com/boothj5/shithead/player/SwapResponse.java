@@ -1,3 +1,4 @@
+package com.boothj5.shithead.player;
 
 public class SwapResponse {
 	int handCard ;
