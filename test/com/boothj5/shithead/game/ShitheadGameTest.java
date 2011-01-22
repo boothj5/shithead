@@ -1,3 +1,5 @@
+package com.boothj5.shithead.game;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.* ;
 import org.junit.Test ;

@@ -1,3 +1,5 @@
+package com.boothj5.shithead.card;
+
 import org.junit.Test ;
 
 import com.boothj5.shithead.card.Card;
