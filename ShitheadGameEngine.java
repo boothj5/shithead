@@ -208,7 +208,7 @@ public class ShitheadGameEngine {
 		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
 	}
 	
-	public void showPlayerTypes() {
+	private void showPlayerTypes() {
 		System.out.println("(h)uman  - Human player") ;
 		System.out.println("(s)imple - A very simple computer player") ;
 	}
