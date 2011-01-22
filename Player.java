@@ -16,6 +16,12 @@ public abstract class Player {
 		this.handSize = handSize ;
 	}
 	
+	// Abstract methods
+	public abstract String askSwapMore() ;
+		
+	public abstract SwapResponse askSwapChoice() ;
+	
+	// Concrete methods
 	public String getName() {
 		return name ;
 	}
@@ -56,6 +62,19 @@ public abstract class Player {
 		}
 		else {
 			this.hand.add(card) ;
+		}
+	}
+	
+	public void swapCards(SwapResponse swapResponse) {
+		if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
+				(swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
+			return ;
+		}
+		else {
+			Card savedFromHand = hand.get(swapResponse.getHandCard()) ;
+			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
+			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
+			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
 		}
 	}
 }

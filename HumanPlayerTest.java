@@ -158,7 +158,8 @@ public class HumanPlayerTest {
 		james.deal(Player.Hand.HAND, hand2) ;
 		james.deal(Player.Hand.HAND, hand3) ;
 		
-		james.swapCards(0, 2) ;
+		SwapResponse response = new SwapResponse(0,2) ;
+		james.swapCards(response) ;
 
 		assertThat("hand cards", james.getHand(), hasItems(faceUp3, hand2, hand3)) ;
 		assertThat("hand size", james.getHand().size(), is(3)) ;
@@ -195,7 +196,8 @@ public class HumanPlayerTest {
 		james.deal(Player.Hand.HAND, hand2) ;
 		james.deal(Player.Hand.HAND, hand3) ;
 		
-		james.swapCards(-1, 2) ;
+		SwapResponse response = new SwapResponse(-1,2) ;
+		james.swapCards(response) ;
 		
 		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
 		assertThat("hand size", james.getHand().size(), is(3)) ;
@@ -233,7 +235,8 @@ public class HumanPlayerTest {
 		james.deal(Player.Hand.HAND, hand2) ;
 		james.deal(Player.Hand.HAND, hand3) ;
 		
-		james.swapCards(1, -12) ;
+		SwapResponse response = new SwapResponse(1, -12) ;
+		james.swapCards(response) ;
 		
 		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
 		assertThat("hand size", james.getHand().size(), is(3)) ;
@@ -271,7 +274,8 @@ public class HumanPlayerTest {
 		james.deal(Player.Hand.HAND, hand2) ;
 		james.deal(Player.Hand.HAND, hand3) ;
 		
-		james.swapCards(1, 3) ;
+		SwapResponse response = new SwapResponse(1, 3) ;
+		james.swapCards(response) ;
 		
 		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
 		assertThat("hand size", james.getHand().size(), is(3)) ;

@@ -21,17 +21,15 @@ public class ShitheadGame {
 	public  static final Card.Rank missTurnRank = Card.Rank.EIGHT ;
 	public  static final Card.Rank burnRank = Card.Rank.TEN ;	
 	
-	public ShitheadGame(int numPlayers, List<String> playerNames, int cardsPerHand) {
+	public ShitheadGame(int numPlayers, List<String> playerNames, List<String> playerTypes, 
+						int cardsPerHand) throws Exception {
 		this.numPlayers = numPlayers ;
 		this.numCardsPerHand = cardsPerHand ;
 
 		for (int i = 0 ; i < numPlayers ; i++) {
-			HumanPlayer player = new HumanPlayer(playerNames.get(i), numCardsPerHand) ;
+			Player player = PlayerFactory.createPlayer(playerTypes.get(i), playerNames.get(i), numCardsPerHand) ;
 			players.add(player) ;
 		}
-		
-		currentPlayer = 0 ;
-
 	}
 	
 	public void deal() {
@@ -53,6 +51,8 @@ public class ShitheadGame {
 		int totalToRemove = (numCardsPerHand * 3) * numPlayers ;
 		for (int i = 0 ; i < totalToRemove ; i++) 
 			deck.cards.remove(0) ;
+		
+		currentPlayer = 0 ;
 	}
 	
 	public ShitheadGameDetails getGameDetails() {

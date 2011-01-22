@@ -1,11 +1,11 @@
-public class HumanPlayer extends Player {
+public class SimpleComputerPlayer extends Player {
 
-	public HumanPlayer(String name, int handSize) {
+	public SimpleComputerPlayer(String name, int handSize) {
 		super(name, handSize) ;
 	}
 	
 	public String askSwapMore() {
-		return null ;
+		return "n" ;
 	}
 	
 	public SwapResponse askSwapChoice() {
