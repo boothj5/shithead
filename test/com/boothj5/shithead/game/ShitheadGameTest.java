@@ -11,6 +11,8 @@ import com.boothj5.shithead.player.Player;
 import static org.junit.Assert.* ;
 import java.util.* ;
 
+import com.boothj5.shithead.card.*;
+
 public class ShitheadGameTest {
 
 	@Test
@@ -95,4 +97,74 @@ public class ShitheadGameTest {
 		assertThat(details.getDeck().getSize(), is(numberOfCardsThatShouldBeLeft)) ;
 	}
 	
+	@Test
+	public void firstMovePicksLowestCard() throws Exception {
+		int numPlayers = 3 ;
+		int numCardsPerHand = 4 ;
+		
+		List<String> playerNames = new ArrayList<String>() ;
+		playerNames.add("James") ;
+		playerNames.add("Bob") ;
+		playerNames.add("Monkey") ;
+		
+		List<String> playerTypes = new ArrayList<String>() ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		
+		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		game.deal();
+		game.firstMove() ;
+		ShitheadGameDetails details = game.getGameDetails() ;
+		
+		List<Card> laid = details.getLastmove().getCards() ;
+		Card testCard = laid.get(0) ;
+		
+		boolean foundLower = false ;
+		
+		for (Player player : details.getPlayers()) {
+			List<Card> hand = player.getHand(Player.Hand.HAND) ;
+			
+			for (Card card : hand) {
+				ShitheadCardComparator comp = new ShitheadCardComparator();
+				 foundLower = (comp.compare(testCard, card) > 0) ;
+				 if (foundLower) break ;
+			}
+		}
+
+		assertThat(foundLower, is(false)) ;
+	}		
+
+	@Test
+	public void firstMovePicksSameRank() throws Exception {
+		int numPlayers = 3 ;
+		int numCardsPerHand = 4 ;
+		
+		List<String> playerNames = new ArrayList<String>() ;
+		playerNames.add("James") ;
+		playerNames.add("Bob") ;
+		playerNames.add("Monkey") ;
+		
+		List<String> playerTypes = new ArrayList<String>() ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		
+		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		game.deal();
+		game.firstMove() ;
+		ShitheadGameDetails details = game.getGameDetails() ;
+		
+		List<Card> laid = details.getLastmove().getCards() ;
+		Card firstCard = laid.get(0) ;
+
+		boolean foundDifferent = false ;
+		
+		for (Card testCard : laid) {
+			foundDifferent = (firstCard.compareTo(testCard) != 0) ;
+			if (foundDifferent) break ;
+		}
+
+		assertThat(foundDifferent, is(false)) ;
+	}
 }
