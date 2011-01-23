@@ -10,7 +10,7 @@ import com.boothj5.shithead.player.SwapResponse;
 public class ShitheadGameEngine {
 
 	ShitheadGame game ;
-	Console c = System.console();
+	ShitheadConsole console = new ShitheadConsole() ;
 	
 	public void playShithead() throws Exception {
 		init() ;
@@ -22,23 +22,26 @@ public class ShitheadGameEngine {
 	}
 	
 	private void init() throws Exception {
-		clearScreen() ;
-		
-		System.out.println("Welcome to JavaHead!") ;
-		System.out.println() ;
-
-		int numPlayers = Integer.parseInt(c.readLine("How many players? ")) ;
-		int numCards = Integer.parseInt(c.readLine("How many cards each? ")) ;
-		
+		int numPlayers ;
+		int numCards ;
 		List<String> playerNames = new ArrayList<String>() ;
 		List<String> playerTypes = new ArrayList<String>() ;
-		String currentName ;
+
+		console.clearScreen() ;
+		console.welcome() ;
+
+		numPlayers = console.getNumPlayers() ;
+		numCards = console.getNumCardsPerHand() ;
+		
+		String name, type ;
 		for (int i = 1 ; i <= numPlayers ; i++) { 
-			currentName = c.readLine("Enter name for player " + i + ": ") ;
-			playerNames.add(currentName) ;
-			showPlayerTypes() ;
-			playerTypes.add(c.readLine("Player type for  " + currentName + ": ")) ;
+			name = console.getPlayerName(i) ;
+			playerNames.add(name) ;
+				
+			type = console.getPlayerType(name) ;
+			playerTypes.add(type) ;
 		}
+		
 		game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;		
 	}
 	
@@ -74,7 +77,7 @@ public class ShitheadGameEngine {
 			
 			// if we got null, its a human and we need to interact
 			else if (null == swap) {
-				clearScreen() ;
+				ShitheadConsole.clearScreen() ;
 				showPlayerName(details, player, false);
 
 				System.out.println() ;
@@ -101,7 +104,7 @@ public class ShitheadGameEngine {
 						SwapResponse response = new SwapResponse(cardFromHand-1, cardFromPile-1) ;
 						player.swapCards(response) ;
 
-						clearScreen() ;
+						ShitheadConsole.clearScreen() ;
 						System.out.println() ;
 						showHand(details, player, false) ;
 						showFaceUp(player) ;
@@ -145,7 +148,7 @@ public class ShitheadGameEngine {
 	}
 	
 	private void showGame(ShitheadGameDetails details) {
-		clearScreen() ;
+		ShitheadConsole.clearScreen() ;
 		
 		// show pile
 	    int pileRemaining = details.getPile().size() ;
@@ -221,15 +224,7 @@ public class ShitheadGameEngine {
 	}
 
 	
-	private void clearScreen() {
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n") ;
-	}
-	
-	private void showPlayerTypes() {
-		System.out.println("(h)uman  - Human player") ;
-		System.out.println("(s)imple - A very simple computer player") ;
-	}
+
+
 	
 }
