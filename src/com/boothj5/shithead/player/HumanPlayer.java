@@ -6,7 +6,7 @@ public class HumanPlayer extends Player {
 		super(name, handSize) ;
 	}
 	
-	public String askSwapMore() {
+	public Boolean askSwapMore() {
 		return null ;
 	}
 	

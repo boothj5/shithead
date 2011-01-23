@@ -22,7 +22,7 @@ public abstract class Player {
 	}
 	
 	// Abstract methods
-	public abstract String askSwapMore() ;
+	public abstract Boolean askSwapMore() ;
 		
 	public abstract SwapResponse askSwapChoice() ;
 	

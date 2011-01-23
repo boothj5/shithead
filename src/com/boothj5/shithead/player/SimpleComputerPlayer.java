@@ -6,8 +6,8 @@ public class SimpleComputerPlayer extends Player {
 		super(name, handSize) ;
 	}
 	
-	public String askSwapMore() {
-		return "n" ;
+	public Boolean askSwapMore() {
+		return new Boolean(false) ;
 	}
 	
 	public SwapResponse askSwapChoice() {
