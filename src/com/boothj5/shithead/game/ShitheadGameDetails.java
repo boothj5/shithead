@@ -48,10 +48,6 @@ public class ShitheadGameDetails {
 		return numCardsPerHand;
 	}
 
-	public int getCurrentPlayer() {
-		return currentPlayer;
-	}
-
 	public Stack<Card> getPile() {
 		return pile;
 	}
@@ -68,4 +64,11 @@ public class ShitheadGameDetails {
 		return lastmove;
 	}
 	
+	public Player getCurrentPlayer() {
+		return players.get(currentPlayer) ;
+	}
+	
+	public int getCurrentIndex() {
+		return currentPlayer ;
+	}
 }

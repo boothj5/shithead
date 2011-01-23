@@ -1,6 +1,7 @@
 package com.boothj5.shithead.game;
 
 import java.io.Console;
+import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.player.Player;
@@ -69,7 +70,25 @@ public class ShitheadConsole {
 					"pile do you want to swap (1-" + upperLimit + ") ? ")) ;
 		return (cardFromPile-1);
 	}
-	
+
+	public List<Integer> requestMove(String playerName, Player.Hand handToPlayFrom, int handSize, boolean invalidAttempt) {
+		String invalid = "" ;
+		
+		if (invalidAttempt)
+			invalid += "YOU CAN'T DO THAT! " ;
+		
+		String cardsString = c.readLine(invalid + playerName + ", enter cards to lay: ") ;
+		StringTokenizer st = new StringTokenizer(cardsString, ",") ;
+		
+		List<Integer> choices = new ArrayList<Integer>() ;
+		
+		while (st.hasMoreElements()) {
+			choices.add(Integer.parseInt((String)st.nextElement())-1) ;
+		}
+		
+		return choices ;
+		
+	}
 	
 	public void showGame(ShitheadGameDetails details) {
 		clearScreen() ;
@@ -161,7 +180,6 @@ public class ShitheadConsole {
 	public void line() {
 		System.out.println() ;
 	}
-	
 	
 	
 }

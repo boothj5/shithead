@@ -3,6 +3,7 @@ package com.boothj5.shithead.player;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.game.ShitheadGameDetails;
 
 
 public abstract class Player {
@@ -25,6 +26,8 @@ public abstract class Player {
 	public abstract Boolean askSwapMore() ;
 		
 	public abstract SwapResponse askSwapChoice() ;
+	
+	public abstract List<Integer> askCardChoiceFromHand(ShitheadGameDetails details, Player.Hand hand) ;
 	
 	// Concrete methods
 	public String getName() {

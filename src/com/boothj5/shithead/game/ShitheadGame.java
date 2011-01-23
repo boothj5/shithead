@@ -99,15 +99,132 @@ public class ShitheadGame {
 		moveToNextPlayer() ;
 	}
 	
-	private void moveToNextPlayer() {
-		currentPlayer ++ ;
-		if (currentPlayer >= players.size())
-			currentPlayer = 0 ;
-		while (!players.get(currentPlayer).hasCards()) {
-			currentPlayer++ ;
-			if (currentPlayer >= players.size())
-				currentPlayer = 0 ;
+	public ShitheadGameDetails getGameDetails() {
+		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
+				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
+		
+		return details ;
+	}
+	
+	public boolean currentPlayerCanPlay() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		boolean canPlay = false ;
+		
+		// check can play from hand
+		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) {
+			Iterator<Card> cardIterator = currentPlayer.getHand(Player.Hand.HAND).iterator() ;
+			while (!canPlay && cardIterator.hasNext()) {
+					canPlay = checkValidMove(cardIterator.next()) ;
+			}
 		}
+		// check can play from face up
+		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0) {
+			Iterator<Card> cardIterator = currentPlayer.getHand(Player.Hand.FACEUP).iterator() ;
+			while (!canPlay && cardIterator.hasNext()) {
+					canPlay = checkValidMove(cardIterator.next()) ;
+			}
+		}
+		// else can play from face down
+		else if (currentPlayer.getHand(Player.Hand.FACEDOWN).size() > 0) {
+			canPlay = true ;
+		}
+		
+		return canPlay ;
+	}
+	
+	public Player.Hand getHandToPlayFrom() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+
+		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) 
+			return Player.Hand.HAND ;
+		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0) 
+			return Player.Hand.FACEUP ;
+		else 
+			return Player.Hand.FACEDOWN ;
+	}
+
+	public boolean checkValidMove(List<Card> cardsToLay) {
+		boolean validRank = true ;
+		Card firstCard = cardsToLay.get(0) ;
+		
+		// check the first one is valid
+		validRank = checkValidMove(firstCard) ;
+		
+		if (!validRank) 
+			return false ;
+		else {
+			for (Card otherCard : cardsToLay) {
+				if (firstCard.compareTo(otherCard)!=0)
+					return false ;
+			}
+			return true ;
+		}
+	}
+	
+	private boolean checkValidMove(Card cardToLay) {
+		if (pile.empty()) 
+			return true ;
+		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
+			//look for first non invisible and check that
+			Card testCard = pile.peek() ;
+			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(Card.Rank.SEVEN))) ; i-- ) {
+				testCard = pile.get(i) ;
+			}
+			if (testCard.rank.equals(Card.Rank.SEVEN))
+				return true ;
+			else
+				return checkValidMove(testCard, cardToLay) ;
+		}
+		else 
+			return checkValidMove(pile.peek(), cardToLay) ;	
+	}
+	
+	private boolean checkValidMove(Card onPile, Card toLay) {
+		if (layOnAnythingRanks.contains(toLay.rank)) 
+			return true ;
+		else {
+			return (onPile.compareTo(toLay) <= 0);
+		}
+	}	
+	
+	public void playerPickUpPile() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		
+		currentPlayer.recieve(pile) ;
+		pile.removeAllElements() ;
+	}
+	
+	private boolean burnIfPossible() {
+		boolean didBurn = false ;
+
+		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN)) ;
+		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
+		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
+				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
+			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ;
+		
+		if (burnCardOnPile || fourOfAKindOnPile) {
+			currentPlayer-- ;
+			burnt.addAll(pile) ;
+			pile.removeAllElements() ;
+			didBurn = true ;
+		}
+		return didBurn ;
+	}
+	
+	public void play(List<Card> toPlay) {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		Player.Hand hand = null ;
+		
+		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) 
+			hand = Player.Hand.HAND ;
+		else 
+			hand = Player.Hand.FACEUP ;
+		play(hand, toPlay) ;
+	}
+	
+	private void play(Player.Hand hand, List<Card> toPlay) {
+		play(currentPlayer, hand, toPlay) ;
 	}
 	
 	private void play(int player, Player.Hand hand, List<Card> toPlay) {
@@ -138,28 +255,31 @@ public class ShitheadGame {
 		lastMove.setBurnt(burnIfPossible()) ;
 	}	
 
-	private boolean burnIfPossible() {
-		boolean didBurn = false ;
-
-		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN)) ;
-		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
-		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
-				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
-			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ;
-		
-		if (burnCardOnPile || fourOfAKindOnPile) {
-			currentPlayer-- ;
-			burnt.addAll(pile) ;
-			pile.removeAllElements() ;
-			didBurn = true ;
+	public void moveToNextPlayer() {
+		currentPlayer ++ ;
+		if (currentPlayer >= players.size())
+			currentPlayer = 0 ;
+		while (!players.get(currentPlayer).hasCards()) {
+			currentPlayer++ ;
+			if (currentPlayer >= players.size())
+				currentPlayer = 0 ;
 		}
-		return didBurn ;
 	}
 	
-	public ShitheadGameDetails getGameDetails() {
-		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
-				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
-		
-		return details ;
+	public boolean canContinueGame() {
+		boolean continueGame = true ;
+
+		// if more than one player with cards, continue
+		int numPlayersWithCards = 0 ;
+		for (Player player : players) 
+			if (player.hasCards()) 
+				numPlayersWithCards++ ;
+
+		if (numPlayersWithCards >= 2)
+			continueGame = true ;
+		else 
+			continueGame = false ;
+
+		return continueGame ;		
 	}
 }

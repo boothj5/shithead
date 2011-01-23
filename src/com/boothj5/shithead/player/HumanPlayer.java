@@ -1,5 +1,9 @@
 package com.boothj5.shithead.player;
 
+import com.boothj5.shithead.game.ShitheadGameDetails;
+
+import java.util.*;
+
 public class HumanPlayer extends Player {
 
 	public HumanPlayer(String name, int handSize) {
@@ -13,4 +17,10 @@ public class HumanPlayer extends Player {
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
+	
+	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details, Player.Hand hand) {
+		return null ;
+	}
+
+	
 }

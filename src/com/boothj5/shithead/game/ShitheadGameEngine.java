@@ -4,8 +4,7 @@ import java.io.Console ;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.player.Player;
-import com.boothj5.shithead.player.SwapResponse;
+import com.boothj5.shithead.player.*;
 
 public class ShitheadGameEngine {
 
@@ -116,10 +115,88 @@ public class ShitheadGameEngine {
 
 		console.showGame(details) ;
 		console.showLastMove(details) ;
+		console.line() ;
+		console.waitOnUser("Press enter key for next players move:") ;
 	}
 	
-	private void play() {
+	private void play() throws Exception {
+		ShitheadGameDetails details ;
+
+		boolean continueGame = true ;
 		
+		while (continueGame) {
+			details = game.getGameDetails() ;
+			console.showGame(details) ;
+			console.showLastMove(details) ;
+			console.line() ;
+
+			details = game.getGameDetails() ;
+		    Player currentPlayer = details.getCurrentPlayer() ;
+			
+		    if (game.currentPlayerCanPlay()) {
+		    	Player.Hand handToPlayFrom = game.getHandToPlayFrom() ;
+		    	
+		    	if (currentPlayer instanceof ComputerPlayer) {
+		    		List<Integer> choices = null;
+		    		
+		    		// if face down, pick for computer, as we don't want any cheating!!
+		    		if (handToPlayFrom.equals(Player.Hand.FACEDOWN)) {
+		    			choices = new ArrayList<Integer>() ;
+		    			choices.add(0) ;
+		    		}
+		    		// otherwise ask it
+		    		else {
+			    		choices = currentPlayer.askCardChoiceFromHand(details, handToPlayFrom) ;
+		    		}				    	
+		    		// for the moment just get the first one
+		    		Card cardChoice = currentPlayer.getHand(handToPlayFrom).get(choices.get(0)) ;
+		    		List<Card> cardsToPlay = new ArrayList<Card>() ;
+		    		cardsToPlay.add(cardChoice) ;
+		    		
+		    		if (game.checkValidMove(cardsToPlay)) 
+		    			game.play(cardsToPlay) ;
+		    		else
+		    			throw new Exception("Computer player chose invalid move, exiting rahter than looping forever") ;
+			    	game.moveToNextPlayer() ;
+			    	continueGame = game.canContinueGame() ;
+		    	}
+		    	else { // HumanPlayer
+		    		List<Integer> choices = null;
+
+		    		String playerName = details.getCurrentPlayer().getName() ;
+		    		int handSize = details.getCurrentPlayer().getHand(handToPlayFrom).size() ;
+		    		
+		    		choices = console.requestMove(playerName, handToPlayFrom, handSize, false) ;
+		    		// for the moment just get the first one
+		    		Card cardChoice = currentPlayer.getHand(handToPlayFrom).get(choices.get(0)) ;
+		    		List<Card> cardsToPlay = new ArrayList<Card>() ;
+		    		cardsToPlay.add(cardChoice) ;
+		    		
+		    		boolean validMove = game.checkValidMove(cardsToPlay) ;
+		    		
+		    		while (!validMove) {
+		    			choices = console.requestMove(playerName, handToPlayFrom, handSize, true) ;
+			    		// for the moment just get the first one
+			    		cardChoice = currentPlayer.getHand(handToPlayFrom).get(choices.get(0)) ;
+			    		cardsToPlay = new ArrayList<Card>() ;
+			    		cardsToPlay.add(cardChoice) ;
+			    		validMove = game.checkValidMove(cardsToPlay) ;
+		    		}
+		    		game.play(cardsToPlay) ;
+			    	game.moveToNextPlayer() ;
+			    	continueGame = game.canContinueGame() ;
+		    	}
+		    }
+		    else { // current player cannot play
+	    		String playerName = details.getCurrentPlayer().getName() ;
+		    	console.waitOnUser("UH OH, " + playerName + " has to pick up, press enter!") ;
+		    	
+		    	game.playerPickUpPile() ;
+		    	
+		    	game.moveToNextPlayer() ;
+		    	continueGame = game.canContinueGame() ;
+		    }
+		}
 	}
 	
 	private void end() {
