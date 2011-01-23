@@ -1,0 +1,44 @@
+<project name="shithead" default="compile" basedir=".">
+	<description>
+    	Build file for shithead
+    </description>
+
+	<property name="src" location="src"/>
+	<property name="test" location="test"/>
+	<property name="bin" location="bin"/>
+	<property name="testreports" location="testreports"/>
+	
+  	<target name="clean" description="clean up" >
+    	<delete dir="${bin}"/>
+  		<delete dir="${testreports}"/>
+  	</target>
+
+  	<target name="init" depends="clean" description="Create bin directory " >
+  		<mkdir dir="${bin}"/>
+  		<mkdir dir="${testreports}"/>
+  	</target>
+
+	<target name="compile" depends="init" description="compile the source " >
+    	<javac srcdir="${src}" destdir="${bin}"/>
+  	</target>
+
+	<target name="compile_tests" depends="compile" description="compile unit tests" >
+    	<javac srcdir="${test}" destdir="${bin}"/>
+	</target>	
+
+	<target name="test" depends="compile_tests" description="Run all unit tests" >
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath>
+			    <pathelement location="${bin}"/>
+			</classpath>
+			
+			<formatter type="plain"/>
+
+			<batchtest fork="yes" todir="${testreports}">
+	    		<fileset dir="${bin}">
+	      			<include name="**/*Test.class"/>
+	    		</fileset>
+	  		</batchtest>
+		</junit>
+	</target>
+</project>

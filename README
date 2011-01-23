@@ -1,33 +1,17 @@
 Java version of shithead.
 
-Still TODO:
+TODO:
+Error handling on input
+Test first move
+Main game play
+
 
 Nice:
-Error handling on input
 Better message when burning
-Make special cards constants
 Show/choose rules at start
 Make picking card from large hand easier
 
-To finish:
-Show who made first move
-Refactor duplicated code in nextMove
-
-DONE-Implement miss a go card (8)
-DONE-Implement four of a kind burn
-DONE-Implement 7
-DONE-Implement end game
-
-
-Rules for end game
-------------------
-
-Number of cards in hand == 0 means start of end game for that player
-Once the player is in end game
-	either they must
-		play from hand if hand > 0
-		play from faceup if hand == 0 && faceup > 0
-		play from facedown if hand == 0 && faceup == 0 and facedown > 0
-		
-	
+One day:
+Move player data structures so can implement playters in different langugages
+Multi threaded network gaming 
 

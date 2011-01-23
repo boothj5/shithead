@@ -94,4 +94,5 @@ public class ShitheadGameTest {
 		
 		assertThat(details.getDeck().getSize(), is(numberOfCardsThatShouldBeLeft)) ;
 	}
+	
 }
