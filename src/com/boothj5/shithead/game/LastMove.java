@@ -7,6 +7,7 @@ public class LastMove {
 
 	private Player player ;
 	private List<Card> cards ; 
+	private boolean burnt ;
 
 	public LastMove(Player player, List<Card> cards) {
 		this.player = player ;
@@ -20,5 +21,12 @@ public class LastMove {
 	public List<Card> getCards() {
 		return cards;
 	}
+
+	public void setBurnt(boolean burnt) {
+		this.burnt = burnt;
+	}
 	
+	public boolean getBurnt() {
+		return burnt ;
+	}
 }

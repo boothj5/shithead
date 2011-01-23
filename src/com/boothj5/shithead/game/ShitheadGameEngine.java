@@ -44,7 +44,8 @@ public class ShitheadGameEngine {
 	
 	private void deal() {
 		game.deal() ;
-		showGame();
+		ShitheadGameDetails details = game.getGameDetails() ;
+		showGame(details);
 		
 		c.readLine("Cards dealt, press enter to continue:") ;
 	}
@@ -114,13 +115,16 @@ public class ShitheadGameEngine {
 				}
 			}
 		}
-		showGame() ;
+		
+		details = game.getGameDetails() ;
+		showGame(details) ;
 	}
 	
 	private void firstMove() {
-		LastMove lastMove = game.firstMove() ;
-		showGame() ;
-		showLastMove(lastMove) ;
+		game.firstMove() ;
+		ShitheadGameDetails details = game.getGameDetails() ;
+		showGame(details) ;
+		showLastMove(details) ;
 	}
 	
 	private void play() {
@@ -131,16 +135,16 @@ public class ShitheadGameEngine {
 		
 	}
 
-	private void showLastMove(LastMove lastMove) {
+	private void showLastMove(ShitheadGameDetails details) {
+		LastMove lastMove = details.getLastmove() ;
+		
 		StringBuffer buffer = new StringBuffer() ;
 		for (Card card : lastMove.getCards())
 			buffer.append(card.toString() + ", ") ;
 		System.out.print(lastMove.getPlayer().getName() + " played: " + buffer.toString()) ;
 	}
 	
-	private void showGame() {
-		ShitheadGameDetails details = game.getGameDetails() ;
-
+	private void showGame(ShitheadGameDetails details) {
 		clearScreen() ;
 		
 		// show pile

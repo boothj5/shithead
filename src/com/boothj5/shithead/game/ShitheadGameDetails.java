@@ -18,9 +18,10 @@ public class ShitheadGameDetails {
 
 	private final Stack<Card> pile ;
 	private final List<Card> burnt ;
+	private final LastMove lastmove ;
 
 	public ShitheadGameDetails(List<Player> players, Deck deck, int numPlayers, 
-				int numCardsPerHand, int currentPlayer, Stack<Card> pile, List<Card> burnt) {
+				int numCardsPerHand, int currentPlayer, Stack<Card> pile, List<Card> burnt, LastMove lastMove) {
 		this.players = players ;
 		this.deck = deck ;
 		this.numPlayers = numPlayers ;
@@ -28,6 +29,7 @@ public class ShitheadGameDetails {
 		this.currentPlayer = currentPlayer ;
 		this.pile = pile ;
 		this.burnt = burnt ;
+		this.lastmove = lastMove ;
 	}
 
 	public List<Player> getPlayers() {
@@ -60,6 +62,10 @@ public class ShitheadGameDetails {
 	
 	public boolean isCurrentPlayer(Player player) {
 		return (players.indexOf(player) == currentPlayer) ;
+	}
+
+	public LastMove getLastmove() {
+		return lastmove;
 	}
 	
 }

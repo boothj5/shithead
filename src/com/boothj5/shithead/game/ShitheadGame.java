@@ -19,6 +19,8 @@ public class ShitheadGame {
 
 	private Stack<Card> pile = new Stack<Card>() ;
 	private List<Card> burnt = new ArrayList<Card>() ;
+	
+	private LastMove lastMove ;
 
 	public static final EnumSet<Card.Rank> layOnAnythingRanks = 
 		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
@@ -61,9 +63,10 @@ public class ShitheadGame {
 			deck.cards.remove(0) ;
 		
 		currentPlayer = 0 ;
+		lastMove = null ;
 	}
 	
-	public LastMove firstMove() {
+	public void firstMove() {
 		int playerToLayIndex ;
 		List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
 		List<Card> cardsToPlay = new ArrayList<Card>() ;
@@ -89,8 +92,6 @@ public class ShitheadGame {
 		
 		currentPlayer = playerToLayIndex ;
 		moveToNextPlayer() ;
-		
-		return new LastMove(players.get(playerToLayIndex), cardsToPlay) ;
 	}
 	
 	private void moveToNextPlayer() {
@@ -119,16 +120,19 @@ public class ShitheadGame {
 			}
 		}
 
+		lastMove = new LastMove(players.get(player), toPlay) ;
 		// burn if required
-		burnIfPossible() ;
+		lastMove.setBurnt(burnIfPossible()) ;
 	}	
 
-	private void burnIfPossible() {
+	private boolean burnIfPossible() {
+		boolean didBurn = false ;
 		// burn card
 		if ((!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN))) {
 			currentPlayer-- ;
 			burnt.addAll(pile) ;
 			pile.removeAllElements() ;
+			didBurn = true ;
 		}
 		else if ((pile.size() >= 4) && 
 				((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
@@ -137,12 +141,14 @@ public class ShitheadGame {
 			currentPlayer-- ;
 			burnt.addAll(pile) ;
 			pile.removeAllElements() ;
+			didBurn = true ;
 		}
+		return didBurn ;
 	}
 	
 	public ShitheadGameDetails getGameDetails() {
 		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
-				numCardsPerHand, currentPlayer, pile, burnt) ;
+				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
 		
 		return details ;
 	}
