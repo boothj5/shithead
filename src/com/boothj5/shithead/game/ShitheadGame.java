@@ -72,17 +72,22 @@ public class ShitheadGame {
 		List<Card> cardsToPlay = new ArrayList<Card>() ;
 
 		// add lowest card of each player to a list
-		for (Player player : players) 
-			lowestCardsByPlayerIndex.add(Collections.min(player.getHand(Player.Hand.HAND), new ShitheadCardComparator())) ;
+		for (Player player : players) {
+			List<Card> playersHand = player.getHand(Player.Hand.HAND) ;
+			Card playersLowestCard = Collections.min(playersHand, new ShitheadCardComparator()) ;
+
+			lowestCardsByPlayerIndex.add(playersLowestCard) ;
+		}
+		
+		Card lowestOfAllCards = Collections.min(lowestCardsByPlayerIndex, new ShitheadCardComparator()) ;
 
 		// get the index of the player with the lowest card
-		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(
-					Collections.min(lowestCardsByPlayerIndex, 
-										new ShitheadCardComparator())) ; 
+		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(lowestOfAllCards) ;
 
+		// add to the list to be played
 		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
 
-		// iterate over the players cards for any of the same rank
+		// iterate over the players cards for any of the same rank and add them 
 		for (Card toCompare : players.get(playerToLayIndex).getHand(Player.Hand.HAND))
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
 								(!cardsToPlay.get(0).equals(toCompare))) 
@@ -107,11 +112,18 @@ public class ShitheadGame {
 	
 	private void play(int player, Player.Hand hand, List<Card> toPlay) {
 
+		// add cards to pile
 		pile.addAll(toPlay) ;
+		
+		// remove them from players hand
 		players.get(player).getHand(hand).removeAll(toPlay) ;
 
+		// pick up new cards from deck
 		for (int i = 0 ; i < toPlay.size() ; i++) {
-			if (!deck.cards.isEmpty() && players.get(player).getHand(Player.Hand.HAND).size() < numCardsPerHand) {
+			boolean deckIsEmpty = deck.cards.isEmpty() ;
+			boolean playersHandLessThanGameHandSize = 
+				players.get(player).getHand(Player.Hand.HAND).size() < numCardsPerHand ;
+			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
 					Card pickup = deck.cards.get(0) ;
 					List<Card> pickupList = new ArrayList<Card>();
 					pickupList.add(pickup) ;
@@ -121,23 +133,21 @@ public class ShitheadGame {
 		}
 
 		lastMove = new LastMove(players.get(player), toPlay) ;
+		
 		// burn if required
 		lastMove.setBurnt(burnIfPossible()) ;
 	}	
 
 	private boolean burnIfPossible() {
 		boolean didBurn = false ;
-		// burn card
-		if ((!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN))) {
-			currentPlayer-- ;
-			burnt.addAll(pile) ;
-			pile.removeAllElements() ;
-			didBurn = true ;
-		}
-		else if ((pile.size() >= 4) && 
-				((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
+
+		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN)) ;
+		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
+		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
 				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
-			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ) {
+			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ;
+		
+		if (burnCardOnPile || fourOfAKindOnPile) {
 			currentPlayer-- ;
 			burnt.addAll(pile) ;
 			pile.removeAllElements() ;
