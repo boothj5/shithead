@@ -22,10 +22,10 @@ public class ShitheadGame {
 	
 	private LastMove lastMove ;
 
-	public static final EnumSet<Card.Rank> layOnAnythingRanks = 
+	public static final EnumSet<Card.Rank> LAY_ON_ANYTHING_RANKS = 
 		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
-	public static final EnumSet<Card.Rank> normalRanks = 
-		EnumSet.complementOf(layOnAnythingRanks) ;
+	public static final EnumSet<Card.Rank> NORMAL_RANKS = 
+		EnumSet.complementOf(LAY_ON_ANYTHING_RANKS) ;
 
 	public  static final Card.Rank invisibleRank = Card.Rank.SEVEN ;
 	public  static final Card.Rank missTurnRank = Card.Rank.EIGHT ;
@@ -243,7 +243,7 @@ public class ShitheadGame {
 	}
 	
 	private boolean checkValidMove(Card onPile, Card toLay) {
-		if (layOnAnythingRanks.contains(toLay.rank)) 
+		if (LAY_ON_ANYTHING_RANKS.contains(toLay.rank)) 
 			return true ;
 		else {
 			return (onPile.compareTo(toLay) <= 0);

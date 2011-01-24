@@ -10,18 +10,18 @@ public class ShitheadCardComparator implements Comparator<Card> {
 		Card card2 = (Card) o2 ;
 		
 		// both special cards
-		if (ShitheadGame.layOnAnythingRanks.contains(card1.rank) 
-					&& ShitheadGame.layOnAnythingRanks.contains(card2.rank)) 
+		if (ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card1.rank) 
+					&& ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card2.rank)) 
 			return 0 ;
 		
 		// card1 is special
-		else if (ShitheadGame.layOnAnythingRanks.contains(card1.rank)
-					&& !ShitheadGame.layOnAnythingRanks.contains(card2.rank)) 
+		else if (ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card1.rank)
+					&& !ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card2.rank)) 
 			return 1 ;
 		
 		// card2 is special
-		else if (!ShitheadGame.layOnAnythingRanks.contains(card1.rank)
-					&& ShitheadGame.layOnAnythingRanks.contains(card2.rank)) 
+		else if (!ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card1.rank)
+					&& ShitheadGame.LAY_ON_ANYTHING_RANKS.contains(card2.rank)) 
 			return -1 ;
 		
 		// both normal cards
