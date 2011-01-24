@@ -45,7 +45,7 @@ public class SimpleComputerPlayer extends ComputerPlayer {
 		List<Integer> chosenCards = null ;
 		
 		// look through my hand and find the first card that I am allowed to lay
-		List<Card> myHand = getFaceDown() ;
+		List<Card> myHand = getFaceUp() ;
 		for (Card tryCard : myHand) {
 			ShitheadCardComparator comp = new ShitheadCardComparator() ;
 			if (comp.compare(tryCard, cardToLayOn) > 0) {
