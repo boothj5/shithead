@@ -219,7 +219,7 @@ public class ShitheadGame {
 	
 	public String getShithead() throws Exception {
 		for (Player player : players) 
-			if (!player.hasCards()) 
+			if (player.hasCards()) 
 				return player.getName() ;
 		throw new Exception("Game finished but no Shithead found!") ;
 	}
