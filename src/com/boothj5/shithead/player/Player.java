@@ -11,11 +11,11 @@ public abstract class Player {
 	public static enum Hand {HAND, FACEUP, FACEDOWN } ;
 	
 	private String name ;
-	protected int handSize ;
+	private int handSize ;
 	
-	protected List<Card> faceDown = new ArrayList<Card>() ;
-	protected List<Card> faceUp = new ArrayList<Card>() ;
-	protected List<Card> hand = new ArrayList<Card>() ;
+	private List<Card> faceDown = new ArrayList<Card>() ;
+	private List<Card> faceUp = new ArrayList<Card>() ;
+	private List<Card> hand = new ArrayList<Card>() ;
 	
 	public Player(String name, int handSize) {
 		this.name = name ;

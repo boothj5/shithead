@@ -23,13 +23,13 @@ public class ShitheadGame {
 	private LastMove lastMove ;
 
 	public static final EnumSet<Card.Rank> LAY_ON_ANYTHING_RANKS = 
-		EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
+												EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
 	public static final EnumSet<Card.Rank> NORMAL_RANKS = 
-		EnumSet.complementOf(LAY_ON_ANYTHING_RANKS) ;
+												EnumSet.complementOf(LAY_ON_ANYTHING_RANKS) ;
 
-	public  static final Card.Rank invisibleRank = Card.Rank.SEVEN ;
-	public  static final Card.Rank missTurnRank = Card.Rank.EIGHT ;
-	public  static final Card.Rank burnRank = Card.Rank.TEN ;	
+	public  static final Card.Rank INVISIBLE = Card.Rank.SEVEN ;
+	public  static final Card.Rank MISS_A_TURN = Card.Rank.EIGHT ;
+	public  static final Card.Rank BURN = Card.Rank.TEN ;	
 	
 	public ShitheadGame(int numPlayers, List<String> playerNames, List<String> playerTypes, 
 						int cardsPerHand) throws Exception {
@@ -254,7 +254,7 @@ public class ShitheadGame {
 	private boolean burnIfPossible() {
 		boolean didBurn = false ;
 
-		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(burnRank)) ;
+		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(BURN)) ;
 		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
 		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
 				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
@@ -272,7 +272,7 @@ public class ShitheadGame {
 	private boolean missAGoIfRequied() {
 		boolean missAGo = false ;
 
-		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(missTurnRank)) ;
+		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(MISS_A_TURN)) ;
 		if (missAGoCardOnPile) {
 			moveToNextPlayer();
 			missAGo = true ;
