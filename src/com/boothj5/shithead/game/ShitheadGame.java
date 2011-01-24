@@ -42,6 +42,13 @@ public class ShitheadGame {
 		}
 	}
 	
+	public ShitheadGameDetails getGameDetails() {
+		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
+				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
+		
+		return details ;
+	}
+	
 	public void deal() {
 		deck.shuffle() ;
 
@@ -99,13 +106,6 @@ public class ShitheadGame {
 		moveToNextPlayer() ;
 	}
 	
-	public ShitheadGameDetails getGameDetails() {
-		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
-				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
-		
-		return details ;
-	}
-	
 	public boolean currentPlayerCanPlay() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
 		boolean canPlay = false ;
@@ -160,33 +160,7 @@ public class ShitheadGame {
 			return true ;
 		}
 	}
-	
-	private boolean checkValidMove(Card cardToLay) {
-		if (pile.empty()) 
-			return true ;
-		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
-			//look for first non invisible and check that
-			Card testCard = pile.peek() ;
-			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(Card.Rank.SEVEN))) ; i-- ) {
-				testCard = pile.get(i) ;
-			}
-			if (testCard.rank.equals(Card.Rank.SEVEN))
-				return true ;
-			else
-				return checkValidMove(testCard, cardToLay) ;
-		}
-		else 
-			return checkValidMove(pile.peek(), cardToLay) ;	
-	}
-	
-	private boolean checkValidMove(Card onPile, Card toLay) {
-		if (layOnAnythingRanks.contains(toLay.rank)) 
-			return true ;
-		else {
-			return (onPile.compareTo(toLay) <= 0);
-		}
-	}	
-	
+
 	public void playerPickUpPile() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
 		
@@ -194,23 +168,12 @@ public class ShitheadGame {
 		pile.removeAllElements() ;
 	}
 	
-	private boolean burnIfPossible() {
-		boolean didBurn = false ;
-
-		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(Card.Rank.TEN)) ;
-		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
-		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
-				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
-			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ;
-		
-		if (burnCardOnPile || fourOfAKindOnPile) {
-			currentPlayer-- ;
-			burnt.addAll(pile) ;
-			pile.removeAllElements() ;
-			didBurn = true ;
-		}
-		return didBurn ;
+	public void playerPickUpPileAndFaceDownCard(Card cardFromFaceDown) {
+		playerPickUpPile() ;
+		players.get(currentPlayer).getHand(Player.Hand.HAND).add(cardFromFaceDown) ;
+		players.get(currentPlayer).getHand(Player.Hand.FACEDOWN).remove(cardFromFaceDown) ;
 	}
+	
 	
 	public void play(List<Card> toPlay) {
 		Player currentPlayer = players.get(this.currentPlayer) ;
@@ -218,42 +181,13 @@ public class ShitheadGame {
 		
 		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) 
 			hand = Player.Hand.HAND ;
-		else 
+		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0)
 			hand = Player.Hand.FACEUP ;
-		play(hand, toPlay) ;
-	}
-	
-	private void play(Player.Hand hand, List<Card> toPlay) {
-		play(currentPlayer, hand, toPlay) ;
-	}
-	
-	private void play(int player, Player.Hand hand, List<Card> toPlay) {
-
-		// add cards to pile
-		pile.addAll(toPlay) ;
-		
-		// remove them from players hand
-		players.get(player).getHand(hand).removeAll(toPlay) ;
-
-		// pick up new cards from deck
-		for (int i = 0 ; i < toPlay.size() ; i++) {
-			boolean deckIsEmpty = deck.cards.isEmpty() ;
-			boolean playersHandLessThanGameHandSize = 
-				players.get(player).getHand(Player.Hand.HAND).size() < numCardsPerHand ;
-			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
-					Card pickup = deck.cards.get(0) ;
-					List<Card> pickupList = new ArrayList<Card>();
-					pickupList.add(pickup) ;
-					players.get(player).recieve(pickupList) ;
-					deck.cards.remove(0) ;
-			}
-		}
-
-		lastMove = new LastMove(players.get(player), toPlay) ;
-		
-		// burn if required
-		lastMove.setBurnt(burnIfPossible()) ;
+		else
+			hand = Player.Hand.FACEDOWN ;
+		play(this.currentPlayer, hand, toPlay) ;
 	}	
+	
 
 	public void moveToNextPlayer() {
 		currentPlayer ++ ;
@@ -282,4 +216,99 @@ public class ShitheadGame {
 
 		return continueGame ;		
 	}
+	
+	public String getShithead() throws Exception {
+		for (Player player : players) 
+			if (!player.hasCards()) 
+				return player.getName() ;
+		throw new Exception("Game finished but no Shithead found!") ;
+	}
+		
+	private boolean checkValidMove(Card cardToLay) {
+		if (pile.empty()) 
+			return true ;
+		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
+			//look for first non invisible and check that
+			Card testCard = pile.peek() ;
+			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(Card.Rank.SEVEN))) ; i-- ) {
+				testCard = pile.get(i) ;
+			}
+			if (testCard.rank.equals(Card.Rank.SEVEN))
+				return true ;
+			else
+				return checkValidMove(testCard, cardToLay) ;
+		}
+		else 
+			return checkValidMove(pile.peek(), cardToLay) ;	
+	}
+	
+	private boolean checkValidMove(Card onPile, Card toLay) {
+		if (layOnAnythingRanks.contains(toLay.rank)) 
+			return true ;
+		else {
+			return (onPile.compareTo(toLay) <= 0);
+		}
+	}	
+	
+
+	private boolean burnIfPossible() {
+		boolean didBurn = false ;
+
+		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(burnRank)) ;
+		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
+		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
+				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
+			  		(pile.get(pile.size()-3).rank.equals(pile.get(pile.size()-4).rank))) ;
+		
+		if (burnCardOnPile || fourOfAKindOnPile) {
+			currentPlayer-- ;
+			burnt.addAll(pile) ;
+			pile.removeAllElements() ;
+			didBurn = true ;
+		}
+		return didBurn ;
+	}
+	
+	private boolean missAGoIfRequied() {
+		boolean missAGo = false ;
+
+		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(missTurnRank)) ;
+		if (missAGoCardOnPile) {
+			moveToNextPlayer();
+			missAGo = true ;
+		}
+		return missAGo ;
+	}
+
+	
+	
+	private void play(int player, Player.Hand hand, List<Card> toPlay) {
+
+		// add cards to pile
+		pile.addAll(toPlay) ;
+		
+		// remove them from players hand
+		players.get(player).getHand(hand).removeAll(toPlay) ;
+
+		// pick up new cards from deck
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			boolean deckIsEmpty = deck.cards.isEmpty() ;
+			boolean playersHandLessThanGameHandSize = 
+				players.get(player).getHand(Player.Hand.HAND).size() < numCardsPerHand ;
+			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
+					Card pickup = deck.cards.get(0) ;
+					List<Card> pickupList = new ArrayList<Card>();
+					pickupList.add(pickup) ;
+					players.get(player).recieve(pickupList) ;
+					deck.cards.remove(0) ;
+			}
+		}
+
+		lastMove = new LastMove(players.get(player), toPlay) ;
+		
+		// burn if required
+		lastMove.setMissAGo(missAGoIfRequied()) ;
+		lastMove.setBurnt(burnIfPossible()) ;
+	}	
+
 }

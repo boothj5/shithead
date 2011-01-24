@@ -8,6 +8,7 @@ public class LastMove {
 	private Player player ;
 	private List<Card> cards ; 
 	private boolean burnt ;
+	private boolean missAGo ;
 
 	public LastMove(Player player, List<Card> cards) {
 		this.player = player ;
@@ -29,4 +30,13 @@ public class LastMove {
 	public boolean getBurnt() {
 		return burnt ;
 	}
+
+	public void setMissAGo(boolean missAGo) {
+		this.missAGo = missAGo;
+	}
+
+	public boolean getMissAGo() {
+		return missAGo;
+	}
+
 }

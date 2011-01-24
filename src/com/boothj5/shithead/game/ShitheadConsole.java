@@ -90,6 +90,10 @@ public class ShitheadConsole {
 		
 	}
 	
+	public int requestFromFaceDown(String playerName, int handSize) {
+		return Integer.parseInt(c.readLine(playerName + ", enter cards to lay from your face down cards: "))-1 ;
+	}
+	
 	public void showGame(ShitheadGameDetails details) {
 		clearScreen() ;
 		
@@ -126,18 +130,25 @@ public class ShitheadConsole {
 	
 	public void showLastMove(ShitheadGameDetails details) {
 		LastMove lastMove = details.getLastmove() ;
+		String missAGo = "" ;
+		String burnt = "" ;
+		
+		if (lastMove.getMissAGo())
+			missAGo = " MISS A TURN" ;
+		if (lastMove.getBurnt())
+			burnt = " BURN" ;
 		
 		StringBuffer buffer = new StringBuffer() ;
 		for (Card card : lastMove.getCards())
 			buffer.append(card.toString() + ", ") ;
-		System.out.print(lastMove.getPlayer().getName() + " played: " + buffer.toString()) ;
+		System.out.println(lastMove.getPlayer().getName() + " played: " + buffer.toString() + missAGo + burnt) ;
 	}
 	
 
 
 	public void showFaceDown(Player player) {
 		// player face down
-		System.out.print("FACE UP: ") ;
+		System.out.print("FACE DOWN: ") ;
 		for (Card card : player.getHand(Player.Hand.FACEDOWN)) {
 			System.out.print("****, ") ;
 		}			
@@ -179,6 +190,22 @@ public class ShitheadConsole {
 	
 	public void line() {
 		System.out.println() ;
+	}
+	
+	public void showHandDownOk(String playerName, Card cardChosen) {
+		c.readLine(playerName + "Lucky you, was the " + cardChosen.toString() + ", press enter:") ;		
+	}
+	
+	public void showHandDownNotOk(String playerName, Card cardChosen) {
+		c.readLine(playerName + "OH DEAR! Was the " + cardChosen.toString() + ", press enter:") ;		
+	}
+	
+	public void showGameOver(String shithead) {
+		System.out.println("!!!!!!!!!!!!!!!") ;
+		System.out.println("!! GAME OVER !!") ;
+		System.out.println("!!!!!!!!!!!!!!!") ;
+		
+		System.out.println(shithead.toUpperCase() + " IS A SHITHEAD!!!!!!!!!!!!!!!") ;
 	}
 	
 	
