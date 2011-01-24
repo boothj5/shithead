@@ -14,6 +14,8 @@ public abstract class ComputerPlayer extends Player {
 	
 	public abstract SwapResponse askSwapChoice()  ;
 	
-	public abstract List<Integer> askCardChoiceFromHand(ShitheadGameDetails details, Player.Hand hand) ; 
+	public abstract List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) ;
 	
+	public abstract List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) ;
+
 }

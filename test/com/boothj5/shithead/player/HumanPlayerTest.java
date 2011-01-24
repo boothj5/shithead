@@ -35,10 +35,10 @@ public class HumanPlayerTest {
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
 		
-		james.deal(Player.Hand.FACEDOWN, card1) ;
-		james.deal(Player.Hand.FACEDOWN, card2) ;
+		james.dealToFaceDown(card1) ;
+		james.dealToFaceDown(card2) ;
 		
-		assertThat(james.getHand(Player.Hand.FACEDOWN), hasItems(card1, card2)) ;
+		assertThat(james.getFaceDown(), hasItems(card1, card2)) ;
 	}
 	
 	@Test
@@ -48,10 +48,10 @@ public class HumanPlayerTest {
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
 		
-		james.deal(Player.Hand.FACEUP, card1) ;
-		james.deal(Player.Hand.FACEUP, card2) ;
+		james.dealToFaceUp(card1) ;
+		james.dealToFaceUp(card2) ;
 		
-		assertThat(james.getHand(Player.Hand.FACEUP), hasItems(card1, card2)) ;
+		assertThat(james.getFaceUp(), hasItems(card1, card2)) ;
 	}
 
 	@Test
@@ -61,17 +61,17 @@ public class HumanPlayerTest {
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
 		
-		james.deal(Player.Hand.HAND, card1) ;
-		james.deal(Player.Hand.HAND, card2) ;
+		james.dealToHand(card1) ;
+		james.dealToHand(card2) ;
 		
-		assertThat(james.getHand(Player.Hand.HAND), hasItems(card1, card2)) ;
+		assertThat(james.getHand(), hasItems(card1, card2)) ;
 	}
 	
 	
 	@Test
 	public void playerHasCardsWhenOnlyCardsInHand() {
 		HumanPlayer james = new HumanPlayer("James", 3) ;
-		james.deal(Player.Hand.HAND, new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
+		james.dealToHand(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
 	}
@@ -79,7 +79,7 @@ public class HumanPlayerTest {
 	@Test
 	public void playerHasCardsWhenOnlyCardsInFaceUp() {
 		HumanPlayer james = new HumanPlayer("James", 3) ;
-		james.deal(Player.Hand.FACEUP, new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
+		james.dealToFaceUp(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
 	}
@@ -87,7 +87,7 @@ public class HumanPlayerTest {
 	@Test
 	public void playerHasCardsWhenOnlyCardsInFaceDown() {
 		HumanPlayer james = new HumanPlayer("James", 3) ;
-		james.deal(Player.Hand.FACEDOWN, new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
+		james.dealToFaceDown(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
 	}
@@ -95,7 +95,7 @@ public class HumanPlayerTest {
 	@Test
 	public void pickupAddsCardsToHandWhenCardsInHand() {
 		HumanPlayer james = new HumanPlayer("James", 3) ;
-		james.deal(Player.Hand.HAND, new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
+		james.dealToHand(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 		
 		List<Card> cardsToPickup = new ArrayList<Card>() ;
 
@@ -113,14 +113,14 @@ public class HumanPlayerTest {
 		
 		james.recieve(cardsToPickup) ;
 		
-		assertThat(james.getHand(Player.Hand.HAND), hasItems(card1, card2, card3, card4, card5)) ;
+		assertThat(james.getHand(), hasItems(card1, card2, card3, card4, card5)) ;
 	}
 
 	@Test
 	public void pickupAddsCardsToHandWhenEmptyHand() {
 		HumanPlayer james = new HumanPlayer("James", 3) ;
-		james.deal(Player.Hand.FACEDOWN, new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
-		james.deal(Player.Hand.FACEUP, new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
+		james.dealToFaceDown(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
+		james.dealToFaceUp(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
 		
 		List<Card> cardsToPickup = new ArrayList<Card>() ;
 
@@ -138,7 +138,7 @@ public class HumanPlayerTest {
 		
 		james.recieve(cardsToPickup) ;
 		
-		assertThat(james.getHand(Player.Hand.HAND), hasItems(card1, card2, card3, card4, card5)) ;
+		assertThat(james.getHand(), hasItems(card1, card2, card3, card4, card5)) ;
 	}
 
 	@Test
@@ -148,35 +148,35 @@ public class HumanPlayerTest {
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
 		Card faceDown3 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown1) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown2) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown3) ;
+		james.dealToFaceDown(faceDown1) ;
+		james.dealToFaceDown(faceDown2) ;
+		james.dealToFaceDown(faceDown3) ;
 
 		Card faceUp1 = new Card(Card.Rank.THREE, Card.Suit.DIAMONDS) ;
 		Card faceUp2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS) ;
 		Card faceUp3 = new Card(Card.Rank.JACK, Card.Suit.CLUBS) ;
-		james.deal(Player.Hand.FACEUP, faceUp1) ;
-		james.deal(Player.Hand.FACEUP, faceUp2) ;
-		james.deal(Player.Hand.FACEUP, faceUp3) ;
+		james.dealToFaceUp(faceUp1) ;
+		james.dealToFaceUp(faceUp2) ;
+		james.dealToFaceUp(faceUp3) ;
 		
 		Card hand1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
 		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
 		Card hand3 = new Card(Card.Rank.KING, Card.Suit.DIAMONDS) ;
-		james.deal(Player.Hand.HAND, hand1) ;
-		james.deal(Player.Hand.HAND, hand2) ;
-		james.deal(Player.Hand.HAND, hand3) ;
+		james.dealToHand(hand1) ;
+		james.dealToHand(hand2) ;
+		james.dealToHand(hand3) ;
 		
 		SwapResponse response = new SwapResponse(0,2) ;
 		james.swapCards(response) ;
 
-		assertThat("hand cards", james.getHand(Player.Hand.HAND), hasItems(faceUp3, hand2, hand3)) ;
-		assertThat("hand size", james.getHand(Player.Hand.HAND).size(), is(3)) ;
+		assertThat("hand cards", james.getHand(), hasItems(faceUp3, hand2, hand3)) ;
+		assertThat("hand size", james.getHand().size(), is(3)) ;
 
-		assertThat("faceUp cards", james.getHand(Player.Hand.FACEUP), hasItems(faceUp1, faceUp2, hand1)) ;
-		assertThat("faceup size", james.getHand(Player.Hand.FACEUP).size(), is(3)) ;
+		assertThat("faceUp cards", james.getFaceUp(), hasItems(faceUp1, faceUp2, hand1)) ;
+		assertThat("faceup size", james.getFaceUp().size(), is(3)) ;
 
-		assertThat("faceDown cards", james.getHand(Player.Hand.FACEDOWN), hasItems(faceDown1, faceDown2, faceDown3)) ;
-		assertThat("faceDown size", james.getHand(Player.Hand.FACEDOWN).size(), is(3)) ;
+		assertThat("faceDown cards", james.getFaceDown(), hasItems(faceDown1, faceDown2, faceDown3)) ;
+		assertThat("faceDown size", james.getFaceDown().size(), is(3)) ;
 	}
 
 	@Test
@@ -186,35 +186,35 @@ public class HumanPlayerTest {
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
 		Card faceDown3 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown1) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown2) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown3) ;
+		james.dealToFaceDown(faceDown1) ;
+		james.dealToFaceDown(faceDown2) ;
+		james.dealToFaceDown(faceDown3) ;
 
 		Card faceUp1 = new Card(Card.Rank.THREE, Card.Suit.DIAMONDS) ;
 		Card faceUp2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS) ;
 		Card faceUp3 = new Card(Card.Rank.JACK, Card.Suit.CLUBS) ;
-		james.deal(Player.Hand.FACEUP, faceUp1) ;
-		james.deal(Player.Hand.FACEUP, faceUp2) ;
-		james.deal(Player.Hand.FACEUP, faceUp3) ;
+		james.dealToFaceUp(faceUp1) ;
+		james.dealToFaceUp(faceUp2) ;
+		james.dealToFaceUp(faceUp3) ;
 		
 		Card hand1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
 		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
 		Card hand3 = new Card(Card.Rank.KING, Card.Suit.DIAMONDS) ;
-		james.deal(Player.Hand.HAND, hand1) ;
-		james.deal(Player.Hand.HAND, hand2) ;
-		james.deal(Player.Hand.HAND, hand3) ;
+		james.dealToHand(hand1) ;
+		james.dealToHand(hand2) ;
+		james.dealToHand(hand3) ;
 		
 		SwapResponse response = new SwapResponse(-1,2) ;
 		james.swapCards(response) ;
 		
-		assertThat("hand cards", james.getHand(Player.Hand.HAND), hasItems(hand1, hand2, hand3)) ;
-		assertThat("hand size", james.getHand(Player.Hand.HAND).size(), is(3)) ;
+		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
+		assertThat("hand size", james.getHand().size(), is(3)) ;
 
-		assertThat("faceUp cards", james.getHand(Player.Hand.FACEUP), hasItems(faceUp1, faceUp2, faceUp3)) ;
-		assertThat("faceup size", james.getHand(Player.Hand.FACEUP).size(), is(3)) ;
+		assertThat("faceUp cards", james.getFaceUp(), hasItems(faceUp1, faceUp2, faceUp3)) ;
+		assertThat("faceup size", james.getFaceUp().size(), is(3)) ;
 
-		assertThat("faceDown cards", james.getHand(Player.Hand.FACEDOWN), hasItems(faceDown1, faceDown2, faceDown3)) ;
-		assertThat("faceDown size", james.getHand(Player.Hand.FACEDOWN).size(), is(3)) ;
+		assertThat("faceDown cards", james.getFaceDown(), hasItems(faceDown1, faceDown2, faceDown3)) ;
+		assertThat("faceDown size", james.getFaceDown().size(), is(3)) ;
 	
 	}
 
@@ -225,35 +225,35 @@ public class HumanPlayerTest {
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
 		Card faceDown3 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown1) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown2) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown3) ;
+		james.dealToFaceDown(faceDown1) ;
+		james.dealToFaceDown(faceDown2) ;
+		james.dealToFaceDown(faceDown3) ;
 
 		Card faceUp1 = new Card(Card.Rank.THREE, Card.Suit.DIAMONDS) ;
 		Card faceUp2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS) ;
 		Card faceUp3 = new Card(Card.Rank.JACK, Card.Suit.CLUBS) ;
-		james.deal(Player.Hand.FACEUP, faceUp1) ;
-		james.deal(Player.Hand.FACEUP, faceUp2) ;
-		james.deal(Player.Hand.FACEUP, faceUp3) ;
+		james.dealToFaceUp(faceUp1) ;
+		james.dealToFaceUp(faceUp2) ;
+		james.dealToFaceUp(faceUp3) ;
 		
 		Card hand1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
 		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
 		Card hand3 = new Card(Card.Rank.KING, Card.Suit.DIAMONDS) ;
-		james.deal(Player.Hand.HAND, hand1) ;
-		james.deal(Player.Hand.HAND, hand2) ;
-		james.deal(Player.Hand.HAND, hand3) ;
+		james.dealToHand(hand1) ;
+		james.dealToHand(hand2) ;
+		james.dealToHand(hand3) ;
 		
 		SwapResponse response = new SwapResponse(1, -12) ;
 		james.swapCards(response) ;
 		
-		assertThat("hand cards", james.getHand(Player.Hand.HAND), hasItems(hand1, hand2, hand3)) ;
-		assertThat("hand size", james.getHand(Player.Hand.HAND).size(), is(3)) ;
+		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
+		assertThat("hand size", james.getHand().size(), is(3)) ;
 
-		assertThat("faceUp cards", james.getHand(Player.Hand.FACEUP), hasItems(faceUp1, faceUp2, faceUp3)) ;
-		assertThat("faceup size", james.getHand(Player.Hand.FACEUP).size(), is(3)) ;
+		assertThat("faceUp cards", james.getFaceUp(), hasItems(faceUp1, faceUp2, faceUp3)) ;
+		assertThat("faceup size", james.getFaceUp().size(), is(3)) ;
 
-		assertThat("faceDown cards", james.getHand(Player.Hand.FACEDOWN), hasItems(faceDown1, faceDown2, faceDown3)) ;
-		assertThat("faceDown size", james.getHand(Player.Hand.FACEDOWN).size(), is(3)) ;
+		assertThat("faceDown cards", james.getFaceDown(), hasItems(faceDown1, faceDown2, faceDown3)) ;
+		assertThat("faceDown size", james.getFaceDown().size(), is(3)) ;
 	
 	}
 
@@ -264,35 +264,35 @@ public class HumanPlayerTest {
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
 		Card faceDown3 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown1) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown2) ;
-		james.deal(Player.Hand.FACEDOWN, faceDown3) ;
+		james.dealToFaceDown(faceDown1) ;
+		james.dealToFaceDown(faceDown2) ;
+		james.dealToFaceDown(faceDown3) ;
 
 		Card faceUp1 = new Card(Card.Rank.THREE, Card.Suit.DIAMONDS) ;
 		Card faceUp2 = new Card(Card.Rank.TWO, Card.Suit.CLUBS) ;
 		Card faceUp3 = new Card(Card.Rank.JACK, Card.Suit.CLUBS) ;
-		james.deal(Player.Hand.FACEUP, faceUp1) ;
-		james.deal(Player.Hand.FACEUP, faceUp2) ;
-		james.deal(Player.Hand.FACEUP, faceUp3) ;
+		james.dealToFaceUp(faceUp1) ;
+		james.dealToFaceUp(faceUp2) ;
+		james.dealToFaceUp(faceUp3) ;
 		
 		Card hand1 = new Card(Card.Rank.SIX, Card.Suit.HEARTS) ;
 		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
 		Card hand3 = new Card(Card.Rank.KING, Card.Suit.DIAMONDS) ;
-		james.deal(Player.Hand.HAND, hand1) ;
-		james.deal(Player.Hand.HAND, hand2) ;
-		james.deal(Player.Hand.HAND, hand3) ;
+		james.dealToHand(hand1) ;
+		james.dealToHand(hand2) ;
+		james.dealToHand(hand3) ;
 		
 		SwapResponse response = new SwapResponse(1, 3) ;
 		james.swapCards(response) ;
 		
-		assertThat("hand cards", james.getHand(Player.Hand.HAND), hasItems(hand1, hand2, hand3)) ;
-		assertThat("hand size", james.getHand(Player.Hand.HAND).size(), is(3)) ;
+		assertThat("hand cards", james.getHand(), hasItems(hand1, hand2, hand3)) ;
+		assertThat("hand size", james.getHand().size(), is(3)) ;
 
-		assertThat("faceUp cards", james.getHand(Player.Hand.FACEUP), hasItems(faceUp1, faceUp2, faceUp3)) ;
-		assertThat("faceup size", james.getHand(Player.Hand.FACEUP).size(), is(3)) ;
+		assertThat("faceUp cards", james.getFaceUp(), hasItems(faceUp1, faceUp2, faceUp3)) ;
+		assertThat("faceup size", james.getFaceUp().size(), is(3)) ;
 
-		assertThat("faceDown cards", james.getHand(Player.Hand.FACEDOWN), hasItems(faceDown1, faceDown2, faceDown3)) ;
-		assertThat("faceDown size", james.getHand(Player.Hand.FACEDOWN).size(), is(3)) ;
+		assertThat("faceDown cards", james.getFaceDown(), hasItems(faceDown1, faceDown2, faceDown3)) ;
+		assertThat("faceDown size", james.getFaceDown().size(), is(3)) ;
 
 	
 	}

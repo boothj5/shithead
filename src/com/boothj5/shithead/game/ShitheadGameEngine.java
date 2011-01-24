@@ -136,18 +136,18 @@ public class ShitheadGameEngine {
 		    
 		    // if player can possibly lay any cards
 		    if (game.currentPlayerCanPlay()) {
-		    	Player.Hand handToPlayFrom = game.getHandToPlayFrom() ;
+		    	//Player.Hand handToPlayFrom = game.getHandToPlayFrom() ;
 		    	
 		    	// if computer player
 		    	if (currentPlayer instanceof ComputerPlayer) {
 		    		
 		    		// if face down, pick for computer, as we don't want any cheating!!
-		    		if (handToPlayFrom.equals(Player.Hand.FACEDOWN)) {
+		    		if (game.playingFromFaceDown()) {
 		    			cardChoice = new ArrayList<Integer>() ;
 		    			cardChoice.add(0) ;
 
 			    		cardsToPlay = convertChoicesToCards(cardChoice, 
-								details.getCurrentPlayer().getHand(handToPlayFrom)) ;
+								details.getCurrentPlayer().getFaceDown()) ;
 		    			
 			    		// play if valid card
 		    			if (game.checkValidMove(cardsToPlay)) 
@@ -162,14 +162,21 @@ public class ShitheadGameEngine {
 		    		}
 		    		// otherwise ask it to pick
 		    		else {
-		    			cardChoice = currentPlayer.askCardChoiceFromHand(details, handToPlayFrom) ;				    	
-		    			cardsToPlay = convertChoicesToCards(cardChoice, 
-		    									details.getCurrentPlayer().getHand(handToPlayFrom)) ;
-		    			
+		    			if (game.playingFromFaceUp()) {
+			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(details) ;				    	
+			    			cardsToPlay = convertChoicesToCards(cardChoice, 
+			    									details.getCurrentPlayer().getFaceUp()) ; 
+			    		}
+			    		else { // play from hand
+			    			cardChoice = currentPlayer.askCardChoiceFromHand(details) ;				    	
+		    				cardsToPlay = convertChoicesToCards(cardChoice, 
+		    									details.getCurrentPlayer().getHand()) ; 
+			    		}
+			    			
 		    			// if its a valid move play
 		    			if (game.checkValidMove(cardsToPlay)) 
 		    				game.play(cardsToPlay) ;
-		    			// otherwise, errr, computers mustn't try invalid moves when we ask them
+		    			// otherwise, computers mustn't try invalid moves when we ask them
 		    			// we could get stuck asking them forever
 		    			else
 		    				throw new Exception("Computer player chose invalid move") ;
@@ -182,14 +189,15 @@ public class ShitheadGameEngine {
 		    	// else if human player
 		    	else {
 		    		String playerName = details.getCurrentPlayer().getName() ;
-		    		int handSize = details.getCurrentPlayer().getHand(handToPlayFrom).size() ;
+		    		
+		    		int handSize = game.getHandSize() ;
 		    		
 		    		// if playing from face down
-		    		if (handToPlayFrom.equals(Player.Hand.FACEDOWN)) {
+		    		if (game.playingFromFaceDown()) {
 		    			int cardChoiceFromFaceDown = console.requestFromFaceDown(playerName, handSize) ;
 		    			
 		    			cardsToPlay = new ArrayList<Card>() ;
-		    			cardsToPlay.add(details.getCurrentPlayer().getHand(Player.Hand.FACEDOWN).get(cardChoiceFromFaceDown)) ;
+		    			cardsToPlay.add(details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    			
 		    			// play if valid card
 		    			if (game.checkValidMove(cardsToPlay)) {
@@ -207,18 +215,29 @@ public class ShitheadGameEngine {
 		    		}
 		    		// if from hand or face up
 		    		else {
-			    		cardChoice = console.requestMove(playerName, handToPlayFrom, handSize, false) ;
-			    		cardsToPlay = convertChoicesToCards(cardChoice, 
-								details.getCurrentPlayer().getHand(handToPlayFrom)) ;
-			    		
+		    			cardChoice = console.requestMove(playerName, handSize, false) ;
+		    			if (game.playingFromFaceUp()) 
+		    				cardsToPlay = convertChoicesToCards(cardChoice, 
+		    						details.getCurrentPlayer().getFaceUp()) ;
+		    			
+		    			else 
+		    				cardsToPlay = convertChoicesToCards(cardChoice, 
+		    						details.getCurrentPlayer().getHand()) ;
+		    				
 			    		boolean validMove = game.checkValidMove(cardsToPlay) ;
 			    		
-			    		// we know there is a valid move, snice we've check, so loop until they pick it
+			    		// we know there is a valid move, since we've checked, so loop until they pick it
 			    		while (!validMove) {
-			    			cardChoice = console.requestMove(playerName, handToPlayFrom, handSize, true) ;
-				    		cardsToPlay = convertChoicesToCards(cardChoice, 
-									details.getCurrentPlayer().getHand(handToPlayFrom)) ;
-				    		validMove = game.checkValidMove(cardsToPlay) ;
+			    			cardChoice = console.requestMove(playerName, handSize, true) ;
+			    			if (game.playingFromFaceUp()) 
+			    				cardsToPlay = convertChoicesToCards(cardChoice, 
+			    						details.getCurrentPlayer().getFaceUp()) ;
+			    			
+			    			else 
+			    				cardsToPlay = convertChoicesToCards(cardChoice, 
+			    						details.getCurrentPlayer().getHand()) ;
+
+			    			validMove = game.checkValidMove(cardsToPlay) ;
 			    		}
 	
 			    		// once they've picked, play and move game on

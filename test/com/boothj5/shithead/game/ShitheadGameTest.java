@@ -63,9 +63,9 @@ public class ShitheadGameTest {
 		
 		int playerCards = 0 ;
 		for (Player player : details.getPlayers()) {
-			playerCards += player.getHand(Player.Hand.HAND).size() ;
-			playerCards += player.getHand(Player.Hand.FACEUP).size() ;
-			playerCards += player.getHand(Player.Hand.FACEDOWN).size() ;
+			playerCards += player.getHand().size() ;
+			playerCards += player.getFaceUp().size() ;
+			playerCards += player.getFaceDown().size() ;
 		}
 		
 		
@@ -123,7 +123,7 @@ public class ShitheadGameTest {
 		boolean foundLower = false ;
 		
 		for (Player player : details.getPlayers()) {
-			List<Card> hand = player.getHand(Player.Hand.HAND) ;
+			List<Card> hand = player.getHand() ;
 			
 			for (Card card : hand) {
 				ShitheadCardComparator comp = new ShitheadCardComparator();

@@ -71,7 +71,7 @@ public class ShitheadConsole {
 		return (cardFromPile-1);
 	}
 
-	public List<Integer> requestMove(String playerName, Player.Hand handToPlayFrom, int handSize, boolean invalidAttempt) {
+	public List<Integer> requestMove(String playerName, int handSize, boolean invalidAttempt) {
 		String invalid = "" ;
 		
 		if (invalidAttempt)
@@ -149,7 +149,7 @@ public class ShitheadConsole {
 	public void showFaceDown(Player player) {
 		// player face down
 		System.out.print("FACE DOWN: ") ;
-		for (Card card : player.getHand(Player.Hand.FACEDOWN)) {
+		for (Card card : player.getFaceDown()) {
 			System.out.print("****, ") ;
 		}			
 		System.out.println() ;
@@ -158,7 +158,7 @@ public class ShitheadConsole {
 	public void showFaceUp(Player player) {
 		// player face up
 		System.out.print("FACE UP: ") ;
-		for (Card card : player.getHand(Player.Hand.FACEUP)) {
+		for (Card card : player.getFaceUp()) {
 			System.out.print(card + ", ") ;
 		}			
 		System.out.println() ;
@@ -167,11 +167,11 @@ public class ShitheadConsole {
 	public void showHand(ShitheadGameDetails details, Player player, boolean hideWhenNotCurrent) {
 		if (hideWhenNotCurrent && !details.isCurrentPlayer(player)) {
 			System.out.print("HAND:    ") ;
-			System.out.println(player.getHand(Player.Hand.HAND).size() + " cards."); 
+			System.out.println(player.getHand().size() + " cards."); 
 		}
 		else {
 				System.out.print("HAND:    ") ;
-				for (Card card : player.getHand(Player.Hand.HAND)) { 
+				for (Card card : player.getHand()) { 
 					System.out.print(card + ", ") ;
 				}
 				System.out.println() ;

@@ -18,9 +18,12 @@ public class HumanPlayer extends Player {
 		return null ;
 	}
 	
-	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details, Player.Hand hand) {
+	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
 		return null ;
 	}
 
+	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
+		return null ;
+	}
 	
 }

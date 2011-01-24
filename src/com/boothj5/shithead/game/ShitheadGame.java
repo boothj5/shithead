@@ -56,13 +56,13 @@ public class ShitheadGame {
 
 		for (int i = 0 ; i < numCardsPerHand ; i++) 
 			for (int j = 0 ; j < numPlayers ; j++) 
-				players.get(j).deal(Player.Hand.FACEDOWN, deckIterator.next());
+				players.get(j).dealToFaceDown(deckIterator.next());
 		for (int i = 0 ; i < numCardsPerHand ; i++) 
 			for (int j = 0 ; j < numPlayers ; j++) 
-				players.get(j).deal(Player.Hand.FACEUP, deckIterator.next());
+				players.get(j).dealToFaceUp(deckIterator.next());
 		for (int i = 0 ; i < numCardsPerHand ; i++) 
 			for (int j = 0 ; j < numPlayers ; j++)
-				players.get(j).deal(Player.Hand.HAND, deckIterator.next());
+				players.get(j).dealToHand(deckIterator.next());
 
 		// remove the dealt cards from the pack
 		int totalToRemove = (numCardsPerHand * 3) * numPlayers ;
@@ -80,7 +80,7 @@ public class ShitheadGame {
 
 		// add lowest card of each player to a list
 		for (Player player : players) {
-			List<Card> playersHand = player.getHand(Player.Hand.HAND) ;
+			List<Card> playersHand = player.getHand() ;
 			Card playersLowestCard = Collections.min(playersHand, new ShitheadCardComparator()) ;
 
 			lowestCardsByPlayerIndex.add(playersLowestCard) ;
@@ -95,12 +95,12 @@ public class ShitheadGame {
 		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
 
 		// iterate over the players cards for any of the same rank and add them 
-		for (Card toCompare : players.get(playerToLayIndex).getHand(Player.Hand.HAND))
+		for (Card toCompare : players.get(playerToLayIndex).getHand())
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
 								(!cardsToPlay.get(0).equals(toCompare))) 
 				cardsToPlay.add(toCompare) ;
 
-		play(playerToLayIndex, Player.Hand.HAND, cardsToPlay) ;
+		playFromHand(playerToLayIndex, cardsToPlay) ;
 		
 		currentPlayer = playerToLayIndex ;
 		moveToNextPlayer() ;
@@ -111,37 +111,66 @@ public class ShitheadGame {
 		boolean canPlay = false ;
 		
 		// check can play from hand
-		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) {
-			Iterator<Card> cardIterator = currentPlayer.getHand(Player.Hand.HAND).iterator() ;
+		if (currentPlayer.getHand().size() > 0) {
+			Iterator<Card> cardIterator = currentPlayer.getHand().iterator() ;
 			while (!canPlay && cardIterator.hasNext()) {
 					canPlay = checkValidMove(cardIterator.next()) ;
 			}
 		}
 		// check can play from face up
-		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0) {
-			Iterator<Card> cardIterator = currentPlayer.getHand(Player.Hand.FACEUP).iterator() ;
+		else if (currentPlayer.getFaceUp().size() > 0) {
+			Iterator<Card> cardIterator = currentPlayer.getFaceUp().iterator() ;
 			while (!canPlay && cardIterator.hasNext()) {
 					canPlay = checkValidMove(cardIterator.next()) ;
 			}
 		}
 		// else can play from face down
-		else if (currentPlayer.getHand(Player.Hand.FACEDOWN).size() > 0) {
+		else if (currentPlayer.getFaceDown().size() > 0) {
 			canPlay = true ;
 		}
 		
 		return canPlay ;
 	}
-	
-	public Player.Hand getHandToPlayFrom() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
 
-		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) 
-			return Player.Hand.HAND ;
-		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0) 
-			return Player.Hand.FACEUP ;
+	public int getHandSize() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		if (currentPlayer.getHand().size() > 0) 
+			return currentPlayer.getHand().size() ;
+		else if (currentPlayer.getFaceUp().size() > 0) 
+			return currentPlayer.getFaceUp().size() ;
 		else 
-			return Player.Hand.FACEDOWN ;
+			return currentPlayer.getFaceDown().size() ;
 	}
+
+	
+	public boolean playingFromFaceDown() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		if (currentPlayer.getHand().size() > 0) 
+			return false ;
+		else if (currentPlayer.getFaceUp().size() > 0) 
+			return false ;
+		else 
+			return true ;
+	}
+	
+	public boolean playingFromFaceUp() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		if (currentPlayer.getHand().size() > 0) 
+			return false ;
+		else if (currentPlayer.getFaceUp().size() > 0) 
+			return true ;
+		else 
+			return false;
+	}
+	
+	public boolean playingFromHand() {
+		Player currentPlayer = players.get(this.currentPlayer) ;
+		if (currentPlayer.getHand().size() > 0) 
+			return true ;
+		else 
+			return false ;
+	}
+	
 
 	public boolean checkValidMove(List<Card> cardsToLay) {
 		boolean validRank = true ;
@@ -170,22 +199,20 @@ public class ShitheadGame {
 	
 	public void playerPickUpPileAndFaceDownCard(Card cardFromFaceDown) {
 		playerPickUpPile() ;
-		players.get(currentPlayer).getHand(Player.Hand.HAND).add(cardFromFaceDown) ;
-		players.get(currentPlayer).getHand(Player.Hand.FACEDOWN).remove(cardFromFaceDown) ;
+		players.get(currentPlayer).getHand().add(cardFromFaceDown) ;
+		players.get(currentPlayer).getFaceDown().remove(cardFromFaceDown) ;
 	}
 	
 	
 	public void play(List<Card> toPlay) {
 		Player currentPlayer = players.get(this.currentPlayer) ;
-		Player.Hand hand = null ;
 		
-		if (currentPlayer.getHand(Player.Hand.HAND).size() > 0) 
-			hand = Player.Hand.HAND ;
-		else if (currentPlayer.getHand(Player.Hand.FACEUP).size() > 0)
-			hand = Player.Hand.FACEUP ;
+		if (currentPlayer.getHand().size() > 0) 
+			playFromHand(this.currentPlayer, toPlay) ;
+		else if (currentPlayer.getFaceUp().size() > 0)
+			playFromFaceUp(this.currentPlayer, toPlay) ;
 		else
-			hand = Player.Hand.FACEDOWN ;
-		play(this.currentPlayer, hand, toPlay) ;
+			playFromFaceDown(this.currentPlayer, toPlay) ;
 	}	
 	
 
@@ -280,21 +307,19 @@ public class ShitheadGame {
 		return missAGo ;
 	}
 
-	
-	
-	private void play(int player, Player.Hand hand, List<Card> toPlay) {
+	private void playFromHand(int player, List<Card> toPlay) {
 
 		// add cards to pile
 		pile.addAll(toPlay) ;
 		
 		// remove them from players hand
-		players.get(player).getHand(hand).removeAll(toPlay) ;
+		players.get(player).getHand().removeAll(toPlay) ;
 
 		// pick up new cards from deck
 		for (int i = 0 ; i < toPlay.size() ; i++) {
 			boolean deckIsEmpty = deck.cards.isEmpty() ;
 			boolean playersHandLessThanGameHandSize = 
-				players.get(player).getHand(Player.Hand.HAND).size() < numCardsPerHand ;
+				players.get(player).getHand().size() < numCardsPerHand ;
 			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
 					Card pickup = deck.cards.get(0) ;
 					List<Card> pickupList = new ArrayList<Card>();
@@ -310,5 +335,65 @@ public class ShitheadGame {
 		lastMove.setMissAGo(missAGoIfRequied()) ;
 		lastMove.setBurnt(burnIfPossible()) ;
 	}	
+
+	private void playFromFaceUp(int player, List<Card> toPlay) {
+
+		// add cards to pile
+		pile.addAll(toPlay) ;
+		
+		// remove them from players hand
+		players.get(player).getFaceUp().removeAll(toPlay) ;
+
+		// pick up new cards from deck
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			boolean deckIsEmpty = deck.cards.isEmpty() ;
+			boolean playersHandLessThanGameHandSize = 
+				players.get(player).getHand().size() < numCardsPerHand ;
+			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
+					Card pickup = deck.cards.get(0) ;
+					List<Card> pickupList = new ArrayList<Card>();
+					pickupList.add(pickup) ;
+					players.get(player).recieve(pickupList) ;
+					deck.cards.remove(0) ;
+			}
+		}
+
+		lastMove = new LastMove(players.get(player), toPlay) ;
+		
+		// burn if required
+		lastMove.setMissAGo(missAGoIfRequied()) ;
+		lastMove.setBurnt(burnIfPossible()) ;
+	}	
+
+	private void playFromFaceDown(int player, List<Card> toPlay) {
+
+		// add cards to pile
+		pile.addAll(toPlay) ;
+		
+		// remove them from players hand
+		players.get(player).getFaceDown().removeAll(toPlay) ;
+
+		// pick up new cards from deck
+		for (int i = 0 ; i < toPlay.size() ; i++) {
+			boolean deckIsEmpty = deck.cards.isEmpty() ;
+			boolean playersHandLessThanGameHandSize = 
+				players.get(player).getHand().size() < numCardsPerHand ;
+			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
+					Card pickup = deck.cards.get(0) ;
+					List<Card> pickupList = new ArrayList<Card>();
+					pickupList.add(pickup) ;
+					players.get(player).recieve(pickupList) ;
+					deck.cards.remove(0) ;
+			}
+		}
+
+		lastMove = new LastMove(players.get(player), toPlay) ;
+		
+		// burn if required
+		lastMove.setMissAGo(missAGoIfRequied()) ;
+		lastMove.setBurnt(burnIfPossible()) ;
+	}	
+
+
 
 }
