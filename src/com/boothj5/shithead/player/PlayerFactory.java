@@ -8,6 +8,8 @@ public class PlayerFactory {
 			return new HumanPlayer(name, cardsPerHand) ;
 		else if (playerType.equals("s")) 
 			return new SimpleComputerPlayer(name, cardsPerHand) ;
+		else if (playerType.equals("a")) 
+			return new AggressiveComputerPlayer(name, cardsPerHand) ;
 		else 
 			throw new Exception("Cannot find player type to create") ;
 	}

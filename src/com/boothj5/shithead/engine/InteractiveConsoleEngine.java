@@ -1,16 +1,18 @@
-package com.boothj5.shithead.game;
+package com.boothj5.shithead.engine;
 
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.game.ShitheadGame;
+import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.*;
 
-public class ShitheadGameEngine {
+public class InteractiveConsoleEngine implements ShitheadEngine {
 
 	ShitheadGame game ;
 	ShitheadConsole console = new ShitheadConsole() ;
 	
-	public void playShithead() {
+	public void playShithead(String[] args) {
 		try {
 			init() ;
 			deal() ;
@@ -53,7 +55,7 @@ public class ShitheadGameEngine {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		console.showGame(details, true);
-		console.showCardsDealt() ;
+		console.showCardsDealtMessage() ;
 		console.waitOnUser() ;
 	}
 
@@ -136,7 +138,6 @@ public class ShitheadGameEngine {
 
 		    Player currentPlayer = details.getCurrentPlayer() ;
 		    List<Integer> cardChoice = new ArrayList<Integer>() ;
-		    List<Card> cardsToPlay = new ArrayList<Card>() ;
 		    
 		    // if player can possibly lay any cards
 		    if (game.currentPlayerCanPlay()) {
@@ -198,7 +199,7 @@ public class ShitheadGameEngine {
 		    			}
 		    			// pick up if not
 		    			else {
-				    		console.showHandDownNotOk(playerName, cardsToPlay.get(0)) ;
+				    		console.showHandDownNotOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    				game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
 		    			}
 				    	// move game on

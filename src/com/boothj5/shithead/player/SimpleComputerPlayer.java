@@ -28,6 +28,11 @@ public class SimpleComputerPlayer extends ComputerPlayer {
 		
 		// look through my hand and find the first card that I am allowed to lay
 		List<Card> myHand = getHand() ;
+		return pickCards(details, chosenCards, myHand);
+	}
+
+	private List<Integer> pickCards(ShitheadGameDetails details,
+			List<Integer> chosenCards, List<Card> myHand) {
 		for (Card tryCard : myHand) {
 			if (checkValidMove(tryCard, details)) {
 				int chosen = myHand.indexOf(tryCard) ;
@@ -45,15 +50,7 @@ public class SimpleComputerPlayer extends ComputerPlayer {
 		
 		// look through my hand and find the first card that I am allowed to lay
 		List<Card> myHand = getFaceUp() ;
-		for (Card tryCard : myHand) {
-			if (checkValidMove(tryCard, details)) {
-				int chosen = myHand.indexOf(tryCard) ;
-				chosenCards = new ArrayList<Integer>() ;
-				chosenCards.add(chosen) ;
-				break ;
-			}
-		}
-		return chosenCards;
+		return pickCards(details, chosenCards, myHand);
 	}	
 	
 	private boolean checkValidMove(Card cardToLay, ShitheadGameDetails details) {

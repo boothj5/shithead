@@ -3,6 +3,7 @@ package com.boothj5.shithead.player;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 
 
@@ -58,10 +59,12 @@ public abstract class Player {
 	
 	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
+		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
 	public void dealToHand(Card card) {
 		this.hand.add(card) ;
+		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
 	public void dealToFaceUp(Card card) {
@@ -82,6 +85,7 @@ public abstract class Player {
 			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
 			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
 			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
+			Collections.sort(hand, new ShitheadCardComparator()) ;
 		}
 	}
 }

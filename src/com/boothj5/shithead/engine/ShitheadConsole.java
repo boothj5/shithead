@@ -1,9 +1,11 @@
-package com.boothj5.shithead.game;
+package com.boothj5.shithead.engine;
 
 import java.io.Console;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.game.LastMove;
+import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 
 public class ShitheadConsole {
@@ -29,6 +31,10 @@ public class ShitheadConsole {
 		return Integer.parseInt(c.readLine("How many cards each? ")) ;
 	}
 	
+	public int requestNumGames() {
+		return Integer.parseInt(c.readLine("How many games? ")) ;
+	}	
+	
 	public String requestPlayerName(int playerNumber) {
 		return (c.readLine("Enter name for player " + playerNumber + ": ")) ;
 	}
@@ -41,6 +47,7 @@ public class ShitheadConsole {
 	private void showPlayerTypes() {
 		System.out.println("(h)uman  - Human player") ;
 		System.out.println("(s)imple - A very simple computer player") ;
+		System.out.println("(a)gressive - An aggressive computer player") ;
 	}
 
 	public void waitOnUser() {
@@ -214,9 +221,31 @@ public class ShitheadConsole {
 		System.out.println("UH OH, " + playerName + " has to pick up, press enter!") ;
 	}
 	
-	public void showCardsDealt() {
+	public void showCardsDealtMessage() {
 		System.out.println("Cards dealt, press enter:") ;
 	}
+	
+	public void showSwapCompleteMessage() {
+		System.out.println("Cards swapped, press enter:") ;
+	}
+	
+	public void showBattleSummary(Map<String, Integer> shitheadMap) {
+		System.out.println("Results:") ;
+		for (String player : shitheadMap.keySet()) {
+			System.out.println(player + ": " + shitheadMap.get(player)) ;
+		}
+		
+	}
+	
+	public void showMidBattleSummary(Map<String, Integer> shitheadMap, int turns) {
+		for (String player : shitheadMap.keySet()) {
+			System.out.print(player + ": " + shitheadMap.get(player)) ;
+			System.out.print(" ") ;
+		}
+		System.out.print(" -- " + turns + " turns") ;
+		System.out.println() ;
+	}
+	
 	
 	public void bail(Exception e, ShitheadGameDetails details) {
 		showGame(details, false) ;
