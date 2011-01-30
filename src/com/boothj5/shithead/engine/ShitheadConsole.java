@@ -52,6 +52,7 @@ public class ShitheadConsole {
 		System.out.println("(r)- Random - Somes times lays lowest, sometimes hightest") ;
 		System.out.println("(p)- Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
 		System.out.println("(d)- Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
+		System.out.println("(f)- FaceDownChecker - Lays high if next player on facedown") ;
 	}
 
 	public void waitOnUser() {
@@ -251,15 +252,15 @@ public class ShitheadConsole {
 		System.out.println("Stalemates: " + stalemates + ", " + roundTwoDecimals(stalematePercentage) + "%") ;
 		System.out.println() ;
 		System.out.println("SCORES:") ;
-		System.out.format("%-30s%-12s%-8s", "Name", "Shithead", "Lose rate");
+		System.out.format("%-20s%-12s%-8s", "Name", "Shithead", "Lose rate");
 		System.out.println() ;
-		System.out.println("---------------------------------------------------") ;
+		System.out.println("-----------------------------------------") ;
 		for (String player : shitheadMap.keySet()) {
 			double playerPercentage = (shitheadMap.get(player).doubleValue() / totalGames) * 100.0 ;
 			
 			
 			
-			System.out.format("%-30s%-12s%-8s", player, shitheadMap.get(player), roundTwoDecimals(playerPercentage) + "%") ;
+			System.out.format("%-20s%-12s%-8s", player, shitheadMap.get(player), roundTwoDecimals(playerPercentage) + "%") ;
 			System.out.println();
 		}
 		

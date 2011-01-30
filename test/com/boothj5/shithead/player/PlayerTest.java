@@ -12,25 +12,25 @@ import com.boothj5.shithead.player.SwapResponse;
 import static org.junit.Assert.* ;
 import java.util.* ;
 
-public class HumanPlayerTest {
+public class PlayerTest {
 	
 	@Test
 	public void newPLayerHasName() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 
 		assertThat(james.getName(), is(equalTo("James"))) ;
 	}
 	
 	@Test
 	public void newPlayerDoesNotHaveCards() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		
 		assertThat(james.hasCards(), is(false)) ;
 	}
 
 	@Test
 	public void dealToFaceDownAddsCardsToFaceDown() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
@@ -43,7 +43,7 @@ public class HumanPlayerTest {
 	
 	@Test
 	public void dealToFaceUpAddsCardsToFaceUp() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
@@ -56,7 +56,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void dealToHandAddsCardsToHand() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		
 		Card card1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card card2 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
@@ -70,7 +70,7 @@ public class HumanPlayerTest {
 	
 	@Test
 	public void playerHasCardsWhenOnlyCardsInHand() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		james.dealToHand(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
@@ -78,7 +78,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerHasCardsWhenOnlyCardsInFaceUp() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		james.dealToFaceUp(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
@@ -86,7 +86,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerHasCardsWhenOnlyCardsInFaceDown() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		james.dealToFaceDown(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 
 		assertThat(james.hasCards(), is(true)) ;
@@ -94,7 +94,7 @@ public class HumanPlayerTest {
 	
 	@Test
 	public void pickupAddsCardsToHandWhenCardsInHand() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		james.dealToHand(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 		
 		List<Card> cardsToPickup = new ArrayList<Card>() ;
@@ -118,7 +118,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void pickupAddsCardsToHandWhenEmptyHand() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 		james.dealToFaceDown(new Card(Card.Rank.THREE, Card.Suit.HEARTS)) ;
 		james.dealToFaceUp(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
 		
@@ -143,7 +143,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerSwapsCardsBetweenHandAndFaceUp() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
@@ -181,7 +181,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerSwapsCardsWithNegtiveHandCardDoesNothing() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
@@ -220,7 +220,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerSwapsCardsWithNegtiveFaceUpCardDoesNothing() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;
@@ -259,7 +259,7 @@ public class HumanPlayerTest {
 
 	@Test
 	public void playerSwapsCardsWithInvalidCardsDoesNothing() {
-		HumanPlayer james = new HumanPlayer("James", 3) ;
+		Player james = new HumanPlayer("James", 3) ;
 
 		Card faceDown1 = new Card(Card.Rank.THREE, Card.Suit.HEARTS) ;
 		Card faceDown2 = new Card(Card.Rank.ACE, Card.Suit.HEARTS) ;

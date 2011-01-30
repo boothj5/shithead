@@ -42,6 +42,19 @@ public class ShitheadGame {
 	}
 	
 	public void deal() {
+		int decksRequired = 1 ;
+		
+		int totalCardsNeeded = (numCardsPerHand * numPlayers) * 3 ;
+
+		int div = totalCardsNeeded / 52 ;
+		int add = ((totalCardsNeeded % 52) > 0) ? 1 : 0 ; ;
+
+		decksRequired = div + add ;
+		
+		deck = new Deck() ;
+		for (int i = 1 ; i < decksRequired ; i++) 
+			  deck.cards.addAll(new Deck().cards) ;
+		
 		deck.shuffle() ;
 
 		Iterator<Card> deckIterator = deck.cards.iterator() ;

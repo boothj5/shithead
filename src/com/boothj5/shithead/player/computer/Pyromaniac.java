@@ -1,14 +1,16 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.player.computer;
 
 import com.boothj5.shithead.game.ShitheadGameDetails;
+import com.boothj5.shithead.player.ComputerPlayer;
+import com.boothj5.shithead.player.SwapResponse;
 import com.boothj5.shithead.card.*;
 
 import java.util.*;
 
 
-public class PyromaniacComputerPlayer extends ComputerPlayer {
+public class Pyromaniac extends ComputerPlayer {
 
-	public PyromaniacComputerPlayer(String name, int handSize) {
+	public Pyromaniac(String name, int handSize) {
 		super(name, handSize) ;
 	}
 	

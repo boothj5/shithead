@@ -2,7 +2,6 @@ package com.boothj5.shithead.engine;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,7 +63,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		console.clearScreen() ;
 		console.welcome() ;
 
-		numCards = 3 ;
+		numCards = 10 ;
 		numGames = Integer.parseInt(args[1]) ;
 
 		String name = null;
@@ -75,6 +74,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		playerTypes.add("r") ;
 		playerTypes.add("p") ;
 		playerTypes.add("d") ;
+		playerTypes.add("f") ;
 
 		numPlayers = playerTypes.size() ;
 	

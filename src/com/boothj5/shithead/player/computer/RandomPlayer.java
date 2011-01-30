@@ -1,16 +1,18 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.player.computer;
 
 import java.util.List;
 import java.util.Random; 
 
 import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.ShitheadGameDetails;
+import com.boothj5.shithead.player.ComputerPlayer;
+import com.boothj5.shithead.player.SwapResponse;
 
 
-public class RandomComputerPlayer extends ComputerPlayer {
+public class RandomPlayer extends ComputerPlayer {
 	Random generator = new Random();
 
-	public RandomComputerPlayer(String name, int handSize) {
+	public RandomPlayer(String name, int handSize) {
 		super(name, handSize) ;
 	}
 	
