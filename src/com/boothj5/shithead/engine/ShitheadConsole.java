@@ -1,6 +1,7 @@
 package com.boothj5.shithead.engine;
 
 import java.io.Console;
+import java.text.DecimalFormat;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
@@ -48,6 +49,7 @@ public class ShitheadConsole {
 		System.out.println("(h)uman  - Human player") ;
 		System.out.println("(s)imple - A very simple computer player") ;
 		System.out.println("(a)gressive - An aggressive computer player") ;
+		System.out.println("(r)random - An slightly random computer player") ;
 	}
 
 	public void waitOnUser() {
@@ -229,23 +231,49 @@ public class ShitheadConsole {
 		System.out.println("Cards swapped, press enter:") ;
 	}
 	
-	public void showBattleSummary(Map<String, Integer> shitheadMap) {
-		System.out.println("Results:") ;
+	public void showBattleSummary(Map<String, Integer> shitheadMap, int stalemates, long time) {
+		int totalGames = 0 ;
+
+		Collection<Integer> winsEach = shitheadMap.values() ;
+		for (Integer wins : winsEach) 
+			totalGames+=wins ;
+		totalGames+=stalemates ;
+
+		long timeSeconds = time / 1000 ;
+		
+		System.out.println() ;
+		System.out.println("Results, total games: " + totalGames + ", total time: " + timeSeconds + " seconds") ;
 		for (String player : shitheadMap.keySet()) {
-			System.out.println(player + ": " + shitheadMap.get(player)) ;
+			double playerPercentage = (shitheadMap.get(player).doubleValue() / totalGames) * 100.0 ;
+			
+			System.out.println(player + ":" + shitheadMap.get(player) + 
+								"\tWin rate: " + roundTwoDecimals(playerPercentage) + "%") ;
 		}
 		
+		double stalematePercentage = ((double)stalemates / totalGames) * 100.0 ;
+		System.out.println("Stalemates: " + stalemates + ", " + roundTwoDecimals(stalematePercentage) + "%") ;
 	}
 	
-	public void showMidBattleSummary(Map<String, Integer> shitheadMap, int turns) {
+	public void showMidBattleSummary(Map<String, Integer> shitheadMap, int turns, boolean stalemate) {
 		for (String player : shitheadMap.keySet()) {
 			System.out.print(player + ": " + shitheadMap.get(player)) ;
 			System.out.print(" ") ;
 		}
-		System.out.print(" -- " + turns + " turns") ;
-		System.out.println() ;
+		
+		if (stalemate)
+			System.out.print(" -- **STALEMATE**") ;
+		else
+			System.out.print(" -- " + turns + " turns") ;
+	}
+
+	private double roundTwoDecimals(double d) {
+    	DecimalFormat twoDForm = new DecimalFormat("#.##");
+    	return Double.valueOf(twoDForm.format(d));
 	}
 	
+	public void dot() {
+		System.out.print(".") ;
+	}
 	
 	public void bail(Exception e, ShitheadGameDetails details) {
 		showGame(details, false) ;

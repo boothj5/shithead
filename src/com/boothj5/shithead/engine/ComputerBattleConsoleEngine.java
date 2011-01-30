@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.player.PlayerFactory;
 import com.boothj5.shithead.player.SwapResponse;
 
 public class ComputerBattleConsoleEngine implements ShitheadEngine {
@@ -18,26 +20,37 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	List<String> playerTypes = new ArrayList<String>() ;
 	
 	Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
+	int stalemates = 0 ;
 	
 	List<Integer> numTimesShithead = new ArrayList<Integer>() ;
 
 	
 	public void playShithead(String[] args) {
 		try {
+			boolean stalemate = false ;
 			init(args) ;
 			
+			long start = System.currentTimeMillis() ;
 			for (int i = 0 ; i < numGames ; i++) {
-				turns = 0 ;
-				game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
-				deal() ;
-				swap() ;
-				firstMove() ;
-				console.line() ;
-				play() ;
-				end() ; 
+				try {
+					turns = 0 ;
+					stalemate = false ;
+					game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
+					deal() ;
+					swap() ;
+					firstMove() ;
+					play() ;
+				} catch (StalemateException e) {
+					stalemates++ ;
+					stalemate = true ;
+				}
+				end(stalemate) ;
 			}
 			
-			finish() ;
+			long stop = System.currentTimeMillis() ;
+			long time = stop - start ;
+			
+			finish(time) ;
 		} catch (Exception e) {
 			ShitheadGameDetails details = game.getGameDetails() ;
 			console.bail(e, details) ;
@@ -48,21 +61,26 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		console.clearScreen() ;
 		console.welcome() ;
 
-		numPlayers = 2 ;
+		numPlayers = 3 ;
 		numCards = 3 ;
 		numGames = Integer.parseInt(args[0]) ;
 
-		String name, type;
+		String name = null;
 		String namePrefix = "Computer-";
 		
+		playerTypes.add("s") ;
+		playerTypes.add("a") ;
+		playerTypes.add("r") ;
 		
-		for (int i = 1 ; i <= numPlayers ; i++) { 
-			name = namePrefix + i ;
+		for (int i = 0 ; i < numPlayers ; i++) { 
+			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() + "-" + (i+1) ;
+			StringTokenizer st = new StringTokenizer(className, ".") ;
+			while (st.hasMoreTokens())
+				name = st.nextToken();
+			
 			playerNames.add(name) ;
 			shitheadMap.put(name, 0) ;
 		}	
-		playerTypes.add("s") ;
-		playerTypes.add("s") ;
 	}
 
 	
@@ -106,7 +124,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 			details = game.getGameDetails() ;
 
 			if (turns == 10000) {
-				throw new Exception("ERROR - Game got stuck in a loop, " + turns + " turns played!") ;
+				throw new StalemateException("ERROR - Game got stuck in a loop, " + turns + " turns played!") ;
 			}
 			
 		    Player currentPlayer = details.getCurrentPlayer() ;
@@ -169,18 +187,21 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		}
 	}
 
-	private void end() throws Exception {
-		String shithead = game.getShithead() ;
-		int total = shitheadMap.get(shithead) ;
-		total++ ;
-		shitheadMap.put(shithead, total) ;
-		console.showMidBattleSummary(shitheadMap, turns) ;
+	private void end(boolean stalemate) throws Exception {
+		if (!stalemate) {
+			String shithead = game.getShithead() ;
+			int total = shitheadMap.get(shithead) ;
+			total++ ;
+			shitheadMap.put(shithead, total) ;
+		}
+		console.dot() ;
+		//console.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 
 	}
 	
-	private void finish() {
+	private void finish(long time) {
 		console.line() ;
-		console.showBattleSummary(shitheadMap) ;		
+		console.showBattleSummary(shitheadMap, stalemates, time) ;		
 	}
 
 }
