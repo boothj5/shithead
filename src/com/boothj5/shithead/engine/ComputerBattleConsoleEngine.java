@@ -1,7 +1,10 @@
 package com.boothj5.shithead.engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -62,15 +65,15 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		console.welcome() ;
 
 		numPlayers = 3 ;
-		numCards = 3 ;
-		numGames = Integer.parseInt(args[0]) ;
+		numCards = 4 ;
+		numGames = Integer.parseInt(args[1]) ;
 
 		String name = null;
 		String namePrefix = "Computer-";
 		
+		playerTypes.add("r") ;
 		playerTypes.add("s") ;
 		playerTypes.add("a") ;
-		playerTypes.add("r") ;
 		
 		for (int i = 0 ; i < numPlayers ; i++) { 
 			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() + "-" + (i+1) ;
@@ -201,7 +204,31 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	
 	private void finish(long time) {
 		console.line() ;
-		console.showBattleSummary(shitheadMap, stalemates, time) ;		
+		Map<String, Integer> sortedShitheads = sortHashMapByValues(shitheadMap) ;
+		console.showBattleSummary(sortedShitheads, stalemates, time) ;		
 	}
 
+	private LinkedHashMap<String, Integer> sortHashMapByValues(Map<String, Integer> originalMap) {
+	    List<String> sortedKeys = new ArrayList<String>(originalMap.keySet());
+	    List<Integer> sortedValues = new ArrayList<Integer>(originalMap.values());
+	    Collections.sort(sortedValues);
+	    Collections.sort(sortedKeys);
+	        
+	    LinkedHashMap<String, Integer> newSortedMap = new LinkedHashMap<String, Integer>();
+	    
+	    for (Integer val : sortedValues) {
+	        for (String key : sortedKeys) {
+	            Integer valFromOriginalMap = originalMap.get(key);
+	            Integer valFromSortedValues = val;
+	            
+	            if (valFromOriginalMap.equals(valFromSortedValues)) {
+	                originalMap.remove(key);
+	                sortedKeys.remove(key);
+	                newSortedMap.put(key, val);
+	                break;
+	            }
+	        }
+	    }
+	    return newSortedMap;
+	}	
 }

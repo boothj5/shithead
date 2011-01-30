@@ -46,10 +46,10 @@ public class ShitheadConsole {
 	}
 	
 	private void showPlayerTypes() {
-		System.out.println("(h)uman  - Human player") ;
-		System.out.println("(s)imple - A very simple computer player") ;
-		System.out.println("(a)gressive - An aggressive computer player") ;
-		System.out.println("(r)random - An slightly random computer player") ;
+		System.out.println("(h)- Human  - Human player") ;
+		System.out.println("(s)- Simple - A very simple computer player") ;
+		System.out.println("(a)- Aggressive - An aggressive computer player") ;
+		System.out.println("(r)- Random - An slightly random computer player") ;
 	}
 
 	public void waitOnUser() {
@@ -118,7 +118,7 @@ public class ShitheadConsole {
 		System.out.println() ;
 		
 		// deck left
-		System.out.println(details.getDeck().getSize() + " remaing on deck") ;
+		System.out.println(details.getDeck().getSize() + " remaining on deck") ;
 		System.out.println() ;		
 		
 		// burnt
@@ -200,11 +200,11 @@ public class ShitheadConsole {
 	}
 	
 	public void showHandDownOk(String playerName, Card cardChosen) {
-		c.readLine(playerName + "Lucky you, was the " + cardChosen.toString() + ", press enter:") ;		
+		c.readLine(playerName + ", lucky you, it was the " + cardChosen.toString() + ", press enter:") ;		
 	}
 	
 	public void showHandDownNotOk(String playerName, Card cardChosen) {
-		c.readLine(playerName + "OH DEAR! Was the " + cardChosen.toString() + ", press enter:") ;		
+		c.readLine(playerName + ", OH DEAR! It was the " + cardChosen.toString() + ", press enter:") ;		
 	}
 	
 	public void showGameOver(String shithead) {
@@ -242,16 +242,25 @@ public class ShitheadConsole {
 		long timeSeconds = time / 1000 ;
 		
 		System.out.println() ;
-		System.out.println("Results, total games: " + totalGames + ", total time: " + timeSeconds + " seconds") ;
+		System.out.println("SUMMARY:") ;
+		System.out.println("Total games: " + totalGames) ;
+		System.out.println("Total time: " + timeSeconds + " seconds") ;
+		double stalematePercentage = ((double)stalemates / totalGames) * 100.0 ;
+		System.out.println("Stalemates: " + stalemates + ", " + roundTwoDecimals(stalematePercentage) + "%") ;
+		System.out.println() ;
+		System.out.println("SCORES:") ;
+		System.out.format("%-30s%-12s%-8s", "Name", "Shithead", "Lose rate");
+		System.out.println() ;
+		System.out.println("---------------------------------------------------") ;
 		for (String player : shitheadMap.keySet()) {
 			double playerPercentage = (shitheadMap.get(player).doubleValue() / totalGames) * 100.0 ;
 			
-			System.out.println(player + ":" + shitheadMap.get(player) + 
-								"\tWin rate: " + roundTwoDecimals(playerPercentage) + "%") ;
+			
+			
+			System.out.format("%-30s%-12s%-8s", player, shitheadMap.get(player), roundTwoDecimals(playerPercentage) + "%") ;
+			System.out.println();
 		}
 		
-		double stalematePercentage = ((double)stalemates / totalGames) * 100.0 ;
-		System.out.println("Stalemates: " + stalemates + ", " + roundTwoDecimals(stalematePercentage) + "%") ;
 	}
 	
 	public void showMidBattleSummary(Map<String, Integer> shitheadMap, int turns, boolean stalemate) {

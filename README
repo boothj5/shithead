@@ -1,17 +1,117 @@
-Java version of shithead.
+JavaHead.
+--------
 
-TODO:
-Error handling on input
-Test first move
-Main game play
+Requires Ant and JUnit installed in $ANT_HOME/lib
+
+COMPILING:
+---------
+
+	ant compile
+
+RUNNING TESTS:
+-------------
+
+	ant test
+
+BATTLE MODE:
+-----------
+
+To set off a computer battle (which will include 1 of each type of computer player) from the project root:
+
+	java -cp ./bin com.boothj5.shithead.game.Shithead b 1500
+	
+Where the last number is the number of games you want to play.
+
+Example output:
+
+	SUMMARY:
+	Total games: 1500
+	Total time: 6 seconds
+	Stalemates: 402, 26.8%
+	
+	SCORES:
+	Name                          Shithead    Lose rate
+	---------------------------------------------------
+	SimpleComputerPlayer-2        0           0.0%    
+	RandomComputerPlayer-1        3           0.2%    
+	AggressiveComputerPlayer-3    1095        73.0%   
 
 
-Nice:
-Better message when burning
-Show/choose rules at start
-Make picking card from large hand easier
+INTERACTIVE MODE:
+----------------
 
-One day:
-Move player data structures so can implement playters in different langugages
-Multi threaded network gaming 
+To play in interactive mode (at least 1 human player), from the project root:
 
+	java -cp ./bin com.boothj5.shithead.game.Shithead i
+
+When asked for how many players, enter a number:
+
+	Welcome to JavaHead!
+
+	How many players? 
+
+When asked how many cards per player, enter a number:
+
+	How many cards each?
+	
+For each player the game will then ask the name and type of player:
+
+	Enter name for player 1: James
+	(h)- Human  - Human player
+	(s)- Simple - A very simple computer player
+	(a)- Aggressive - An aggressive computer player
+	(r)- Random - An slightly random computer player
+	Player type for  James: h
+
+Enter the letter in brackets to chose the type of player.
+
+You are then shown the dealt cards.
+
+When asked if you want to swap cards, enter 'y' or 'n':
+
+	-----------------------------------------
+	PLAYER:James
+	-----------------------------------------
+
+	HAND:    FOUR of HEARTS(1), FOUR of CLUBS(2), KING of HEARTS(3), 
+	FACE UP: JACK of DIAMONDS(1), SIX of CLUBS(2), JACK of HEARTS(3), 
+
+	James, do you want to swap cards (y/n) ? 
+
+Then specify the cards you want to swap entering their numbers:
+
+	Which card from your hand do you want to swap (1-3) ? 3
+	Which card from the pile do you want to swap (1-3) ? 2
+	
+When you're done swapping, enter 'n' at the prompt:
+
+	James, do you want to swap cards (y/n) ? n
+	
+You're then shown the main game screen:
+
+	1 on pile:
+	        (*)THREE of DIAMONDS
+	
+	33 remaining on deck
+	
+	0 burnt
+	
+	-----------------------------------------
+	PLAYER(*):James
+	-----------------------------------------
+	HAND:    FOUR of HEARTS(1), FOUR of CLUBS(2), SIX of CLUBS(3), 
+	FACE UP: JACK of DIAMONDS(1), KING of HEARTS(2), JACK of HEARTS(3), 
+	FACE DOWN: ****, ****, ****, 
+	
+	-----------------------------------------
+	PLAYER:Comp
+	-----------------------------------------
+	HAND:    3 cards.
+	FACE UP: TEN of SPADES(1), SIX of HEARTS(2), FIVE of SPADES(3), 
+	FACE DOWN: ****, ****, ****, 
+	
+	Comp played: THREE of DIAMONDS, 
+	
+	James, enter cards to lay: 
+	
+Enter the card number you wish to play, for multiple cards separate the numbers with commas.
