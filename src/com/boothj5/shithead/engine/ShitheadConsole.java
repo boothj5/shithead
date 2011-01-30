@@ -47,9 +47,11 @@ public class ShitheadConsole {
 	
 	private void showPlayerTypes() {
 		System.out.println("(h)- Human  - Human player") ;
-		System.out.println("(s)- Simple - A very simple computer player") ;
-		System.out.println("(a)- Aggressive - An aggressive computer player") ;
-		System.out.println("(r)- Random - An slightly random computer player") ;
+		System.out.println("(s)- Simple - Always lays lowest") ;
+		System.out.println("(a)- Aggressive - Always lays highest") ;
+		System.out.println("(r)- Random - Somes times lays lowest, sometimes hightest") ;
+		System.out.println("(p)- Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
+		System.out.println("(d)- Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
 	}
 
 	public void waitOnUser() {

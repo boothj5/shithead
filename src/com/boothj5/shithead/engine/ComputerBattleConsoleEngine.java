@@ -64,16 +64,20 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		console.clearScreen() ;
 		console.welcome() ;
 
-		numPlayers = 3 ;
-		numCards = 4 ;
+		numCards = 3 ;
 		numGames = Integer.parseInt(args[1]) ;
 
 		String name = null;
 		String namePrefix = "Computer-";
 		
-		playerTypes.add("r") ;
 		playerTypes.add("s") ;
 		playerTypes.add("a") ;
+		playerTypes.add("r") ;
+		playerTypes.add("p") ;
+		playerTypes.add("d") ;
+
+		numPlayers = playerTypes.size() ;
+	
 		
 		for (int i = 0 ; i < numPlayers ; i++) { 
 			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() + "-" + (i+1) ;

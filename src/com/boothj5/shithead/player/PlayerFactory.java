@@ -12,6 +12,10 @@ public class PlayerFactory {
 			return new AggressiveComputerPlayer(name, cardsPerHand) ;
 		else if (playerType.equals("r")) 
 			return new RandomComputerPlayer(name, cardsPerHand) ;
+		else if (playerType.equals("p")) 
+			return new PyromaniacComputerPlayer(name, cardsPerHand) ;
+		else if (playerType.equals("d")) 
+			return new DeviousPyroComputerPlayer(name, cardsPerHand) ;
 		else 
 			throw new Exception("Cannot find player type to create") ;
 	}

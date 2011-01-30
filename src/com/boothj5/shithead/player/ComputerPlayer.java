@@ -17,7 +17,7 @@ public abstract class ComputerPlayer extends Player {
 		Stack<Card> pile = details.getPile() ;
 		if (pile.empty()) 
 			return true ;
-		else if (Card.Rank.SEVEN.equals(pile.peek().rank)) {
+		else if (ShitheadRules.INVISIBLE.equals(pile.peek().rank)) {
 			//look for first non invisible and check that
 			Card testCard = pile.peek() ;
 			for (int i = pile.size() -1 ; (i >=0 && (testCard.rank.equals(ShitheadRules.INVISIBLE))) ; i-- ) {
@@ -40,16 +40,23 @@ public abstract class ComputerPlayer extends Player {
 		}
 	}	
 	
-	protected List<Integer> pickHighCards(ShitheadGameDetails details,
-			List<Integer> chosenCards, List<Card> myHand) {
+	protected List<Integer> pickHighCards(ShitheadGameDetails details, List<Card> myHand) {
 		
 		List<Integer> returnChoice = new ArrayList<Integer>() ;
 		returnChoice.add(myHand.indexOf(Collections.max(myHand, new ShitheadCardComparator()))) ;
+
+		// iterate over the players cards for any of the same rank and add them 
+		for (Card toCompare : myHand)
+			if ((myHand.get(returnChoice.get(0)).compareTo(toCompare) == 0) && 
+								(!myHand.get(returnChoice.get(0)).equals(toCompare))) 
+				returnChoice.add(myHand.indexOf(toCompare)) ;	
+		
 		return returnChoice ;
 	}	
 
-	protected List<Integer> pickLowCards(ShitheadGameDetails details,
-			List<Integer> chosenCards, List<Card> myHand) {
+	protected List<Integer> pickLowCards(ShitheadGameDetails details, List<Card> myHand) {
+		List<Integer> chosenCards = null; 
+		
 		for (Card tryCard : myHand) {
 			if (checkValidMove(tryCard, details)) {
 				int chosen = myHand.indexOf(tryCard) ;
@@ -58,7 +65,22 @@ public abstract class ComputerPlayer extends Player {
 				break ;
 			}
 		}
+		// iterate over the players cards for any of the same rank and add them 
+		for (Card toCompare : myHand)
+			if ((myHand.get(chosenCards.get(0)).compareTo(toCompare) == 0) && 
+								(!myHand.get(chosenCards.get(0)).equals(toCompare))) 
+				chosenCards.add(myHand.indexOf(toCompare)) ;	
+
+		
 		return chosenCards;
+	}
+	
+	protected Card getBurnCardInHand(List<Card> myHand) {
+		for (Card tryCard : myHand) {
+			if (tryCard.rank.equals(ShitheadRules.BURN)) 
+				return tryCard ;
+		}
+		return null ;
 	}
 	
 	

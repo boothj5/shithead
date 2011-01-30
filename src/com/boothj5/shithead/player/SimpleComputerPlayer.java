@@ -21,18 +21,12 @@ public class SimpleComputerPlayer extends ComputerPlayer {
 	}
 	
 	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
-
-		return pickLowCards(details, chosenCards, myHand);
+		return pickLowCards(details, myHand);
 	}
 
 	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
-
-		return pickLowCards(details, chosenCards, myHand);
+		return pickLowCards(details, myHand);
 	}	
-	
-	
 }

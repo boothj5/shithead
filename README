@@ -115,3 +115,10 @@ You're then shown the main game screen:
 	James, enter cards to lay: 
 	
 Enter the card number you wish to play, for multiple cards separate the numbers with commas.
+
+KNOWN ISSUES:
+------------
+
+* There is no input validation - be careful!
+* Only the first swap screen has the player name heading
+* After cards dealt, one players hand is still hidden

@@ -18,17 +18,13 @@ public class AggressiveComputerPlayer extends ComputerPlayer {
 	}
 	
 	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
-
-		return pickHighCards(details, chosenCards, myHand);
+		return pickHighCards(details, myHand);
 	}
 
 	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
-
-		return pickHighCards(details, chosenCards, myHand);
+		return pickHighCards(details, myHand);
 	}	
 	
 }

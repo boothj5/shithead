@@ -23,24 +23,22 @@ public class RandomComputerPlayer extends ComputerPlayer {
 	}
 	
 	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
 		
 		int random = generator.nextInt( 2 );
 		if (random == 0) 
-			return pickHighCards(details, chosenCards, myHand);
+			return pickHighCards(details, myHand);
 		else
-			return pickLowCards(details, chosenCards, myHand) ;
+			return pickLowCards(details, myHand) ;
 	}
 
 	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
 
 		int random = generator.nextInt( 2 );
 		if (random == 0) 
-			return pickHighCards(details, chosenCards, myHand);
+			return pickHighCards(details, myHand);
 		else
-			return pickLowCards(details, chosenCards, myHand) ;
+			return pickLowCards(details, myHand) ;
 	}	
 }
