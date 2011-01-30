@@ -12,7 +12,7 @@ import com.boothj5.shithead.player.SwapResponse;
 import static org.junit.Assert.* ;
 import java.util.* ;
 
-public class PlayerTest {
+public class HumanPlayerTest {
 	
 	@Test
 	public void newPLayerHasName() {

@@ -13,7 +13,7 @@ public class SimplePlayer extends ComputerPlayer {
 	public SimplePlayer(String name, int handSize) {
 		super(name, handSize) ;
 	}
-	
+
 	public Boolean askSwapMore() {
 		return new Boolean(false) ;
 	}
@@ -21,12 +21,12 @@ public class SimplePlayer extends ComputerPlayer {
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
-	
+
 	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
 		List<Card> myHand = getHand() ;
 		return pickLowCards(details, myHand);
-	}
-
+	}	
+	
 	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
 		List<Card> myHand = getFaceUp() ;
 		return pickLowCards(details, myHand);

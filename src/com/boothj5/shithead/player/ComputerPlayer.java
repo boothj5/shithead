@@ -45,15 +45,21 @@ public abstract class ComputerPlayer extends Player {
 		List<Integer> returnChoice = new ArrayList<Integer>() ;
 		returnChoice.add(myHand.indexOf(Collections.max(myHand, new ShitheadCardComparator()))) ;
 
-		// iterate over the players cards for any of the same rank and add them 
-		for (Card toCompare : myHand)
-			if ((myHand.get(returnChoice.get(0)).compareTo(toCompare) == 0) && 
-								(!myHand.get(returnChoice.get(0)).equals(toCompare))) 
-				returnChoice.add(myHand.indexOf(toCompare)) ;	
+		Card.Rank chosenRank = myHand.get(returnChoice.get(0)).rank ;
 		
-		return returnChoice ;
-	}	
-
+		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(chosenRank)) 
+			return returnChoice ;
+		else {
+			// iterate over the players cards for any of the same rank and add them 
+			for (Card toCompare : myHand)
+				if ((myHand.get(returnChoice.get(0)).compareTo(toCompare) == 0) && 
+									(!myHand.get(returnChoice.get(0)).equals(toCompare))) 
+					returnChoice.add(myHand.indexOf(toCompare)) ;	
+			
+			return returnChoice ;
+		}	
+	}
+	
 	protected List<Integer> pickLowCards(ShitheadGameDetails details, List<Card> myHand) {
 		List<Integer> chosenCards = null; 
 		
@@ -65,14 +71,19 @@ public abstract class ComputerPlayer extends Player {
 				break ;
 			}
 		}
-		// iterate over the players cards for any of the same rank and add them 
-		for (Card toCompare : myHand)
-			if ((myHand.get(chosenCards.get(0)).compareTo(toCompare) == 0) && 
-								(!myHand.get(chosenCards.get(0)).equals(toCompare))) 
-				chosenCards.add(myHand.indexOf(toCompare)) ;	
 
+		Card.Rank chosenRank = myHand.get(chosenCards.get(0)).rank ;
 		
-		return chosenCards;
+		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(chosenRank)) 
+			return chosenCards ;
+		else {
+			// iterate over the players cards for any of the same rank and add them 
+			for (Card toCompare : myHand)
+				if ((myHand.get(chosenCards.get(0)).compareTo(toCompare) == 0) && 
+									(!myHand.get(chosenCards.get(0)).equals(toCompare))) 
+					chosenCards.add(myHand.indexOf(toCompare)) ;	
+			return chosenCards;
+		}
 	}
 	
 	protected Card getBurnCardInHand(List<Card> myHand) {

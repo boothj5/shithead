@@ -48,6 +48,4 @@ public class Pyromaniac extends ComputerPlayer {
 		else 
 			return pickLowCards(details, myHand);
 	}	
-	
-	
 }

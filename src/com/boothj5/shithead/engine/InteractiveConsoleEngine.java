@@ -180,6 +180,10 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    			// move game on
 		    			game.moveToNextPlayer() ;
 		    		}
+		    		details = game.getGameDetails() ;
+		    		console.showGame(details, true) ;
+		    		console.showLastMove(details) ; 
+		    		console.waitPressEnter() ;
 		    	}
 		    	// else if human player
 		    	else {

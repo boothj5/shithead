@@ -9,6 +9,12 @@ import java.util.*;
 
 public class DeviousPyro extends ComputerPlayer {
 
+	private int threshold = 10 ;
+	
+	public int getThreshold() {
+		return threshold ;
+	}
+	
 	public DeviousPyro(String name, int handSize) {
 		super(name, handSize) ;
 	}
@@ -25,7 +31,7 @@ public class DeviousPyro extends ComputerPlayer {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
 
-		if (details.getPile().size() > 5) {
+		if (details.getPile().size() >= threshold) {
 			Card burnCard = getBurnCardInHand(myHand) ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;
@@ -43,7 +49,7 @@ public class DeviousPyro extends ComputerPlayer {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
 
-		if (details.getPile().size() > 5) {
+		if (details.getPile().size() >= threshold) {
 			Card burnCard = getBurnCardInHand(myHand) ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;

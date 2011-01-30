@@ -53,6 +53,7 @@ public class ShitheadConsole {
 		System.out.println("(p)- Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
 		System.out.println("(d)- Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
 		System.out.println("(f)- FaceDownChecker - Lays high if next player on facedown") ;
+		System.out.println("(l)- LikesRankOrder - Has a set of ordered ranks to use") ;
 	}
 
 	public void waitOnUser() {
@@ -209,7 +210,10 @@ public class ShitheadConsole {
 	public void showHandDownNotOk(String playerName, Card cardChosen) {
 		c.readLine(playerName + ", OH DEAR! It was the " + cardChosen.toString() + ", press enter:") ;		
 	}
-	
+
+	public void waitPressEnter() {
+		c.readLine("Press enter:") ;		
+	}	
 	public void showGameOver(String shithead) {
 		System.out.println("!!!!!!!!!!!!!!!") ;
 		System.out.println("!! GAME OVER !!") ;

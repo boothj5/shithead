@@ -63,7 +63,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		console.clearScreen() ;
 		console.welcome() ;
 
-		numCards = 10 ;
+		numCards = 3 ;
 		numGames = Integer.parseInt(args[1]) ;
 
 		String name = null;
@@ -75,6 +75,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		playerTypes.add("p") ;
 		playerTypes.add("d") ;
 		playerTypes.add("f") ;
+		playerTypes.add("l") ;
 
 		numPlayers = playerTypes.size() ;
 	

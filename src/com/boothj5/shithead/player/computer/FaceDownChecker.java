@@ -24,25 +24,11 @@ public class FaceDownChecker extends ComputerPlayer {
 	}
 	
 	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
-
 		Player nextPlayer = getNextPlayer(details) ;
 		
-		if ((nextPlayer.getHand().size() == 0) && (nextPlayer.getFaceUp().size() == 0) ) {
+		if ((nextPlayer.getHand().size() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
 			return pickHighCards(details, myHand);
-		}
-		
-		if (details.getPile().size() > 5) {
-			Card burnCard = getBurnCardInHand(myHand) ;
-			if (burnCard != null) {
-				chosenCards = new ArrayList<Integer>() ;
-				chosenCards.add(myHand.indexOf(burnCard)) ;
-				return chosenCards ; 
-			}
-			else 
-				return pickLowCards(details, myHand);
-		}
 		else 
 			return pickLowCards(details, myHand);
 	}
@@ -64,21 +50,12 @@ public class FaceDownChecker extends ComputerPlayer {
 	
 
 	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
-		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
-
-		if (details.getPile().size() > 5) {
-			Card burnCard = getBurnCardInHand(myHand) ;
-			if (burnCard != null) {
-				chosenCards = new ArrayList<Integer>() ;
-				chosenCards.add(myHand.indexOf(burnCard)) ;
-				return chosenCards ;
-			}
-			else 
-				return pickLowCards(details, myHand);
-		}	
+		Player nextPlayer = getNextPlayer(details) ;
+		
+		if ((nextPlayer.getHand().size() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
+			return pickHighCards(details, myHand);
 		else 
 			return pickLowCards(details, myHand);
 	}
-	
 }
