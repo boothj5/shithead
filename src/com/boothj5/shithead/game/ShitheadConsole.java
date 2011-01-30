@@ -23,12 +23,10 @@ public class ShitheadConsole {
 	
 	public int requestNumPlayers() {
 		return Integer.parseInt(c.readLine("How many players? ")) ;
-
 	}
 	
 	public int requestNumCardsPerHand() {
 		return Integer.parseInt(c.readLine("How many cards each? ")) ;
-		
 	}
 	
 	public String requestPlayerName(int playerNumber) {
@@ -45,8 +43,8 @@ public class ShitheadConsole {
 		System.out.println("(s)imple - A very simple computer player") ;
 	}
 
-	public void waitOnUser(String message) {
-		c.readLine(message) ;
+	public void waitOnUser() {
+		c.readLine() ;
 	}
 	
 	public boolean requestIfWantsToSwapCards(String playerName) {
@@ -208,5 +206,16 @@ public class ShitheadConsole {
 		System.out.println(shithead.toUpperCase() + " IS A SHITHEAD!!!!!!!!!!!!!!!") ;
 	}
 	
+	public void showNextMoveMessage() {
+		System.out.println("Press enter key for next players move:") ;
+	}
 	
+	public void showPlayerPickupMessage(String playerName) {
+		System.out.println("UH OH, " + playerName + " has to pick up, press enter!") ;
+	}
+	
+	public void showCardsDealt() {
+		System.out.println("Cards dealt, press enter:") ;
+	}
+
 }

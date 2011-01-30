@@ -10,7 +10,7 @@ import static org.junit.Assert.* ;
 public class DeckTest {
 
 	@Test
-	public void constructor() {
+	public void createDeck() {
 		Deck deck = new Deck() ;
 		
 		assertTrue(deck.cards.size() == 52) ;

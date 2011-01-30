@@ -11,7 +11,7 @@ public class CardTest {
 	Card card1, card2 ;
 	
 	@Test
-	public void constructor() {
+	public void createCard() {
 		Card.Rank rank = Card.Rank.THREE ;
 		Card.Suit suit = Card.Suit.HEARTS ;
 
@@ -21,7 +21,7 @@ public class CardTest {
 	}
 
 	@Test
-	public void testHigherRankFirstGreaterThan() {
+	public void higherRankFirstReturnsGreaterThan() {
 		card1 = new Card (Card.Rank.THREE, Card.Suit.HEARTS) ;
 		card2 = new Card (Card.Rank.TWO, Card.Suit.CLUBS) ;
 		assertTrue(card1.compareTo(card2) > 0) ;
@@ -36,7 +36,7 @@ public class CardTest {
 	}
 	
 	@Test
-	public void testHigherRankSecondLessThan() {
+	public void higherRankSecondReturnsLessThan() {
 		card1 = new Card (Card.Rank.TWO, Card.Suit.HEARTS) ;
 		card2 = new Card (Card.Rank.THREE, Card.Suit.CLUBS) ;
 		assertTrue(card1.compareTo(card2) < 0) ;

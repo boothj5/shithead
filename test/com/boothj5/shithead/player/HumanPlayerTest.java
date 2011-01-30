@@ -293,7 +293,5 @@ public class HumanPlayerTest {
 
 		assertThat("faceDown cards", james.getFaceDown(), hasItems(faceDown1, faceDown2, faceDown3)) ;
 		assertThat("faceDown size", james.getFaceDown().size(), is(3)) ;
-
-	
 	}
 }

@@ -46,11 +46,11 @@ public class ShitheadGameEngine {
 	
 	private void deal() {
 		game.deal() ;
-		
 		ShitheadGameDetails details = game.getGameDetails() ;
-		console.showGame(details);
 		
-		console.waitOnUser("Cards dealt, press enter:") ;
+		console.showGame(details);
+		console.showCardsDealt() ;
+		console.waitOnUser() ;
 	}
 
 	private void swap() {
@@ -116,66 +116,55 @@ public class ShitheadGameEngine {
 		console.showGame(details) ;
 		console.showLastMove(details) ;
 		console.line() ;
-		console.waitOnUser("Press enter key for next players move:") ;
+		console.showNextMoveMessage() ;
+		console.waitOnUser() ;
 	}
 	
 	private void play() throws Exception {
 		ShitheadGameDetails details ;
-		boolean continueGame = true ;
 		
 		// while no loser
-		while (continueGame) {
+		while (game.canContinueGame()) {
 			details = game.getGameDetails() ;
 			console.showGame(details) ;
 			console.showLastMove(details) ;
 			console.line() ;
 
 		    Player currentPlayer = details.getCurrentPlayer() ;
-		    List<Integer> cardChoice = null ;
-		    List<Card> cardsToPlay = null ;
+		    List<Integer> cardChoice = new ArrayList<Integer>() ;
+		    List<Card> cardsToPlay = new ArrayList<Card>() ;
 		    
 		    // if player can possibly lay any cards
 		    if (game.currentPlayerCanPlay()) {
-		    	//Player.Hand handToPlayFrom = game.getHandToPlayFrom() ;
-		    	
+
 		    	// if computer player
-		    	if (currentPlayer instanceof ComputerPlayer) {
+		    	if (game.isCurrentPlayerComputerPlayer()) {
 		    		
 		    		// if face down, pick for computer, as we don't want any cheating!!
 		    		if (game.playingFromFaceDown()) {
-		    			cardChoice = new ArrayList<Integer>() ;
 		    			cardChoice.add(0) ;
 
-			    		cardsToPlay = convertChoicesToCards(cardChoice, 
-								details.getCurrentPlayer().getFaceDown()) ;
-		    			
-			    		// play if valid card
-		    			if (game.checkValidMove(cardsToPlay)) 
-				    		game.play(cardsToPlay) ;
+		    			// play if valid card
+		    			if (game.checkValidMove(cardChoice)) 
+				    		game.play(cardChoice) ;
 		    			// pick up if not
 		    			else 
-		    				game.playerPickUpPileAndFaceDownCard(cardsToPlay.get(0)) ;
+		    				game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
 				    	
 		    			// move game on
 		    			game.moveToNextPlayer() ;
-				    	continueGame = game.canContinueGame() ;			    		
 		    		}
-		    		// otherwise ask it to pick
+		    		// otherwise ask it to choose a card
 		    		else {
-		    			if (game.playingFromFaceUp()) {
+		    			if (game.playingFromFaceUp()) 
 			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(details) ;				    	
-			    			cardsToPlay = convertChoicesToCards(cardChoice, 
-			    									details.getCurrentPlayer().getFaceUp()) ; 
-			    		}
-			    		else { // play from hand
+			    		else // play from hand
 			    			cardChoice = currentPlayer.askCardChoiceFromHand(details) ;				    	
-		    				cardsToPlay = convertChoicesToCards(cardChoice, 
-		    									details.getCurrentPlayer().getHand()) ; 
-			    		}
 			    			
 		    			// if its a valid move play
-		    			if (game.checkValidMove(cardsToPlay)) 
-		    				game.play(cardsToPlay) ;
+		    			if (game.checkValidMove(cardChoice)) 
+		    				game.play(cardChoice) ;
+
 		    			// otherwise, computers mustn't try invalid moves when we ask them
 		    			// we could get stuck asking them forever
 		    			else
@@ -183,7 +172,6 @@ public class ShitheadGameEngine {
 
 		    			// move game on
 		    			game.moveToNextPlayer() ;
-		    			continueGame = game.canContinueGame() ;
 		    		}
 		    	}
 		    	// else if human player
@@ -195,78 +183,51 @@ public class ShitheadGameEngine {
 		    		// if playing from face down
 		    		if (game.playingFromFaceDown()) {
 		    			int cardChoiceFromFaceDown = console.requestFromFaceDown(playerName, handSize) ;
-		    			
-		    			cardsToPlay = new ArrayList<Card>() ;
-		    			cardsToPlay.add(details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+		    			cardChoice.add(cardChoiceFromFaceDown) ;
 		    			
 		    			// play if valid card
-		    			if (game.checkValidMove(cardsToPlay)) {
-				    		console.showHandDownOk(playerName, cardsToPlay.get(0)) ;
-		    				game.play(cardsToPlay) ;
+		    			if (game.checkValidMove(cardChoice)) {
+				    		console.showHandDownOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+		    				game.play(cardChoice) ;
 		    			}
 		    			// pick up if not
 		    			else {
 				    		console.showHandDownNotOk(playerName, cardsToPlay.get(0)) ;
-		    				game.playerPickUpPileAndFaceDownCard(cardsToPlay.get(0)) ;
+		    				game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
 		    			}
 				    	// move game on
 		    			game.moveToNextPlayer() ;
-				    	continueGame = game.canContinueGame() ;
 		    		}
 		    		// if from hand or face up
 		    		else {
 		    			cardChoice = console.requestMove(playerName, handSize, false) ;
-		    			if (game.playingFromFaceUp()) 
-		    				cardsToPlay = convertChoicesToCards(cardChoice, 
-		    						details.getCurrentPlayer().getFaceUp()) ;
-		    			
-		    			else 
-		    				cardsToPlay = convertChoicesToCards(cardChoice, 
-		    						details.getCurrentPlayer().getHand()) ;
-		    				
-			    		boolean validMove = game.checkValidMove(cardsToPlay) ;
+			    		boolean validMove = game.checkValidMove(cardChoice) ;
 			    		
 			    		// we know there is a valid move, since we've checked, so loop until they pick it
 			    		while (!validMove) {
 			    			cardChoice = console.requestMove(playerName, handSize, true) ;
-			    			if (game.playingFromFaceUp()) 
-			    				cardsToPlay = convertChoicesToCards(cardChoice, 
-			    						details.getCurrentPlayer().getFaceUp()) ;
-			    			
-			    			else 
-			    				cardsToPlay = convertChoicesToCards(cardChoice, 
-			    						details.getCurrentPlayer().getHand()) ;
-
-			    			validMove = game.checkValidMove(cardsToPlay) ;
+			    			validMove = game.checkValidMove(cardChoice) ;
 			    		}
 	
 			    		// once they've picked, play and move game on
-			    		game.play(cardsToPlay) ;
+			    		game.play(cardChoice) ;
 				    	game.moveToNextPlayer() ;
-				    	continueGame = game.canContinueGame() ;
 		    		}
 		    	}
 		    }
 		    // current player cannot actually play
 		    else {
 	    		String playerName = details.getCurrentPlayer().getName() ;
-		    	console.waitOnUser("UH OH, " + playerName + " has to pick up, press enter!") ;
+	    		console.showPlayerPickupMessage(playerName) ;
+		    	console.waitOnUser() ;
 		    	
 	    		// make them pick up and move game on
 		    	game.playerPickUpPile() ;
 		    	game.moveToNextPlayer() ;
-		    	continueGame = game.canContinueGame() ;
 		    }
 		}
 	}
-	
-	private List<Card> convertChoicesToCards(List<Integer> cardChoice, List<Card> cardsInHand) {
-		List<Card> returnCards = new ArrayList<Card>() ;
-		for (int cardIndex : cardChoice) {
-			returnCards.add(cardsInHand.get(cardIndex)) ;
-		}
-		return returnCards ;
-	}
+
 	
 	private void end() throws Exception{
 		

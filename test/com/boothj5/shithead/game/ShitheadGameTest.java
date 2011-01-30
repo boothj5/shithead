@@ -20,17 +20,7 @@ public class ShitheadGameTest {
 		int numPlayers = 3 ;
 		int numCardsPerHand = 4 ;
 		
-		List<String> playerNames = new ArrayList<String>() ;
-		playerNames.add("James") ;
-		playerNames.add("Bob") ;
-		playerNames.add("Monkey") ;
-		
-		List<String> playerTypes = new ArrayList<String>() ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 
 		assertThat("Correct number of players", details.getPlayers().size(), is(numPlayers)) ;
@@ -40,20 +30,7 @@ public class ShitheadGameTest {
 	
 	@Test
 	public void dealResultsIn52CardsInGame() throws Exception {
-		int numPlayers = 3 ;
-		int numCardsPerHand = 4 ;
-		
-		List<String> playerNames = new ArrayList<String>() ;
-		playerNames.add("James") ;
-		playerNames.add("Bob") ;
-		playerNames.add("Monkey") ;
-
-		List<String> playerTypes = new ArrayList<String>() ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
@@ -79,17 +56,7 @@ public class ShitheadGameTest {
 		int numPlayers = 3 ;
 		int numCardsPerHand = 4 ;
 		
-		List<String> playerNames = new ArrayList<String>() ;
-		playerNames.add("James") ;
-		playerNames.add("Bob") ;
-		playerNames.add("Monkey") ;
-		
-		List<String> playerTypes = new ArrayList<String>() ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		ShitheadGameDetails details = game.getGameDetails() ;
 		int numberOfCardsThatShouldBeLeft = 52 - ((numPlayers * numCardsPerHand) * 3) ;
@@ -99,20 +66,7 @@ public class ShitheadGameTest {
 	
 	@Test
 	public void firstMovePicksLowestCard() throws Exception {
-		int numPlayers = 3 ;
-		int numCardsPerHand = 4 ;
-		
-		List<String> playerNames = new ArrayList<String>() ;
-		playerNames.add("James") ;
-		playerNames.add("Bob") ;
-		playerNames.add("Monkey") ;
-		
-		List<String> playerTypes = new ArrayList<String>() ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		game.firstMove() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
@@ -137,20 +91,7 @@ public class ShitheadGameTest {
 
 	@Test
 	public void firstMovePicksSameRank() throws Exception {
-		int numPlayers = 3 ;
-		int numCardsPerHand = 4 ;
-		
-		List<String> playerNames = new ArrayList<String>() ;
-		playerNames.add("James") ;
-		playerNames.add("Bob") ;
-		playerNames.add("Monkey") ;
-		
-		List<String> playerTypes = new ArrayList<String>() ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		playerTypes.add("h") ;
-		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		game.firstMove() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
@@ -167,4 +108,22 @@ public class ShitheadGameTest {
 
 		assertThat(foundDifferent, is(false)) ;
 	}
+
+	private ShitheadGame createGameWith3HumanPlayersFourCards() throws Exception {
+		int numPlayers = 3 ;
+		int numCardsPerHand = 4 ;
+		
+		List<String> playerNames = new ArrayList<String>() ;
+		playerNames.add("James") ;
+		playerNames.add("Bob") ;
+		playerNames.add("Monkey") ;
+		
+		List<String> playerTypes = new ArrayList<String>() ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		playerTypes.add("h") ;
+		
+		return new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+	}
+	
 }
