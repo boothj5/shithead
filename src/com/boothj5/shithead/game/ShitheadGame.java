@@ -23,15 +23,6 @@ public class ShitheadGame {
 	
 	private LastMove lastMove ;
 
-	public static final EnumSet<Card.Rank> LAY_ON_ANYTHING_RANKS = 
-												EnumSet.<Card.Rank>of(Card.Rank.TWO, Card.Rank.SEVEN, Card.Rank.TEN) ;
-	public static final EnumSet<Card.Rank> NORMAL_RANKS = 
-												EnumSet.complementOf(LAY_ON_ANYTHING_RANKS) ;
-
-	public  static final Card.Rank INVISIBLE = Card.Rank.SEVEN ;
-	public  static final Card.Rank MISS_A_TURN = Card.Rank.EIGHT ;
-	public  static final Card.Rank BURN = Card.Rank.TEN ;	
-	
 	public ShitheadGame(int numPlayers, List<String> playerNames, List<String> playerTypes, 
 						int cardsPerHand) throws Exception {
 		this.numPlayers = numPlayers ;
@@ -166,9 +157,7 @@ public class ShitheadGame {
 	}
 	
 	public boolean playingFromFaceDown() {
-		if (playingFromHand()) 
-			return false ;
-		else if (playingFromFaceUp()) 
+		if (playingFromHand() || playingFromFaceUp()) 
 			return false ;
 		else 
 			return true ;
@@ -298,7 +287,7 @@ public class ShitheadGame {
 	}
 	
 	private boolean checkValidMove(Card onPile, Card toLay) {
-		if (LAY_ON_ANYTHING_RANKS.contains(toLay.rank)) 
+		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.rank)) 
 			return true ;
 		else {
 			return (onPile.compareTo(toLay) <= 0);
@@ -309,7 +298,7 @@ public class ShitheadGame {
 	private boolean burnIfPossible() {
 		boolean didBurn = false ;
 
-		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(BURN)) ;
+		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(ShitheadRules.BURN)) ;
 		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
 		((pile.get(pile.size()-1).rank.equals(pile.get(pile.size()-2).rank)) && 
 				  (pile.get(pile.size()-2).rank.equals(pile.get(pile.size()-3).rank)) &&
@@ -327,7 +316,7 @@ public class ShitheadGame {
 	private boolean missAGoIfRequied() {
 		boolean missAGo = false ;
 
-		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(MISS_A_TURN)) ;
+		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().rank.equals(ShitheadRules.MISS_A_TURN)) ;
 		if (missAGoCardOnPile) {
 			moveToNextPlayer();
 			missAGo = true ;

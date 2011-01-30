@@ -1,6 +1,5 @@
 package com.boothj5.shithead.game;
 
-import java.io.Console ;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
@@ -11,13 +10,18 @@ public class ShitheadGameEngine {
 	ShitheadGame game ;
 	ShitheadConsole console = new ShitheadConsole() ;
 	
-	public void playShithead() throws Exception {
-		init() ;
-		deal() ;
-		swap() ;
-		firstMove() ;
-		play() ;
-		end() ;
+	public void playShithead() {
+		try {
+			init() ;
+			deal() ;
+			swap() ;
+			firstMove() ;
+			play() ;
+			end() ; 
+		} catch (Exception e) {
+			ShitheadGameDetails details = game.getGameDetails() ;
+			console.bail(e, details) ;
+		}
 	}
 	
 	private void init() throws Exception {
@@ -48,7 +52,7 @@ public class ShitheadGameEngine {
 		game.deal() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
-		console.showGame(details);
+		console.showGame(details, true);
 		console.showCardsDealt() ;
 		console.waitOnUser() ;
 	}
@@ -106,14 +110,14 @@ public class ShitheadGameEngine {
 		}
 		
 		details = game.getGameDetails() ;
-		console.showGame(details) ;
+		console.showGame(details, true) ;
 	}
 	
 	private void firstMove() {
 		game.firstMove() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 
-		console.showGame(details) ;
+		console.showGame(details, true) ;
 		console.showLastMove(details) ;
 		console.line() ;
 		console.showNextMoveMessage() ;
@@ -126,7 +130,7 @@ public class ShitheadGameEngine {
 		// while no loser
 		while (game.canContinueGame()) {
 			details = game.getGameDetails() ;
-			console.showGame(details) ;
+			console.showGame(details, true) ;
 			console.showLastMove(details) ;
 			console.line() ;
 
@@ -156,6 +160,8 @@ public class ShitheadGameEngine {
 		    		}
 		    		// otherwise ask it to choose a card
 		    		else {
+				    	details = game.getGameDetails() ;
+
 		    			if (game.playingFromFaceUp()) 
 			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(details) ;				    	
 			    		else // play from hand

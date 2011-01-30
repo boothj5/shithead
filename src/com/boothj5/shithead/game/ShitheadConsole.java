@@ -92,7 +92,7 @@ public class ShitheadConsole {
 		return Integer.parseInt(c.readLine(playerName + ", enter cards to lay from your face down cards: "))-1 ;
 	}
 	
-	public void showGame(ShitheadGameDetails details) {
+	public void showGame(ShitheadGameDetails details, boolean indicateCurrent) {
 		clearScreen() ;
 		
 		// show pile
@@ -117,8 +117,8 @@ public class ShitheadConsole {
 		System.out.println() ;		
 		
 		for (Player player : details.getPlayers()) {
-			showPlayerName(details, player, true);
-			showHand(details, player, true);
+			showPlayerName(details, player, indicateCurrent);
+			showHand(details, player, indicateCurrent);
 			showFaceUp(player);
 			showFaceDown(player);
 
@@ -157,7 +157,7 @@ public class ShitheadConsole {
 		// player face up
 		System.out.print("FACE UP: ") ;
 		for (Card card : player.getFaceUp()) {
-			System.out.print(card + ", ") ;
+			System.out.print(card + "(" + (player.getFaceUp().indexOf(card)+1) + "), ") ;
 		}			
 		System.out.println() ;
 	}
@@ -170,7 +170,7 @@ public class ShitheadConsole {
 		else {
 				System.out.print("HAND:    ") ;
 				for (Card card : player.getHand()) { 
-					System.out.print(card + ", ") ;
+					System.out.print(card + "(" + (player.getHand().indexOf(card)+1) + "), ") ;
 				}
 				System.out.println() ;
 			}
@@ -217,5 +217,11 @@ public class ShitheadConsole {
 	public void showCardsDealt() {
 		System.out.println("Cards dealt, press enter:") ;
 	}
-
+	
+	public void bail(Exception e, ShitheadGameDetails details) {
+		showGame(details, false) ;
+		showLastMove(details) ;
+		System.out.println("Exception message: " + e.getMessage()) ;
+		e.printStackTrace() ;
+	}
 }
