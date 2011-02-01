@@ -1,10 +1,9 @@
 package com.boothj5.shithead.card;
 import java.util.* ;
 
-
 public class Deck {
 
-	public List<Card> cards = new ArrayList<Card>() ;
+	private List<Card> cards = new ArrayList<Card>() ;
 	
 	public Deck () {
 		for (Card.Suit suit : Card.Suit.values())
@@ -19,4 +18,21 @@ public class Deck {
 	public int getSize() {
 		return cards.size() ;
 	}
+	
+	public List<Card> getCards() {
+		return Collections.unmodifiableList(cards) ;
+	}
+	
+	public void remove(int index) {
+		cards.remove(index) ;
+	}
+	
+	public void removeAll(List<Card> cards) {
+		this.cards.removeAll(cards) ;
+	}
+
+	public void addAll(List<Card> cards) {
+		this.cards.addAll(cards) ;
+	}
+
 }

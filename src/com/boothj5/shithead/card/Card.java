@@ -6,8 +6,16 @@ public class Card {
 	
 	public static enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
 		
-	public final Rank rank  ;
-	public final Suit suit ;
+	private final Rank rank  ;
+	private final Suit suit ;
+
+	public Rank getRank() {
+		return rank;
+	}
+
+	public Suit getSuit() {
+		return suit;
+	}	
 
 	public Card(Rank rank, Suit suit) {
 		this.rank = rank ;

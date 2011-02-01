@@ -13,10 +13,10 @@ public class DeckTest {
 	public void createDeck() {
 		Deck deck = new Deck() ;
 		
-		assertTrue(deck.cards.size() == 52) ;
+		assertTrue(deck.getCards().size() == 52) ;
 		
 		for (Card.Suit suit : Card.Suit.values())
 			for (Card.Rank rank : Card.Rank.values())
-				assertTrue(deck.cards.contains(new Card(rank, suit))) ;
+				assertTrue(deck.getCards().contains(new Card(rank, suit))) ;
 	}
 }

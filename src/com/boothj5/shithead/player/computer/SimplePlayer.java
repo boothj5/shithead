@@ -1,7 +1,7 @@
 package com.boothj5.shithead.player.computer;
 
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.ComputerPlayer;
+import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.SwapResponse;
 import com.boothj5.shithead.card.*;
 
@@ -22,13 +22,13 @@ public class SimplePlayer extends ComputerPlayer {
 		return null ;
 	}
 
-	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Card> myHand = getHand() ;
-		return pickLowCards(details, myHand);
+		return pickLowCards(helper, myHand);
 	}	
 	
-	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Card> myHand = getFaceUp() ;
-		return pickLowCards(details, myHand);
+		return pickLowCards(helper, myHand);
 	}	
 }

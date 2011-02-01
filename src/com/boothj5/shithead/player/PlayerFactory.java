@@ -1,12 +1,6 @@
 package com.boothj5.shithead.player;
 
-import com.boothj5.shithead.player.computer.Aggressive;
-import com.boothj5.shithead.player.computer.DeviousPyro;
-import com.boothj5.shithead.player.computer.FaceDownChecker;
-import com.boothj5.shithead.player.computer.LikesRankOrder;
-import com.boothj5.shithead.player.computer.Pyromaniac;
-import com.boothj5.shithead.player.computer.RandomPlayer;
-import com.boothj5.shithead.player.computer.SimplePlayer;
+import com.boothj5.shithead.player.computer.*;
 
 public class PlayerFactory {
 

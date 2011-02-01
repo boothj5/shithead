@@ -3,89 +3,131 @@ package com.boothj5.shithead.player;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 
-
-public abstract class Player {
-	private String name ;
-	private int handSize ;
+/**
+ * Player interface, all players must implement this interface
+ * 
+ * @author james
+ *
+ */
+public interface Player {
 	
-	private List<Card> faceDown = new ArrayList<Card>() ;
-	private List<Card> faceUp = new ArrayList<Card>() ;
-	private List<Card> hand = new ArrayList<Card>() ;
-	
-	public Player(String name, int handSize) {
-		this.name = name ;
-		this.handSize = handSize ;
-	}
-	
-	// Abstract methods
-	public abstract Boolean askSwapMore() ;
+	/**
+	 * Ask if the player wishes to swap cards.
+	 * 
+	 * At the beginning of the game the player may swap cards between their hand
+	 * and their face up hand.
+	 * 
+	 * @return true if the player wishes to swap cards, false if they don't
+	 */
+	public Boolean askSwapMore() ;
 		
-	public abstract SwapResponse askSwapChoice() ;
+	/**
+	 * Ask which cards the player wishes to swap.
+	 * 
+	 * Will be called when the player returns true from askSwapMore
+	 * 
+	 * @return SwapResponse detailing the choice of cards to swap
+	 */
+	public SwapResponse askSwapChoice() ;
 	
-	public abstract List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) ;
+	/**
+	 * Ask the player to swap cards between hand and face up hand,
+	 * based on the SwapResponse
+	 * 
+	 * @param swapResponse Representing the cards to swap
+	 */
+	public void swapCards(SwapResponse swapResponse) ;
 	
-	public abstract List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) ;
+	/**
+	 * Asks the player which card(s) they wish to lay from their hand
+	 * 
+	 * The game will only ask this question when there exists cards in the
+	 * players hands and there is at least one valid move that can be made.
+	 * 
+	 * @param helper The state of the current game
+	 * @return A list of integers representing the cards in the hand, the first card is 0
+	 */
+	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
 	
-	// Concrete methods
-	public String getName() {
-		return name ;
-	}
-
-	public List<Card> getFaceDown() {
-		return faceDown;
-	}
-
-	public List<Card> getFaceUp() {
-		return faceUp;
-	}
-
-	public List<Card> getHand() {
-		return hand;
-	}	
+	/**
+	 * Asks the player which card(s) they wish to lay from their face up hand
+	 * 
+	 * The game will only ask this question when there are no cards in the players
+	 * hand, and there exists cards in the players face up hand and there is at 
+	 * least one valid move that can be made.
+	 * 
+	 * @param helper The state of the current game
+	 * @return A list of integers representing the cards in the face up hand, 
+	 * the first card is 0
+	 */
+	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 	
-	public boolean hasCards() {
-		if (!faceUp.isEmpty()) 
-			return true ;
-		else if (!faceDown.isEmpty())
-			return true ;
-		else if (!hand.isEmpty())
-			return true ;
-		else 
-			return false ;
-	}
+	/**
+	 * Get the players name
+	 * 
+	 * @return The players name
+	 */
+	public String getName() ;
+
+	/**
+	 * Get the players face down hand.  Cards are indexed from 0
+	 * 
+	 * @return A list of Card representing the players face down hand
+	 */
+	public List<Card> getFaceDown() ;
+
+	/**
+	 * Get the players face up hand.  Cards are indexed from 0
+	 * 
+	 * @return A list of Card representing the players face up hand
+	 */
+	public List<Card> getFaceUp() ;
+
+	/**
+	 * Get the players hand.  Cards are indexed from 0
+	 * 
+	 * @return A list of Card representing the players hand
+	 */
+	public List<Card> getHand() ;
 	
-	public void recieve(List<Card> cards) {
-		hand.addAll(cards) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
-	}
-
-	public void dealToHand(Card card) {
-		this.hand.add(card) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
-	}
-
-	public void dealToFaceUp(Card card) {
-		this.faceUp.add(card) ;
-	}
-
-	public void dealToFaceDown(Card card) {
-		this.faceDown.add(card) ;
-	}
+	/**
+	 * Whether or not the player has any cards in any of their hands
+	 * @return true if the player has card, false otherwise
+	 */
+	public boolean hasCards() ;
 	
-	public void swapCards(SwapResponse swapResponse) {
-		if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
-				(swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
-			return ;
-		}
-		else {
-			Card savedFromHand = hand.get(swapResponse.getHandCard()) ;
-			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
-			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
-			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
-			Collections.sort(hand, new ShitheadCardComparator()) ;
-		}
-	}
+	/**
+	 * Receive cards from the game, e.g. when they must pick up the pile.
+	 * These cards must be placed in the players hand
+	 * 
+	 * @param cards List of Card representing the cards the player must receive
+	 */
+	public void recieve(List<Card> cards) ;
+
+	/**
+	 * The player must place the Card in their hand.  
+	 * Called during the deal at the beginning of the game
+	 * 
+	 * @param card Card dealt
+	 */
+	public void dealToHand(Card card) ;
+
+	/**
+	 * The player must place the Card in their face up hand.  
+	 * Called during the deal at the beginning of the game
+	 * 
+	 * @param card Card dealt
+	 */
+	public void dealToFaceUp(Card card) ;
+
+	/**
+	 * The player must place the Card in their face down hand.  
+	 * Called during the deal at the beginning of the game
+	 * 
+	 * @param card Card dealt
+	 */
+	public void dealToFaceDown(Card card) ;
+	
 }

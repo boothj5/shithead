@@ -14,6 +14,7 @@ import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.HumanPlayer;
 import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.computer.SimplePlayer;
 
 import static org.junit.Assert.* ;
@@ -38,10 +39,9 @@ public class FaceDownCheckerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
@@ -65,10 +65,9 @@ public class FaceDownCheckerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 2, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;

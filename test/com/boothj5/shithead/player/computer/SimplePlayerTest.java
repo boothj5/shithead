@@ -13,6 +13,7 @@ import com.boothj5.shithead.card.Deck;
 import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.computer.SimplePlayer;
 
 import static org.junit.Assert.* ;
@@ -30,10 +31,9 @@ public class SimplePlayerTest {
 		Card hand1 = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;
 		james.dealToHand(hand1) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
@@ -52,10 +52,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
@@ -75,10 +74,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
@@ -102,10 +100,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
@@ -114,7 +111,8 @@ public class SimplePlayerTest {
 
 	@Test
 	public void picksLowestTwoCardsWhenTwoSame() {
-		Player james = new SimplePlayer("James", 3) ;
+		int numCardsPerHand = 3 ;
+		Player james = new SimplePlayer("James", numCardsPerHand) ;
 		List<Player> players = new ArrayList<Player>();
 		players.add(james) ;
 		
@@ -125,10 +123,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, 3, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		List<Card> chosenCards = new ArrayList<Card>() ;
 		
 		chosenCards.add(james.getHand().get(choices.get(0))) ;
@@ -156,10 +153,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
 		
@@ -182,10 +178,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		assertThat(choices.size(), is(1)) ;
 	}
 
@@ -203,10 +198,9 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		ShitheadGameDetails details = new ShitheadGameDetails(players, new Deck(), 1, numCardsPerHand, 0, new Stack<Card>(), 
-					new ArrayList<Card>(), new LastMove(james, new ArrayList<Card>()) ) ;
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(details) ;
+		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		assertThat(choices.size(), is(1)) ;
 	}
 

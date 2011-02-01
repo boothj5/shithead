@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.ComputerPlayer;
+import com.boothj5.shithead.game.ShitheadRules;
+import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.SwapResponse;
 
 public class LikesRankOrder extends ComputerPlayer {
@@ -42,7 +43,7 @@ public class LikesRankOrder extends ComputerPlayer {
 	}	
 
 	
-	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		initRankOrder() ;
 		List<Card> myHand = getHand() ;
 		List<Integer> choices = new ArrayList<Integer>() ;
@@ -51,19 +52,27 @@ public class LikesRankOrder extends ComputerPlayer {
 		for (Card.Rank testRank : rankOrder) {
 			// go through my hand and see if I have one
 			for (Card cardFromHand : myHand) {
-				if (cardFromHand.rank.compareTo(testRank) == 0) 
+				if (cardFromHand.getRank().compareTo(testRank) == 0) {
 					// check I can lay it
-					if (checkValidMove(cardFromHand, details)) {
+					if (checkValidMove(cardFromHand, helper)) {
 						 choices.add(myHand.indexOf(cardFromHand)) ;
+						 // pick more of the same if not special card 
+						 if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
+							 for (Card toCompare : myHand)
+								if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
+													(!myHand.get(choices.get(0)).equals(toCompare))) 
+									choices.add(myHand.indexOf(toCompare)) ;	
+						 }
 						 return choices ;
 					}
+				}
 			}
 		}
 		return choices ;
 		
 	}
 
-	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		initRankOrder() ;
 		List<Card> myHand = getFaceUp();
 		List<Integer> choices = new ArrayList<Integer>() ;
@@ -72,10 +81,17 @@ public class LikesRankOrder extends ComputerPlayer {
 		for (Card.Rank testRank : rankOrder) {
 			// go through my hand and see if I have one
 			for (Card cardFromHand : myHand) {
-				if (cardFromHand.rank.compareTo(testRank) == 0) 
+				if (cardFromHand.getRank().compareTo(testRank) == 0) 
 					// check I can lay it
-					if (checkValidMove(cardFromHand, details)) {
+					if (checkValidMove(cardFromHand, helper)) {
 						choices.add(myHand.indexOf(cardFromHand)) ;
+						 // pick more of the same if not special card 
+						 if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
+							 for (Card toCompare : myHand)
+								if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
+													(!myHand.get(choices.get(0)).equals(toCompare))) 
+									choices.add(myHand.indexOf(toCompare)) ;	
+						 }
 						return choices ;
 					}
 			}

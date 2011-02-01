@@ -1,8 +1,7 @@
 package com.boothj5.shithead.player.computer;
 
-import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.ComputerPlayer;
-import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.player.PlayerHelper;
+import com.boothj5.shithead.player.PlayerSummary;
 import com.boothj5.shithead.player.SwapResponse;
 import com.boothj5.shithead.card.*;
 
@@ -23,39 +22,23 @@ public class FaceDownChecker extends ComputerPlayer {
 		return null ;
 	}
 	
-	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Card> myHand = getHand() ;
-		Player nextPlayer = getNextPlayer(details) ;
+		PlayerSummary nextPlayer = getNextPlayer(helper) ;
 		
-		if ((nextPlayer.getHand().size() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
-			return pickHighCards(details, myHand);
+		if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
+			return pickHighCards(helper, myHand);
 		else 
-			return pickLowCards(details, myHand);
+			return pickLowCards(helper, myHand);
 	}
-	
-	private Player getNextPlayer(ShitheadGameDetails details) {
-		int nextPlayer = details.getCurrentIndex() ;
-		List<Player> players = details.getPlayers() ;
-		
-		nextPlayer ++ ;
-		if (nextPlayer >= players.size())
-			nextPlayer = 0 ;
-		while (!players.get(nextPlayer).hasCards()) {
-			nextPlayer++ ;
-			if (nextPlayer >= players.size())
-				nextPlayer = 0 ;
-		}
-		return details.getPlayers().get(nextPlayer) ;
-	}
-	
 
-	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Card> myHand = getFaceUp() ;
-		Player nextPlayer = getNextPlayer(details) ;
+		PlayerSummary nextPlayer = getNextPlayer(helper) ;
 		
-		if ((nextPlayer.getHand().size() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
-			return pickHighCards(details, myHand);
+		if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
+			return pickHighCards(helper, myHand);
 		else 
-			return pickLowCards(details, myHand);
+			return pickLowCards(helper, myHand);
 	}
 }

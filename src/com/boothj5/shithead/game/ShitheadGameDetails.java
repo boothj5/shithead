@@ -1,4 +1,5 @@
 package com.boothj5.shithead.game;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -20,15 +21,21 @@ public class ShitheadGameDetails {
 	private final List<Card> burnt ;
 	private final LastMove lastmove ;
 
-	public ShitheadGameDetails(List<Player> players, Deck deck, int numPlayers, 
-				int numCardsPerHand, int currentPlayer, Stack<Card> pile, List<Card> burnt, LastMove lastMove) {
-		this.players = players ;
+	public ShitheadGameDetails(final List<Player> players, 
+								final Deck deck, 
+								final int numPlayers, 
+								final int numCardsPerHand, 
+								final int currentPlayer, 
+								final Stack<Card> pile, 
+								final List<Card> burnt, 
+								final LastMove lastMove) {
+		this.players = Collections.unmodifiableList(players) ;
 		this.deck = deck ;
 		this.numPlayers = numPlayers ;
 		this.numCardsPerHand = numCardsPerHand ;
 		this.currentPlayer = currentPlayer ;
 		this.pile = pile ;
-		this.burnt = burnt ;
+		this.burnt = Collections.unmodifiableList(burnt) ;
 		this.lastmove = lastMove ;
 	}
 

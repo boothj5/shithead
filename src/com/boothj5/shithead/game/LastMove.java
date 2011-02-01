@@ -5,14 +5,23 @@ import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.player.Player;
 public class LastMove {
 
-	private Player player ;
-	private List<Card> cards ; 
-	private boolean burnt ;
-	private boolean missAGo ;
+	private final Player player ;
+	private final List<Card> cards ; 
+	private final boolean burnt ;
+	private final boolean missAGo ;
 
-	public LastMove(Player player, List<Card> cards) {
+	public LastMove(final Player player, final List<Card> cards) {
 		this.player = player ;
 		this.cards = cards ;
+		this.missAGo = false ;
+		this.burnt = false ;
+	}
+
+	public LastMove(final Player player, final List<Card> cards, final boolean burnt, final boolean missAGo) {
+		this.player = player ;
+		this.cards = cards ;
+		this.missAGo = missAGo;
+		this.burnt = burnt ;
 	}
 	
 	public Player getPlayer() {
@@ -23,16 +32,8 @@ public class LastMove {
 		return cards;
 	}
 
-	public void setBurnt(boolean burnt) {
-		this.burnt = burnt;
-	}
-	
 	public boolean getBurnt() {
 		return burnt ;
-	}
-
-	public void setMissAGo(boolean missAGo) {
-		this.missAGo = missAGo;
 	}
 
 	public boolean getMissAGo() {

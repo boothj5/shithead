@@ -17,7 +17,7 @@ public class CardTest {
 
 		Card newCard = new Card(rank, suit) ;
 		
-		assertTrue(rank.equals(newCard.rank) && suit.equals(newCard.suit)) ;
+		assertTrue(rank.equals(newCard.getRank()) && suit.equals(newCard.getSuit())) ;
 	}
 
 	@Test

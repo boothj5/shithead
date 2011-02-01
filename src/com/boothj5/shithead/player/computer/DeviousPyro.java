@@ -1,7 +1,7 @@
 package com.boothj5.shithead.player.computer;
 
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.ComputerPlayer;
+import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.SwapResponse;
 import com.boothj5.shithead.card.*;
 import java.util.*;
@@ -27,11 +27,11 @@ public class DeviousPyro extends ComputerPlayer {
 		return null ;
 	}
 	
-	public List<Integer> askCardChoiceFromHand(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
 
-		if (details.getPile().size() >= threshold) {
+		if (helper.getPile().size() >= threshold) {
 			Card burnCard = getBurnCardInHand(myHand) ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;
@@ -39,17 +39,17 @@ public class DeviousPyro extends ComputerPlayer {
 				return chosenCards ; 
 			}
 			else 
-				return pickLowCards(details, myHand);
+				return pickLowCards(helper, myHand);
 		}
 		else 
-			return pickLowCards(details, myHand);
+			return pickLowCards(helper, myHand);
 	}
 
-	public List<Integer> askCardChoiceFromFaceUp(ShitheadGameDetails details) {
+	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;
 
-		if (details.getPile().size() >= threshold) {
+		if (helper.getPile().size() >= threshold) {
 			Card burnCard = getBurnCardInHand(myHand) ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;
@@ -57,10 +57,10 @@ public class DeviousPyro extends ComputerPlayer {
 				return chosenCards ;
 			}
 			else 
-				return pickLowCards(details, myHand);
+				return pickLowCards(helper, myHand);
 		}	
 		else 
-			return pickLowCards(details, myHand);
+			return pickLowCards(helper, myHand);
 	}
 	
 }

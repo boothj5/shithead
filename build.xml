@@ -7,15 +7,18 @@
 	<property name="test" location="test"/>
 	<property name="bin" location="bin"/>
 	<property name="testreports" location="testreports"/>
+	<property name="docs" location="docs"/>
 	
   	<target name="clean" description="clean up" >
     	<delete dir="${bin}"/>
   		<delete dir="${testreports}"/>
+    	<delete dir="${docs}"/>
   	</target>
 
   	<target name="init" depends="clean" description="Create bin directory " >
   		<mkdir dir="${bin}"/>
   		<mkdir dir="${testreports}"/>
+  		<mkdir dir="${docs}"/>
   	</target>
 
 	<target name="compile" depends="init" description="compile the source " >
@@ -25,6 +28,18 @@
 	<target name="compile_tests" depends="compile" description="compile unit tests" >
     	<javac srcdir="${test}" destdir="${bin}"/>
 	</target>	
+	
+	<target name="doc" depends="init">
+		<javadoc packagenames="com.boothj5.shithead.*"
+			sourcepath="${src}"
+			defaultexcludes="yes"
+			destdir="${docs}"
+			use="true"
+			windowtitle="Shithead API">
+	    <doctitle><![CDATA[<h1>Shithead</h1>]]></doctitle>
+	    <link offline="true" href="http://download.oracle.com/javase/6/docs/api/" packagelistLoc="/tmp"/>
+	  </javadoc>
+	</target>
 
 	<target name="test" depends="compile_tests" description="Run all unit tests" >
 		<junit printsummary="yes" haltonfailure="yes">

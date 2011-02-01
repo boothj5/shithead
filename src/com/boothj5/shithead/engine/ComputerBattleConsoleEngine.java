@@ -12,6 +12,8 @@ import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerFactory;
+import com.boothj5.shithead.player.PlayerHelper;
+import com.boothj5.shithead.player.PlayerSummary;
 import com.boothj5.shithead.player.SwapResponse;
 
 public class ComputerBattleConsoleEngine implements ShitheadEngine {
@@ -26,8 +28,19 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	
 	List<Integer> numTimesShithead = new ArrayList<Integer>() ;
 
+	private void initPlayerTypesForBattle() {
+		playerTypes.add("l") ;
+		playerTypes.add("f") ;
+		playerTypes.add("d") ;
+		playerTypes.add("p") ;
+		playerTypes.add("r") ;
+		playerTypes.add("a") ;
+		playerTypes.add("s") ;
+//		playerTypes.add("g") ;
+		Collections.shuffle(playerTypes) ;
+	}	
 	
-	public void playShithead(String[] args) {
+	public void runEngine(String[] args) {
 		try {
 			boolean stalemate = false ;
 			init(args) ;
@@ -37,6 +50,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 				try {
 					turns = 0 ;
 					stalemate = false ;
+					init() ;
 					game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
 					deal() ;
 					swap() ;
@@ -60,7 +74,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	}
 	
 	private void init(String[] args) throws Exception {
-		console.clearScreen() ;
+		console.line() ;
 		console.welcome() ;
 
 		numCards = 3 ;
@@ -69,19 +83,16 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		String name = null;
 		String namePrefix = "Computer-";
 		
-		playerTypes.add("s") ;
-		playerTypes.add("a") ;
-		playerTypes.add("r") ;
-		playerTypes.add("p") ;
-		playerTypes.add("d") ;
-		playerTypes.add("f") ;
-		playerTypes.add("l") ;
-
+		playerTypes = new ArrayList<String>() ;
+		playerNames = new ArrayList<String>() ;
+		
+		initPlayerTypesForBattle() ;
+		
 		numPlayers = playerTypes.size() ;
 	
 		
 		for (int i = 0 ; i < numPlayers ; i++) { 
-			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() + "-" + (i+1) ;
+			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() ;
 			StringTokenizer st = new StringTokenizer(className, ".") ;
 			while (st.hasMoreTokens())
 				name = st.nextToken();
@@ -89,6 +100,30 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 			playerNames.add(name) ;
 			shitheadMap.put(name, 0) ;
 		}	
+	
+	}
+	
+	private void init() throws Exception {
+		String name = null;
+		String namePrefix = "Computer-";
+		
+		playerTypes = new ArrayList<String>() ;
+		playerNames = new ArrayList<String>() ;
+		
+		initPlayerTypesForBattle() ;
+		
+		numPlayers = playerTypes.size() ;
+	
+		
+		for (int i = 0 ; i < numPlayers ; i++) { 
+			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() ;
+			StringTokenizer st = new StringTokenizer(className, ".") ;
+			while (st.hasMoreTokens())
+				name = st.nextToken();
+			
+			playerNames.add(name) ;
+		}	
+		
 	}
 
 	
@@ -160,12 +195,14 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		    		}
 		    		// otherwise ask it to choose a card
 		    		else {
-				    	details = game.getGameDetails() ;
+				    	PlayerHelper helper = game.getPlayerHelper() ;
+		    			
+		    			details = game.getGameDetails() ;
 
 		    			if (game.playingFromFaceUp()) 
-			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(details) ;				    	
+			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;				    	
 			    		else // play from hand
-			    			cardChoice = currentPlayer.askCardChoiceFromHand(details) ;				    	
+			    			cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;				    	
 			    			
 		    			// if its a valid move play
 		    			if (game.checkValidMove(cardChoice)) 
@@ -202,7 +239,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 			total++ ;
 			shitheadMap.put(shithead, total) ;
 		}
-		console.dot() ;
+		//console.dot() ;
 		//console.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 
 	}

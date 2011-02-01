@@ -12,7 +12,7 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 	ShitheadGame game ;
 	ShitheadConsole console = new ShitheadConsole() ;
 	
-	public void playShithead(String[] args) {
+	public void runEngine(String[] args) {
 		try {
 			init() ;
 			deal() ;
@@ -161,12 +161,13 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    		}
 		    		// otherwise ask it to choose a card
 		    		else {
-				    	details = game.getGameDetails() ;
+				    	PlayerHelper helper = game.getPlayerHelper() ;
+		    			details = game.getGameDetails() ;
 
 		    			if (game.playingFromFaceUp()) 
-			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(details) ;				    	
+			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;				    	
 			    		else // play from hand
-			    			cardChoice = currentPlayer.askCardChoiceFromHand(details) ;				    	
+			    			cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;				    	
 			    			
 		    			// if its a valid move play
 		    			if (game.checkValidMove(cardChoice)) 
