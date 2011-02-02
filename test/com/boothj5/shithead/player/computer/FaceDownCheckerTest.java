@@ -3,6 +3,7 @@ package com.boothj5.shithead.player.computer;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -15,6 +16,7 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.HumanPlayer;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerHelper;
+import com.boothj5.shithead.player.PlayerSummary;
 import com.boothj5.shithead.player.computer.SimplePlayer;
 
 import static org.junit.Assert.* ;
@@ -26,9 +28,9 @@ public class FaceDownCheckerTest {
 	public void picksLowWhenOtherPlayerNotPlayingFromFaceDown() {
 		int numCardsPerHand = 3 ;
 		List<Player> players = new ArrayList<Player>();
-		Player james = new FaceDownChecker("James", numCardsPerHand) ;
+		Player faceDown = new FaceDownChecker("FaceDown", numCardsPerHand) ;
 		Player other = new HumanPlayer("James", numCardsPerHand) ;
-		players.add(james) ;
+		players.add(faceDown) ;
 		players.add(other) ;
 		
 		Card otherHand1 = new Card(Card.Rank.THREE, Card.Suit.SPADES) ;
@@ -36,13 +38,27 @@ public class FaceDownCheckerTest {
 		
 		Card hand1 = new Card(Card.Rank.FOUR, Card.Suit.SPADES) ;
 		Card hand2 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+		faceDown.dealToHand(hand1) ;
+		faceDown.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryFaceDown = new PlayerSummary(faceDown.getName(), 
+				faceDown.getHand().size(), 
+				Collections.unmodifiableList(faceDown.getFaceUp()), 
+				faceDown.getFaceDown().size(), faceDown.hasCards()) ;
+		
+		PlayerSummary playerSummaryOther = new PlayerSummary(other.getName(), 
+				other.getHand().size(), 
+				Collections.unmodifiableList(other.getFaceUp()), 
+				other.getFaceDown().size(), other.hasCards()) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryFaceDown) ;
+		playerSummaries.add(playerSummaryOther) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 2, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
+
+		List<Integer> choices = faceDown.askCardChoiceFromHand(helper) ;
+		Card chosenCard = faceDown.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
 		assertThat(chosenCard.equals(new Card(Card.Rank.FOUR, Card.Suit.SPADES)), is(true)) ;
@@ -52,9 +68,9 @@ public class FaceDownCheckerTest {
 	public void picksHighWhenOtherPlayerPlayingFromFaceDown() {
 		int numCardsPerHand = 3 ;
 		List<Player> players = new ArrayList<Player>();
-		Player james = new FaceDownChecker("James", numCardsPerHand) ;
+		Player checker = new FaceDownChecker("James", numCardsPerHand) ;
 		Player other = new HumanPlayer("James", numCardsPerHand) ;
-		players.add(james) ;
+		players.add(checker) ;
 		players.add(other) ;
 		
 		Card otherHand1 = new Card(Card.Rank.THREE, Card.Suit.SPADES) ;
@@ -62,13 +78,27 @@ public class FaceDownCheckerTest {
 		
 		Card hand1 = new Card(Card.Rank.FOUR, Card.Suit.SPADES) ;
 		Card hand2 = new Card(Card.Rank.NINE, Card.Suit.SPADES) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+		checker.dealToHand(hand1) ;
+		checker.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 2, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryFaceDown = new PlayerSummary(checker.getName(), 
+				checker.getHand().size(), 
+				Collections.unmodifiableList(checker.getFaceUp()), 
+				checker.getFaceDown().size(), checker.hasCards()) ;
+		
+		PlayerSummary playerSummaryOther = new PlayerSummary(other.getName(), 
+				other.getHand().size(), 
+				Collections.unmodifiableList(other.getFaceUp()), 
+				other.getFaceDown().size(), other.hasCards()) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryFaceDown) ;
+		playerSummaries.add(playerSummaryOther) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 2, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
+
+		List<Integer> choices = checker.askCardChoiceFromHand(helper) ;
+		Card chosenCard = checker.getHand().get(choices.get(0)) ;
 		
 		assertThat(choices.size(), is(1)) ;
 		assertThat(chosenCard.equals(new Card(Card.Rank.NINE, Card.Suit.SPADES)), is(true)) ;

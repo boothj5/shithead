@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
@@ -210,9 +211,17 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 
 		    			// otherwise, computers mustn't try invalid moves when we ask them
 		    			// we could get stuck asking them forever
-		    			else
-		    				throw new Exception("Computer player chose invalid move") ;
-
+		    			else {
+		    				String name = currentPlayer.getName() ;
+		    				Card card ;
+		    				
+		    				if (game.playingFromHand()) 
+		    					card = currentPlayer.getHand().get(0) ;
+		    				else
+		    					card = currentPlayer.getFaceUp().get(0) ;
+		    				throw new Exception("Computer player chose invalid move, player:" + 
+		    											name + ", card:" + card) ;
+		    			}
 		    			// move game on
 		    			game.moveToNextPlayer() ;
 		    		}

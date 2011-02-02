@@ -3,6 +3,7 @@ package com.boothj5.shithead.player.computer;
 import static org.hamcrest.CoreMatchers.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
@@ -14,6 +15,7 @@ import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerHelper;
+import com.boothj5.shithead.player.PlayerSummary;
 import com.boothj5.shithead.player.computer.SimplePlayer;
 
 import static org.junit.Assert.* ;
@@ -31,7 +33,15 @@ public class SimplePlayerTest {
 		Card hand1 = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;
 		james.dealToHand(hand1) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -52,7 +62,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -74,7 +92,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -100,7 +126,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -123,7 +157,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		List<Card> chosenCards = new ArrayList<Card>() ;
@@ -153,7 +195,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 
@@ -178,7 +228,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		assertThat(choices.size(), is(1)) ;
@@ -198,7 +256,15 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
+				james.getHand().size(), 
+				Collections.unmodifiableList(james.getFaceUp()), 
+				james.getFaceDown().size(), james.hasCards()) ;
+
+		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		playerSummaries.add(playerSummaryJames) ;
+		
+		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
 		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 		assertThat(choices.size(), is(1)) ;

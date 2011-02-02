@@ -42,7 +42,7 @@
 	</target>
 
 	<target name="test" depends="compile_tests" description="Run all unit tests" >
-		<junit printsummary="yes" haltonfailure="yes">
+		<junit printsummary="yes" haltonfailure="no">
 			<classpath>
 			    <pathelement location="${bin}"/>
 			</classpath>

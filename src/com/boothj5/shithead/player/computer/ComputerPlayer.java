@@ -86,26 +86,31 @@ public abstract class ComputerPlayer implements Player {
 	
 	protected boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
 		Stack<Card> pile = helper.getPile() ;
-		if (pile.isEmpty()) 
+		if (pile.isEmpty()) {
 			return true ;
+		}
 		else if (ShitheadRules.INVISIBLE.equals(pile.peek().getRank())) {
 			//look for first non invisible and check that
 			Card testCard = pile.peek() ;
 			for (int i = pile.size() -1 ; (i >=0 && (testCard.getRank().equals(ShitheadRules.INVISIBLE))) ; i-- ) {
 				testCard = pile.get(i) ;
 			}
-			if (testCard.getRank().equals(ShitheadRules.INVISIBLE))
+			if (testCard.getRank().equals(ShitheadRules.INVISIBLE)) {
 				return true ;
-			else
+			}
+			else {
 				return checkValidMove(testCard, cardToLay) ;
+			}
 		}
-		else 
-			return checkValidMove(pile.get(0), cardToLay) ;	
-	}	
+		else {
+			return checkValidMove(pile.peek(), cardToLay) ;	
+		}	
+	}
 	
 	private boolean checkValidMove(Card onPile, Card toLay) {
-		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.getRank())) 
+		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.getRank())) {
 			return true ;
+		}
 		else {
 			return (onPile.compareTo(toLay) <= 0);
 		}
