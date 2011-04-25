@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
@@ -24,6 +26,13 @@ import javax.swing.border.EtchedBorder;
 public class ShitheadGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private final ImageIcon quitImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Stop16.gif"));
+    private final ImageIcon quitImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Stop24.gif"));
+    private final ImageIcon helpImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Help16.gif"));
+    private final ImageIcon helpImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Help24.gif"));
+    private final ImageIcon aboutImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/About16.gif"));
+    private final ImageIcon aboutImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/About24.gif"));
 	
 	private JLabel statusbar ;
 	private JPopupMenu popupmenu ;
@@ -43,7 +52,11 @@ public class ShitheadGUI extends JFrame {
         JButton quitButton = createQuitButton();	    
         panel.add(quitButton);
 
-        createPopupmenu();        
+        createPopupmenu();
+        
+        JToolBar toolbar = createToolbar();
+
+        add(toolbar, BorderLayout.NORTH);        
         
         setTitle("Shithead GUI");
         setSize(800, 800);
@@ -51,10 +64,31 @@ public class ShitheadGUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+    private JToolBar createToolbar() {
+        JToolBar toolbar = new JToolBar();
+
+        JButton exitButton = new JButton(quitImageLarge);
+        JButton helpButton = new JButton(helpImageLarge);
+        JButton aboutButton = new JButton(aboutImageLarge);
+        exitButton.setToolTipText("Quit");
+        helpButton.setToolTipText("Help");
+        aboutButton.setToolTipText("About");
+        toolbar.add(exitButton);
+        toolbar.add(helpButton);
+        toolbar.add(aboutButton);
+        exitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+
+        });
+        return toolbar;
+    }
+
     private void createPopupmenu() {
         popupmenu = new JPopupMenu();
-        JMenuItem menuItemQuit = new JMenuItem("Quit");         
-        JMenuItem menuItemHelp = new JMenuItem("Help");
+        JMenuItem menuItemQuit = new JMenuItem("Quit", quitImage);         
+        JMenuItem menuItemHelp = new JMenuItem("Help", helpImage);
         menuItemQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,6 +144,9 @@ public class ShitheadGUI extends JFrame {
         JMenu view = new JMenu("View");
         view.setMnemonic(KeyEvent.VK_V);
 
+        JMenu about = new JMenu("About");
+        view.setMnemonic(KeyEvent.VK_A);
+        
         JCheckBoxMenuItem showbar = new JCheckBoxMenuItem("StatusBar");
         showbar.setState(true);
         showbar.addActionListener(new ActionListener() {
@@ -123,7 +160,8 @@ public class ShitheadGUI extends JFrame {
 
         });        
         
-        JMenuItem exitShithead = new JMenuItem("Quit") ;
+        JMenuItem exitShithead = new JMenuItem("Quit", quitImage) ;
+
         exitShithead.setMnemonic(KeyEvent.VK_X);
         exitShithead.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
                 ActionEvent.CTRL_MASK));
@@ -147,6 +185,12 @@ public class ShitheadGUI extends JFrame {
         gameTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                 ActionEvent.CTRL_MASK));
 
+        JMenuItem aboutGame = new JMenuItem("About", aboutImage);
+        gameTime.setMnemonic(KeyEvent.VK_A);
+
+        JMenuItem helpGame = new JMenuItem("Help", helpImage);
+        gameTime.setMnemonic(KeyEvent.VK_H);
+        
         game.add(newGame);
         game.add(gameTime);
         
@@ -155,9 +199,14 @@ public class ShitheadGUI extends JFrame {
         file.add(exitShithead);
         
         view.add(showbar);
+
+        about.add(aboutGame);
+        about.addSeparator();
+        about.add(helpGame);
         
         menu.add(file);
         menu.add(view);
+        menu.add(about);
         return menu;
     }
 
