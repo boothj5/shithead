@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 public class ShitheadGUI extends JFrame {
@@ -28,7 +29,8 @@ public class ShitheadGUI extends JFrame {
 
         JMenuItem exitShithead = new JMenuItem("Quit") ;
         exitShithead.setMnemonic(KeyEvent.VK_X);
-        exitShithead.setToolTipText("Exit Shithead application");
+        exitShithead.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+                ActionEvent.CTRL_MASK));
         exitShithead.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,10 +40,16 @@ public class ShitheadGUI extends JFrame {
         });
         
         JMenu game = new JMenu("Game");
-        game.setMnemonic(KeyEvent.VK_G);
 
         JMenuItem newGame = new JMenuItem("New") ;
+        newGame.setMnemonic(KeyEvent.VK_N);
+        newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+                ActionEvent.CTRL_MASK));
+        
         JMenuItem gameTime = new JMenuItem("Show game time");
+        gameTime.setMnemonic(KeyEvent.VK_T);
+        gameTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
+                ActionEvent.CTRL_MASK));
 
         game.add(newGame);
         game.add(gameTime);
