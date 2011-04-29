@@ -1,6 +1,7 @@
 package com.boothj5.shithead.gui;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -53,6 +54,8 @@ public class ShitheadGUI extends JFrame {
         panel.add(quitButton);
 
         JButton newButton = createNewButton();        
+        
+        panel.add(new JLabel("Label1"));
         panel.add(newButton);
         
         createPopupmenu();
@@ -114,7 +117,7 @@ public class ShitheadGUI extends JFrame {
 
     private JPanel createPanel() {
         JPanel panel = new JPanel();
-//        panel.setLayout(null);
+        panel.setLayout(new GridLayout(3, 1, 5, 5));
         return panel;
     }
 
