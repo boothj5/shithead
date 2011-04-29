@@ -1,182 +1,79 @@
 package com.boothj5.shithead.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EtchedBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
-public class ShitheadGUI extends JFrame {
+public class ShitheadGUI {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ImageIcon quitImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Stop16.gif"));
-    private final ImageIcon quitImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Stop24.gif"));
-    private final ImageIcon helpImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Help16.gif"));
-    private final ImageIcon helpImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/Help24.gif"));
-    private final ImageIcon aboutImage = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/About16.gif"));
-    private final ImageIcon aboutImageLarge = new ImageIcon(getClass().getResource("/toolbarButtonGraphics/general/About24.gif"));
-	
-	private JLabel statusbar ;
-	private JPopupMenu popupmenu ;
+    private static JPanel createMainPanel() {
+        JPanel mainpanel = new JPanel();
+        mainpanel.setLayout(new BoxLayout(mainpanel, BoxLayout.Y_AXIS));
+        mainpanel.setOpaque(true);
+        mainpanel.setBackground(new Color(0, 0, 0));
+        mainpanel.setPreferredSize(new Dimension(800, 600)); 
 
-	public ShitheadGUI() {
-       initGUI();
+        JLabel title = new JLabel("Javahead") ;
+//        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setBackground(new Color(0,0,0));
+        title.setForeground(new Color(255, 255, 255));
+        title.setFont(new Font("Courier new", Font.PLAIN, 20));
+        mainpanel.add(title);
+
+        mainpanel.add(Box.createRigidArea(new Dimension(0,50)));        
+
+        JLabel numPlayersLabel = new JLabel("Enter number of players:");
+//        numPlayersLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        numPlayersLabel.setBackground(new Color(0,0,0));
+        numPlayersLabel.setForeground(new Color(255, 255, 255));
+        numPlayersLabel.setFont(new Font("Courier new", Font.PLAIN, 20));
+        mainpanel.add(numPlayersLabel);
+        
+        return mainpanel;
     }
 
-	private void initGUI() {
-        JPanel panel = createPanel();
-        getContentPane().add(panel);
 
-        JMenuBar menu = createMainMenu();
-        setJMenuBar(menu);
-        createStatusBar();
+    private static JMenuBar createMenubar() {
+        JMenuBar menubar = new JMenuBar();
+        menubar.setPreferredSize(new Dimension(200, 20));
 
-        JButton quitButton = createQuitButton();	    
-        panel.add(quitButton);
-
-        JButton newButton = createNewButton();        
+        JMenu filemenu = createFileMenu();
+        JMenu aboutmenu = createAboutMenu();
+        menubar.add(filemenu);
+        menubar.add(aboutmenu);
         
-        panel.add(new JLabel("Label1"));
-        panel.add(newButton);
-        
-        createPopupmenu();
-        
-        JToolBar toolbar = createToolbar();
-
-        add(toolbar, BorderLayout.NORTH);        
-        
-        setTitle("Shithead GUI");
-        setSize(800, 800);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
-
-    private JToolBar createToolbar() {
-        JToolBar toolbar = new JToolBar();
-
-        JButton exitButton = new JButton(quitImageLarge);
-        JButton helpButton = new JButton(helpImageLarge);
-        JButton aboutButton = new JButton(aboutImageLarge);
-        exitButton.setToolTipText("Quit");
-        helpButton.setToolTipText("Help");
-        aboutButton.setToolTipText("About");
-        toolbar.add(exitButton);
-        toolbar.add(helpButton);
-        toolbar.add(aboutButton);
-        exitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                System.exit(0);
-            }
-
-        });
-        return toolbar;
+        return menubar;
     }
 
-    private void createPopupmenu() {
-        popupmenu = new JPopupMenu();
-        JMenuItem menuItemQuit = new JMenuItem("Quit", quitImage);         
-        JMenuItem menuItemHelp = new JMenuItem("Help", helpImage);
-        menuItemQuit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+    private static JMenu createFileMenu() {
+        JMenu filemenu = new JMenu("File");
+        filemenu.setMnemonic(KeyEvent.VK_F);
 
-        popupmenu.add(menuItemHelp);
-        popupmenu.add(menuItemQuit);
+        JMenu gameSubmenu = createGameSubmenu();
 
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON3) {
-                    popupmenu.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-        });
-    }
-
-    private JPanel createPanel() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 1, 5, 5));
-        return panel;
-    }
-
-    private JButton createQuitButton() {
-        JButton quitButton = new JButton("Quit");
-//        quitButton.setBounds(50, 60, 80, 30);
-        quitButton.setToolTipText("Press to quit") ;
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                System.exit(0);
-            }
-        });
-        return quitButton;
-    }
-
-    private JButton createNewButton() {
-        JButton newButton = new JButton("New");
-//        newButton.setBounds(50, 60, 80, 30);
-        newButton.setToolTipText("Start a new game") ;
-        return newButton;
-    }
-
-    
-    
-    private void createStatusBar() {
-        statusbar = new JLabel(" Statusbar");
-        statusbar.setBorder(BorderFactory.createEtchedBorder(
-                EtchedBorder.RAISED));
-        add(statusbar, BorderLayout.SOUTH);
-    }
-
-    private JMenuBar createMainMenu() {
-        JMenuBar menu = new JMenuBar();    
-        
-        JMenu file = new JMenu("File");
-        file.setMnemonic(KeyEvent.VK_F);
-
-        JMenu view = new JMenu("View");
-        view.setMnemonic(KeyEvent.VK_V);
-
-        JMenu about = new JMenu("About");
-        view.setMnemonic(KeyEvent.VK_A);
-        
-        JCheckBoxMenuItem showbar = new JCheckBoxMenuItem("StatusBar");
-        showbar.setState(true);
-        showbar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-              if (statusbar.isVisible()) {
-                  statusbar.setVisible(false);
-              } else {
-                  statusbar.setVisible(true);
-              }
-            }
-
-        });        
-        
-        JMenuItem exitShithead = new JMenuItem("Quit", quitImage) ;
-
+        JMenuItem exitShithead = new JMenuItem("Quit") ;
         exitShithead.setMnemonic(KeyEvent.VK_X);
         exitShithead.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
                 ActionEvent.CTRL_MASK));
@@ -188,6 +85,14 @@ public class ShitheadGUI extends JFrame {
             }
         });
         
+        filemenu.add(gameSubmenu);
+        filemenu.addSeparator();
+        filemenu.add(exitShithead);
+        return filemenu;
+    }
+
+
+    private static JMenu createGameSubmenu() {
         JMenu game = new JMenu("Game");
 
         JMenuItem newGame = new JMenuItem("New") ;
@@ -199,37 +104,48 @@ public class ShitheadGUI extends JFrame {
         gameTime.setMnemonic(KeyEvent.VK_T);
         gameTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
                 ActionEvent.CTRL_MASK));
-
-        JMenuItem aboutGame = new JMenuItem("About", aboutImage);
-        gameTime.setMnemonic(KeyEvent.VK_A);
-
-        JMenuItem helpGame = new JMenuItem("Help", helpImage);
-        gameTime.setMnemonic(KeyEvent.VK_H);
         
         game.add(newGame);
         game.add(gameTime);
         
-        file.add(game);
-        file.addSeparator();
-        file.add(exitShithead);
-        
-        view.add(showbar);
-
-        about.add(aboutGame);
-        about.addSeparator();
-        about.add(helpGame);
-        
-        menu.add(file);
-        menu.add(view);
-        menu.add(about);
-        return menu;
+        return game;
     }
 
+    private static JMenu createAboutMenu() {
+        JMenu aboutmenu = new JMenu("About");
+        aboutmenu.setMnemonic(KeyEvent.VK_A);
+
+        JMenuItem aboutGame = new JMenuItem("About");
+        aboutGame.setMnemonic(KeyEvent.VK_A);
+
+        JMenuItem helpGame = new JMenuItem("Help");
+        helpGame.setMnemonic(KeyEvent.VK_H);
+        
+        aboutmenu.add(aboutGame);
+        aboutmenu.addSeparator();
+        aboutmenu.add(helpGame);
+
+        return aboutmenu;
+    }
+
+    private static void initGUI() {
+        JFrame mainframe = new JFrame("Javahead");
+        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JMenuBar menu = createMenubar();
+        mainframe.setJMenuBar(menu);
+
+        JPanel mainpanel = createMainPanel();
+        
+        mainframe.getContentPane().add(mainpanel);        
+        mainframe.pack();
+        mainframe.setVisible(true);
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                ShitheadGUI ex = new ShitheadGUI();
-                ex.setVisible(true);
+                initGUI();
             }
         });
     }
