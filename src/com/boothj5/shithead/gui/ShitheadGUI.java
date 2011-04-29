@@ -52,6 +52,9 @@ public class ShitheadGUI extends JFrame {
         JButton quitButton = createQuitButton();	    
         panel.add(quitButton);
 
+        JButton newButton = createNewButton();        
+        panel.add(newButton);
+        
         createPopupmenu();
         
         JToolBar toolbar = createToolbar();
@@ -111,13 +114,13 @@ public class ShitheadGUI extends JFrame {
 
     private JPanel createPanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(null);
+//        panel.setLayout(null);
         return panel;
     }
 
     private JButton createQuitButton() {
         JButton quitButton = new JButton("Quit");
-        quitButton.setBounds(50, 60, 80, 30);
+//        quitButton.setBounds(50, 60, 80, 30);
         quitButton.setToolTipText("Press to quit") ;
         quitButton.addActionListener(new ActionListener() {
             @Override
@@ -128,6 +131,15 @@ public class ShitheadGUI extends JFrame {
         return quitButton;
     }
 
+    private JButton createNewButton() {
+        JButton newButton = new JButton("New");
+//        newButton.setBounds(50, 60, 80, 30);
+        newButton.setToolTipText("Start a new game") ;
+        return newButton;
+    }
+
+    
+    
     private void createStatusBar() {
         statusbar = new JLabel(" Statusbar");
         statusbar.setBorder(BorderFactory.createEtchedBorder(
