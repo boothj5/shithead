@@ -40,4 +40,8 @@ public class Card {
 			return (this.rank == other.rank && this.suit == other.suit) ;
 		}
 	}
+	
+	public String getImage() {
+	    return "/" + rank.toString() + suit.toString() + ".png" ;
+	}
 }
