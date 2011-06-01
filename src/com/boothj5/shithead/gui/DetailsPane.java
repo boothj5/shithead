@@ -11,6 +11,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
@@ -26,44 +30,76 @@ import java.util.List;
 
 public class DetailsPane extends JPanel {
     private JTextField numCards;
-    private JTextField name1;
+    private JTextField playerName;
+    private JTextField compType;
 
     /**
      * Create the panel.
      */
     public DetailsPane() {
         
-        JLabel lblWelcomeToJavahead = new JLabel("Welcome to Javahead!");
-        lblWelcomeToJavahead.setFont(new Font("Dialog", Font.BOLD, 22));
+        // Heading
+        JLabel welcomeLabel = new JLabel("Welcome to Javahead!");
+        welcomeLabel.setFont(new Font("Dialog", Font.BOLD, 22));
         
-        JLabel lblEnterNumberOf = new JLabel("Enter number of cards each:");
-        
+        // game details form
+        JLabel cardsLabel = new JLabel("Cards each: ");
         numCards = new JTextField();
         numCards.setColumns(10);
         
-        JLabel lblEnterPlayer = new JLabel("Enter player 1 name:");
+        JLabel playerNameLabel = new JLabel("Player's name: ");
+        playerName = new JTextField();
+        playerName.setColumns(10);
         
-        name1 = new JTextField();
-        name1.setColumns(10);
-        
-        JButton btnDeal = new JButton("Deal");
+        JLabel computerLabel = new JLabel("Computer type: ");
+        compType = new JTextField();
+        compType.setColumns(10);
 
-        btnDeal.addActionListener(new ActionListener() {
+        JPanel entryPanel = new JPanel(new GridBagLayout()) ;
+        
+        GridBagConstraints labelConstraints = new GridBagConstraints() ;
+        labelConstraints.gridx = 0 ;
+        labelConstraints.anchor = GridBagConstraints.LINE_END ;
+        labelConstraints.insets = new Insets(10,10,10,10);
+
+        labelConstraints.gridy = 0 ;
+        entryPanel.add(cardsLabel, labelConstraints) ;
+        labelConstraints.gridy = 1 ;
+        entryPanel.add(playerNameLabel, labelConstraints) ;
+        labelConstraints.gridy = 2 ;
+        entryPanel.add(computerLabel, labelConstraints) ;
+        
+        GridBagConstraints fieldConstraints = new GridBagConstraints() ;
+        fieldConstraints.gridx = 1 ;
+        fieldConstraints.anchor = GridBagConstraints.LINE_START ;
+        fieldConstraints.insets = new Insets(10,10,10,10);
+
+        fieldConstraints.gridy = 0 ;
+        entryPanel.add(numCards, fieldConstraints) ;
+        fieldConstraints.gridy = 1 ;
+        entryPanel.add(playerName, fieldConstraints) ;
+        fieldConstraints.gridy = 2 ;
+        entryPanel.add(compType, fieldConstraints) ;
+
+        // deal (start) button
+        JButton dealButton = new JButton("Deal");
+        dealButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                                         
                     ShitheadGame game ;
                     List<String> names = new ArrayList<String>(); 
-                    names.add(name1.getText()) ;
+                    names.add(playerName.getText()) ;
                     names.add("Computer") ;
                     List<String> types = new ArrayList<String>(); 
                     types.add("h") ;
-                    types.add("s") ;
+                    types.add(compType.getText()) ;
                     int numCardsPerHand = Integer.parseInt(numCards.getText()) ;
                         game = new ShitheadGame(2, names, types, numCardsPerHand) ;
                     game.deal();
                     Component component = (Component) e.getSource();
                     JFrame frame = (JFrame) SwingUtilities.getRoot(component);
+                    frame.setBounds(100, 100, 920, 800) ;
                     GamePane gamePane = new GamePane(game) ;
                     JPanel contentPane = (JPanel) frame.getContentPane() ;
                     contentPane.removeAll() ;
@@ -77,45 +113,36 @@ public class DetailsPane extends JPanel {
                 }
             }
         });
-        GroupLayout groupLayout = new GroupLayout(this);
-        groupLayout.setHorizontalGroup(
-            groupLayout.createParallelGroup(Alignment.TRAILING)
-                .addGroup(groupLayout.createSequentialGroup()
-                    .addGap(132)
-                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(btnDeal)
-                        .addGroup(groupLayout.createSequentialGroup()
-                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                .addComponent(lblEnterNumberOf)
-                                .addComponent(lblEnterPlayer))
-                            .addPreferredGap(ComponentPlacement.UNRELATED)
-                            .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                .addComponent(name1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(numCards, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-                    .addContainerGap(325, Short.MAX_VALUE))
-                .addGroup(groupLayout.createSequentialGroup()
-                    .addContainerGap(271, Short.MAX_VALUE)
-                    .addComponent(lblWelcomeToJavahead)
-                    .addGap(244))
-        );
-        groupLayout.setVerticalGroup(
-            groupLayout.createParallelGroup(Alignment.LEADING)
-                .addGroup(groupLayout.createSequentialGroup()
-                    .addGap(66)
-                    .addComponent(lblWelcomeToJavahead)
-                    .addGap(97)
-                    .addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-                        .addComponent(numCards, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblEnterNumberOf))
-                    .addGap(60)
-                    .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(lblEnterPlayer)
-                        .addComponent(name1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                    .addGap(84)
-                    .addComponent(btnDeal)
-                    .addContainerGap(118, Short.MAX_VALUE))
-        );
-        setLayout(groupLayout);
+
+        
+        // complete layout
+        setLayout(new GridBagLayout()) ;
+        
+        GridBagConstraints wc = new GridBagConstraints() ;
+        wc.ipady = 20 ;
+        wc.weightx = 1.0 ; 
+        wc.weighty = 1.0 ; 
+        wc.gridx = 0 ;
+        wc.gridy = 0 ;
+        wc.anchor = GridBagConstraints.PAGE_START ;
+        add(welcomeLabel, wc) ;
+        
+        GridBagConstraints pc = new GridBagConstraints() ;
+        pc.weightx = 1.0 ; 
+        pc.weighty = 1.0 ; 
+        pc.gridx = 0 ;
+        pc.gridy = 1 ;
+        pc.anchor = GridBagConstraints.PAGE_START ;
+        add(entryPanel, pc) ;
+
+        
+        GridBagConstraints dc = new GridBagConstraints() ;
+        dc.weightx = 1.0 ; 
+        dc.weighty = 1.0 ; 
+        dc.gridx = 0 ;
+        dc.gridy = 2 ;
+        dc.anchor = GridBagConstraints.PAGE_START ;
+        add(dealButton, dc) ;
 
     }
 }

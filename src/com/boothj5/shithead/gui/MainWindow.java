@@ -37,7 +37,7 @@ public class MainWindow {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 964, 731);
+        frame.setBounds(100, 100, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         DetailsPane detailsPane = new DetailsPane();
