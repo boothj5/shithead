@@ -25,22 +25,27 @@ public abstract class ComputerPlayer implements Player {
 		this.handSize = handSize ;
 	}
 
+    @Override
 	public String getName() {
 		return name ;
 	}
 
+    @Override
 	public List<Card> getFaceDown() {
 		return faceDown;
 	}
 
+    @Override
 	public List<Card> getFaceUp() {
 		return faceUp;
 	}
 
+    @Override
 	public List<Card> getHand() {
 		return hand;
 	}	
 	
+    @Override
 	public boolean hasCards() {
 		if (!faceUp.isEmpty()) 
 			return true ;
@@ -52,24 +57,29 @@ public abstract class ComputerPlayer implements Player {
 			return false ;
 	}
 	
+    @Override
 	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
 		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
+    @Override
 	public void dealToHand(Card card) {
 		this.hand.add(card) ;
 		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
+    @Override
 	public void dealToFaceUp(Card card) {
 		this.faceUp.add(card) ;
 	}
 
+    @Override
 	public void dealToFaceDown(Card card) {
 		this.faceDown.add(card) ;
 	}
 	
+    @Override
 	public void swapCards(SwapResponse swapResponse) {
 		if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
 				(swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
@@ -203,13 +213,16 @@ public abstract class ComputerPlayer implements Player {
 		return helper.getPlayers().get(nextPlayer) ;
 	}
 	
-	
+	@Override
 	public abstract Boolean askSwapMore() ;
 	
+    @Override
 	public abstract SwapResponse askSwapChoice()  ;
 	
+    @Override
 	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
 	
+    @Override
 	public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 
 }

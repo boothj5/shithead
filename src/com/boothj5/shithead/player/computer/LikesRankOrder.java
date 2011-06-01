@@ -11,16 +11,20 @@ import com.boothj5.shithead.player.SwapResponse;
 
 public class LikesRankOrder extends ComputerPlayer {
 
+    public static final String description = "Has a set of ordered ranks to use" ;
+
 	private List<Card.Rank> rankOrder = new ArrayList<Card.Rank>() ;
 
 	public LikesRankOrder(String name, int handSize) {
 		super(name, handSize) ;
 	}
-
+	
+    @Override
 	public Boolean askSwapMore() {
 		return new Boolean(false) ;
 	}
 	
+    @Override
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
@@ -43,6 +47,7 @@ public class LikesRankOrder extends ComputerPlayer {
 	}	
 
 	
+    @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		initRankOrder() ;
 		List<Card> myHand = getHand() ;
@@ -72,6 +77,7 @@ public class LikesRankOrder extends ComputerPlayer {
 		
 	}
 
+    @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		initRankOrder() ;
 		List<Card> myHand = getFaceUp();

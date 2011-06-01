@@ -8,6 +8,7 @@ import java.util.*;
 
 
 public class DeviousPyro extends ComputerPlayer {
+    public static final String description = "Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest" ;
 
 	private int threshold = 10 ;
 	
@@ -19,14 +20,18 @@ public class DeviousPyro extends ComputerPlayer {
 		super(name, handSize) ;
 	}
 	
+	
+    @Override
 	public Boolean askSwapMore() {
 		return new Boolean(false) ;
 	}
 	
+    @Override
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
 	
+    @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getHand() ;
@@ -45,6 +50,7 @@ public class DeviousPyro extends ComputerPlayer {
 			return pickLowCards(helper, myHand);
 	}
 
+    @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
 		List<Card> myHand = getFaceUp() ;

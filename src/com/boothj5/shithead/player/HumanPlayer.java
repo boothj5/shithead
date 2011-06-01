@@ -20,38 +20,47 @@ public class HumanPlayer implements Player {
 		this.handSize =  handSize ;
 	}
 	
+    @Override
 	public Boolean askSwapMore() {
 		return null ;
 	}
 	
+    @Override
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
 	
+    @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		return null ;
 	}
 
+    @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		return null ;
 	}
 
+    @Override
 	public String getName() {
 		return name ;
 	}
 
+    @Override
 	public List<Card> getFaceDown() {
 		return faceDown;
 	}
 
+    @Override
 	public List<Card> getFaceUp() {
 		return faceUp;
 	}
 
+    @Override
 	public List<Card> getHand() {
 		return hand;
 	}	
 	
+    @Override
 	public boolean hasCards() {
 		if (!faceUp.isEmpty()) 
 			return true ;
@@ -63,24 +72,29 @@ public class HumanPlayer implements Player {
 			return false ;
 	}
 	
+    @Override
 	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
 		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
+    @Override
 	public void dealToHand(Card card) {
 		this.hand.add(card) ;
 		Collections.sort(hand, new ShitheadCardComparator()) ;
 	}
 
+    @Override
 	public void dealToFaceUp(Card card) {
 		this.faceUp.add(card) ;
 	}
 
+    @Override
 	public void dealToFaceDown(Card card) {
 		this.faceDown.add(card) ;
 	}
 	
+    @Override
 	public void swapCards(SwapResponse swapResponse) {
 		if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
 				(swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {

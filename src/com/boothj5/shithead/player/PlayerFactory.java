@@ -1,5 +1,8 @@
 package com.boothj5.shithead.player;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.boothj5.shithead.player.computer.*;
 
 public class PlayerFactory {
@@ -25,4 +28,32 @@ public class PlayerFactory {
 		else 
 			throw new Exception("Cannot find player type to create") ;
 	}
+	
+	public static Map<String, String> computerPlayerList() {
+	    Map<String, String> players = new HashMap<String, String>() ;
+	    
+	    players.put("SimplePlayer", "s") ;
+	    players.put("Aggressive", "a") ;
+	    players.put("RandomPlayer", "r") ;
+	    players.put("Pyromaniac", "p") ;
+	    players.put("DeviousPyro", "d") ;
+	    players.put("FaceDownChecker", "f") ;
+	    players.put("LikesRankOrder", "l") ;
+	    
+	    return players ;
+	}
+	
+	   public static Map<String, String> computerPlayerDescriptions() {
+	        Map<String, String> players = new HashMap<String, String>() ;
+	        
+	        players.put("SimplePlayer", SimplePlayer.description) ;
+	        players.put("Aggressive", Aggressive.description) ;
+	        players.put("RandomPlayer", RandomPlayer.description) ;
+	        players.put("Pyromaniac", Pyromaniac.description) ;
+	        players.put("DeviousPyro", DeviousPyro.description) ;
+	        players.put("FaceDownChecker", FaceDownChecker.description) ;
+	        players.put("LikesRankOrder", LikesRankOrder.description) ;
+	        
+	        return players ;
+	    }
 }

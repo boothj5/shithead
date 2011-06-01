@@ -10,20 +10,26 @@ import com.boothj5.shithead.player.SwapResponse;
 
 
 public class RandomPlayer extends ComputerPlayer {
+
+    public static final String description = "Somes times lays lowest, sometimes hightest" ;
+
 	Random generator = new Random();
 
 	public RandomPlayer(String name, int handSize) {
 		super(name, handSize) ;
 	}
 	
-	public Boolean askSwapMore() {
+    @Override
+    public Boolean askSwapMore() {
 		return new Boolean(false) ;
 	}
 	
+    @Override
 	public SwapResponse askSwapChoice() {
 		return null ;
 	}
 	
+    @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Card> myHand = getHand() ;
 		
@@ -34,6 +40,7 @@ public class RandomPlayer extends ComputerPlayer {
 			return pickLowCards(helper, myHand) ;
 	}
 
+    @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Card> myHand = getFaceUp() ;
 
