@@ -2,14 +2,14 @@ package com.boothj5.shithead.game;
 
 import java.util.* ;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.card.Deck;
-import com.boothj5.shithead.card.ShitheadCardComparator;
-import com.boothj5.shithead.player.Player;
-import com.boothj5.shithead.player.PlayerFactory;
-import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.PlayerSummary;
-import com.boothj5.shithead.player.computer.ComputerPlayer;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.card.Deck;
+import com.boothj5.shithead.game.card.ShitheadCardComparator;
+import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.PlayerFactory;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.PlayerSummary;
+import com.boothj5.shithead.game.player.computer.ComputerPlayer;
 
 public class ShitheadGame {
 	private List<Player> players = new ArrayList<Player>() ;

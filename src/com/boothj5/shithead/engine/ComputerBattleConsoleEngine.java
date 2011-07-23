@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.cli.ShitheadCli;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.Player;
-import com.boothj5.shithead.player.PlayerFactory;
-import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.SwapResponse;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.PlayerFactory;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.SwapResponse;
+import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	ShitheadGame game ;

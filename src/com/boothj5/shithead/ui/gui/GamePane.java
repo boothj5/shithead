@@ -1,12 +1,13 @@
-package com.boothj5.shithead.gui;
+package com.boothj5.shithead.ui.gui;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.ShitheadGame;
+import com.boothj5.shithead.game.card.Card;
+
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;

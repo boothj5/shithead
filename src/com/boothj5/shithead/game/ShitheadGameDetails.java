@@ -3,9 +3,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.card.Deck;
-import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.card.Deck;
+import com.boothj5.shithead.game.player.Player;
 
 
 public class ShitheadGameDetails {

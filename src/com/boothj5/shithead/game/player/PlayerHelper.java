@@ -1,9 +1,9 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.game.player;
 
 import java.util.List;
 import java.util.Stack;
 
-import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.game.card.Card;
 
 public class PlayerHelper {
 //	private final List<Player> players ;

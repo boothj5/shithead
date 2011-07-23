@@ -4,7 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.computer.Aggressive;
+import com.boothj5.shithead.game.player.computer.DeviousPyro;
+import com.boothj5.shithead.game.player.computer.FaceDownChecker;
+import com.boothj5.shithead.game.player.computer.LikesRankOrder;
+import com.boothj5.shithead.game.player.computer.Pyromaniac;
+import com.boothj5.shithead.game.player.computer.RandomPlayer;
+import com.boothj5.shithead.game.player.computer.SimplePlayer;
 
 public class ComputerPlayerTest {
 

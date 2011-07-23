@@ -1,13 +1,13 @@
-package com.boothj5.shithead.cli;
+package com.boothj5.shithead.ui.cli;
 
 import java.io.Console;
 import java.text.DecimalFormat;
 import java.util.* ;
 
-import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.player.Player;
 
 public class ShitheadCli {
 	

@@ -1,4 +1,4 @@
-package com.boothj5.shithead.gui;
+package com.boothj5.shithead.ui.gui;
 
 import java.awt.EventQueue;
 

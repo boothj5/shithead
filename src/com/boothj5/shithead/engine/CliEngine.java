@@ -2,12 +2,12 @@ package com.boothj5.shithead.engine;
 
 import java.util.* ;
 
-import com.boothj5.shithead.cli.ShitheadCli;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.*;
+import com.boothj5.shithead.game.player.*;
+import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public class InteractiveConsoleEngine implements ShitheadEngine {
+public class CliEngine implements ShitheadEngine {
 
 	ShitheadGame game ;
 	ShitheadCli cli = new ShitheadCli() ;

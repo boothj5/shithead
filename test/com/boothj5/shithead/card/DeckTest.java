@@ -2,8 +2,8 @@ package com.boothj5.shithead.card;
 
 import org.junit.Test ;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.card.Deck;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.card.Deck;
 
 import static org.junit.Assert.* ;
 

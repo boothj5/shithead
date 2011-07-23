@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test ;
 
 import com.boothj5.shithead.game.ShitheadGame;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.PlayerSummary;
 
 import static org.junit.Assert.* ;
 import java.util.* ;

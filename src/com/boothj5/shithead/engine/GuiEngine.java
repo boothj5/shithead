@@ -1,6 +1,6 @@
 package com.boothj5.shithead.engine;
 
-import com.boothj5.shithead.gui.MainWindow;
+import com.boothj5.shithead.ui.gui.MainWindow;
 
 public class GuiEngine implements ShitheadEngine {
 

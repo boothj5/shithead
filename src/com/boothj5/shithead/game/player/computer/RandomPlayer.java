@@ -1,11 +1,11 @@
-package com.boothj5.shithead.player.computer;
+package com.boothj5.shithead.game.player.computer;
 
 import java.util.List;
 import java.util.Random; 
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.SwapResponse;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.SwapResponse;
 
 
 public class RandomPlayer extends ComputerPlayer {

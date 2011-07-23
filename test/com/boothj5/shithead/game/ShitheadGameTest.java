@@ -6,12 +6,12 @@ import org.junit.Test ;
 
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.player.Player;
+import com.boothj5.shithead.game.card.*;
+import com.boothj5.shithead.game.player.Player;
 
 import static org.junit.Assert.* ;
 import java.util.* ;
 
-import com.boothj5.shithead.card.*;
 
 public class ShitheadGameTest {
 

@@ -4,10 +4,11 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.* ;
 import org.junit.Test ;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.player.HumanPlayer;
-import com.boothj5.shithead.player.Player;
-import com.boothj5.shithead.player.SwapResponse;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.player.HumanPlayer;
+import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.SwapResponse;
 
 import static org.junit.Assert.* ;
 import static org.mockito.Mockito.* ;

@@ -1,8 +1,8 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.game.player;
 
 import java.util.* ;
 
-import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.game.card.Card;
 
 /**
  * Player interface, all players must implement this interface

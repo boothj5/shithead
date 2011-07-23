@@ -1,9 +1,9 @@
-package com.boothj5.shithead.player.computer;
+package com.boothj5.shithead.game.player.computer;
 
-import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.PlayerSummary;
-import com.boothj5.shithead.player.SwapResponse;
-import com.boothj5.shithead.card.*;
+import com.boothj5.shithead.game.card.*;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.PlayerSummary;
+import com.boothj5.shithead.game.player.SwapResponse;
 
 import java.util.*;
 

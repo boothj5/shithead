@@ -7,10 +7,10 @@ import java.util.List;
 
 import org.junit.Test ;
 
-import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.player.Player;
-import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.computer.Pyromaniac;
+import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.PlayerHelper;
+import com.boothj5.shithead.game.player.computer.Pyromaniac;
 
 import static org.junit.Assert.* ;
 

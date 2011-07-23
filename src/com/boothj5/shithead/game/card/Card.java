@@ -1,4 +1,4 @@
-package com.boothj5.shithead.card;
+package com.boothj5.shithead.game.card;
 public class Card {
 
 	public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,

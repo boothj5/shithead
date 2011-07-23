@@ -1,4 +1,4 @@
-package com.boothj5.shithead.card;
+package com.boothj5.shithead.game.card;
 
 import java.util.* ;
 

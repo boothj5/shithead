@@ -1,4 +1,4 @@
-package com.boothj5.shithead.gui;
+package com.boothj5.shithead.ui.gui;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import com.boothj5.shithead.game.ShitheadGame;
-import com.boothj5.shithead.player.PlayerFactory;
+import com.boothj5.shithead.game.player.PlayerFactory;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

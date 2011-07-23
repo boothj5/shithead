@@ -1,6 +1,7 @@
 package com.boothj5.shithead.game;
 
-import com.boothj5.shithead.engine.*;
+import com.boothj5.shithead.engine.ShitheadEngine;
+import com.boothj5.shithead.engine.EngineFactory;
 
 public class Shithead {
 	

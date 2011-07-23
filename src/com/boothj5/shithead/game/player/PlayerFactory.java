@@ -1,9 +1,9 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.game.player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.boothj5.shithead.player.computer.*;
+import com.boothj5.shithead.game.player.computer.*;
 
 public class PlayerFactory {
 
