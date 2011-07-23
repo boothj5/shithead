@@ -5,7 +5,7 @@ public class EngineFactory {
 			if (gameType.equals("i"))
 				return new CliEngine() ;
 			else if (gameType.equals("b")) 
-				return new ComputerBattleConsoleEngine() ;
+				return new BattleEngine() ;
             else if (gameType.equals("g")) 
                 return new GuiEngine() ;
 			else 

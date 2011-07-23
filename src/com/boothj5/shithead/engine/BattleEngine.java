@@ -17,7 +17,7 @@ import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public class ComputerBattleConsoleEngine implements ShitheadEngine {
+public class BattleEngine implements ShitheadEngine {
 	ShitheadGame game ;
 	ShitheadCli cli = new ShitheadCli() ;
 	int numPlayers, numCards, numGames, turns ;
