@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import com.boothj5.shithead.card.Card;
+import com.boothj5.shithead.cli.ShitheadCli;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
@@ -18,7 +19,7 @@ import com.boothj5.shithead.player.SwapResponse;
 
 public class ComputerBattleConsoleEngine implements ShitheadEngine {
 	ShitheadGame game ;
-	ShitheadConsole console = new ShitheadConsole() ;
+	ShitheadCli cli = new ShitheadCli() ;
 	int numPlayers, numCards, numGames, turns ;
 	List<String> playerNames = new ArrayList<String>() ;
 	List<String> playerTypes = new ArrayList<String>() ;
@@ -69,13 +70,13 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 			finish(time) ;
 		} catch (Exception e) {
 			ShitheadGameDetails details = game.getGameDetails() ;
-			console.bail(e, details) ;
+			cli.bail(e, details) ;
 		}
 	}
 	
 	private void init(String[] args) throws Exception {
-		console.line() ;
-		console.welcome() ;
+		cli.line() ;
+		cli.welcome() ;
 
 		numCards = 3 ;
 		numGames = Integer.parseInt(args[1]) ;
@@ -226,7 +227,7 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 		    		}
 		    	}
 		    	else { // else if human player
-		    		console.bail(new Exception("Cannot have human player in computer battle!!"), details) ;
+		    		cli.bail(new Exception("Cannot have human player in computer battle!!"), details) ;
 		    	}
 		    }
 		    // current player cannot actually play
@@ -247,15 +248,14 @@ public class ComputerBattleConsoleEngine implements ShitheadEngine {
 			total++ ;
 			shitheadMap.put(shithead, total) ;
 		}
-		//console.dot() ;
-		//console.showMidBattleSummary(shitheadMap, turns, stalemate) ;
-
+		//cli.dot() ;
+		//cli.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 	}
 	
 	private void finish(long time) {
-		console.line() ;
+		cli.line() ;
 		Map<String, Integer> sortedShitheads = sortHashMapByValues(shitheadMap) ;
-		console.showBattleSummary(sortedShitheads, stalemates, time) ;		
+		cli.showBattleSummary(sortedShitheads, stalemates, time) ;		
 	}
 
 	private LinkedHashMap<String, Integer> sortHashMapByValues(Map<String, Integer> originalMap) {

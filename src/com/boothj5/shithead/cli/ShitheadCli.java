@@ -1,4 +1,4 @@
-package com.boothj5.shithead.engine;
+package com.boothj5.shithead.cli;
 
 import java.io.Console;
 import java.text.DecimalFormat;
@@ -9,7 +9,7 @@ import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 
-public class ShitheadConsole {
+public class ShitheadCli {
 	
 	Console c = System.console();
 	
@@ -268,6 +268,15 @@ public class ShitheadConsole {
 			System.out.println();
 		}
 		
+	}
+	
+	public void showPlayerSwap(ShitheadGameDetails details, Player player) {
+		clearScreen() ;
+		showPlayerName(details, player, false);
+		line() ;
+		showHand(details, player, false) ;
+		showFaceUp(player) ;
+		line() ;
 	}
 	
 	public void showMidBattleSummary(Map<String, Integer> shitheadMap, int turns, boolean stalemate) {

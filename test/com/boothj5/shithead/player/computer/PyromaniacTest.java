@@ -4,26 +4,18 @@ import static org.hamcrest.CoreMatchers.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import org.junit.Test ;
 
 import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.card.Deck;
-import com.boothj5.shithead.game.LastMove;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.computer.Aggressive;
 import com.boothj5.shithead.player.computer.Pyromaniac;
-import com.boothj5.shithead.player.computer.SimplePlayer;
 
 import static org.junit.Assert.* ;
 
 
 public class PyromaniacTest {
-
-	
 	@Test
 	public void picksTenWhenOnlyOneCard() {
 		int numCardsPerHand = 3 ;

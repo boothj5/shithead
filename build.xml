@@ -52,6 +52,7 @@
 		<junit printsummary="yes" haltonfailure="no">
 			<classpath>
 			    <pathelement location="${bin}"/>
+			    <pathelement location="${lib}/mockito-all-1.8.5.jar"/>
 			</classpath>
 			
 			<formatter type="plain"/>

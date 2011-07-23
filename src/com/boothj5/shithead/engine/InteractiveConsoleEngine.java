@@ -2,6 +2,7 @@ package com.boothj5.shithead.engine;
 
 import java.util.* ;
 
+import com.boothj5.shithead.cli.ShitheadCli;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.*;
@@ -9,7 +10,7 @@ import com.boothj5.shithead.player.*;
 public class InteractiveConsoleEngine implements ShitheadEngine {
 
 	ShitheadGame game ;
-	ShitheadConsole console = new ShitheadConsole() ;
+	ShitheadCli cli = new ShitheadCli() ;
 	
 	public void runEngine(String[] args) {
 		try {
@@ -21,7 +22,7 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 			end() ; 
 		} catch (Exception e) {
 			ShitheadGameDetails details = game.getGameDetails() ;
-			console.bail(e, details) ;
+			cli.bail(e, details) ;
 		}
 	}
 	
@@ -31,18 +32,18 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		List<String> playerNames = new ArrayList<String>() ;
 		List<String> playerTypes = new ArrayList<String>() ;
 
-		console.clearScreen() ;
-		console.welcome() ;
+		cli.clearScreen() ;
+		cli.welcome() ;
 
-		numPlayers = console.requestNumPlayers() ;
-		numCards = console.requestNumCardsPerHand() ;
+		numPlayers = cli.requestNumPlayers() ;
+		numCards = cli.requestNumCardsPerHand() ;
 		
 		String name, type ;
 		for (int i = 1 ; i <= numPlayers ; i++) { 
-			name = console.requestPlayerName(i) ;
+			name = cli.requestPlayerName(i) ;
 			playerNames.add(name) ;
 				
-			type = console.requestPlayerType(name) ;
+			type = cli.requestPlayerType(name) ;
 			playerTypes.add(type) ;
 		}
 		
@@ -53,9 +54,9 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		game.deal() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
-		console.showGame(details, true);
-		console.showCardsDealtMessage() ;
-		console.waitOnUser() ;
+		cli.showGame(details, true);
+		cli.showCardsDealtMessage() ;
+		cli.waitOnUser() ;
 	}
 
 	private void swap() {
@@ -68,8 +69,6 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 				if (wantsToSwap) {
 					SwapResponse response = player.askSwapChoice() ;
 					player.swapCards(response) ;
-					
-					// again and keep swapping until 'n'
 					wantsToSwap = player.askSwapMore() ;
 					while (wantsToSwap) {
 						response = player.askSwapChoice() ;
@@ -78,47 +77,34 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 					}
 				}
 			}
-			else { // human player
-				console.clearScreen() ;
-				console.showPlayerName(details, player, false);
-				console.line() ;
-				console.showHand(details, player, false) ;
-				console.showFaceUp(player) ;
-				console.line() ;
-				
-				boolean wantsToSwap = console.requestIfWantsToSwapCards(player.getName()) ;
-				
-				while (wantsToSwap) {
-					int cardFromHand = console.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
-					int cardFromPile = console.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
+			else { 
+				cli.showPlayerSwap(details, player) ;
 
+				boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
+				while (wantsToSwap) {
+					int cardFromHand = cli.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
+					int cardFromPile = cli.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
 					SwapResponse response = new SwapResponse(cardFromHand, cardFromPile) ;
 					player.swapCards(response) ;
-
-					console.clearScreen() ;
-					console.line() ;
-					console.showHand(details, player, false) ;
-					console.showFaceUp(player) ;
-					console.line() ;
-					
-					wantsToSwap = console.requestIfWantsToSwapCards(player.getName()) ;
+					cli.showPlayerSwap(details, player) ;
+					wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
 				}
 			}
 		}
 		
 		details = game.getGameDetails() ;
-		console.showGame(details, true) ;
+		cli.showGame(details, true) ;
 	}
 	
 	private void firstMove() {
 		game.firstMove() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 
-		console.showGame(details, true) ;
-		console.showLastMove(details) ;
-		console.line() ;
-		console.showNextMoveMessage() ;
-		console.waitOnUser() ;
+		cli.showGame(details, true) ;
+		cli.showLastMove(details) ;
+		cli.line() ;
+		cli.showNextMoveMessage() ;
+		cli.waitOnUser() ;
 	}
 	
 	private void play() throws Exception {
@@ -127,9 +113,9 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		// while no loser
 		while (game.canContinueGame()) {
 			details = game.getGameDetails() ;
-			console.showGame(details, true) ;
-			console.showLastMove(details) ;
-			console.line() ;
+			cli.showGame(details, true) ;
+			cli.showLastMove(details) ;
+			cli.line() ;
 
 		    Player currentPlayer = details.getCurrentPlayer() ;
 		    List<Integer> cardChoice = new ArrayList<Integer>() ;
@@ -177,9 +163,9 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    			game.moveToNextPlayer() ;
 		    		}
 		    		details = game.getGameDetails() ;
-		    		console.showGame(details, true) ;
-		    		console.showLastMove(details) ; 
-		    		console.waitPressEnter() ;
+		    		cli.showGame(details, true) ;
+		    		cli.showLastMove(details) ; 
+		    		cli.waitPressEnter() ;
 		    	}
 		    	// else if human player
 		    	else {
@@ -189,17 +175,17 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    		
 		    		// if playing from face down
 		    		if (game.playingFromFaceDown()) {
-		    			int cardChoiceFromFaceDown = console.requestFromFaceDown(playerName, handSize) ;
+		    			int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
 		    			cardChoice.add(cardChoiceFromFaceDown) ;
 		    			
 		    			// play if valid card
 		    			if (game.checkValidMove(cardChoice)) {
-				    		console.showHandDownOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+				    		cli.showHandDownOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    				game.play(cardChoice) ;
 		    			}
 		    			// pick up if not
 		    			else {
-				    		console.showHandDownNotOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+				    		cli.showHandDownNotOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    				game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
 		    			}
 				    	// move game on
@@ -207,12 +193,12 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    		}
 		    		// if from hand or face up
 		    		else {
-		    			cardChoice = console.requestMove(playerName, handSize, false) ;
+		    			cardChoice = cli.requestMove(playerName, handSize, false) ;
 			    		boolean validMove = game.checkValidMove(cardChoice) ;
 			    		
 			    		// we know there is a valid move, since we've checked, so loop until they pick it
 			    		while (!validMove) {
-			    			cardChoice = console.requestMove(playerName, handSize, true) ;
+			    			cardChoice = cli.requestMove(playerName, handSize, true) ;
 			    			validMove = game.checkValidMove(cardChoice) ;
 			    		}
 	
@@ -225,8 +211,8 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		    // current player cannot actually play
 		    else {
 	    		String playerName = details.getCurrentPlayer().getName() ;
-	    		console.showPlayerPickupMessage(playerName) ;
-		    	console.waitOnUser() ;
+	    		cli.showPlayerPickupMessage(playerName) ;
+		    	cli.waitOnUser() ;
 		    	
 	    		// make them pick up and move game on
 		    	game.playerPickUpPile() ;
@@ -240,7 +226,7 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		
 		String shithead = game.getShithead() ;
 		
-		console.showGameOver(shithead) ;
+		cli.showGameOver(shithead) ;
 		
 	}
 }
