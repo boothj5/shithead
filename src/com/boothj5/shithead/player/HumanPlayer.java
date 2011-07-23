@@ -2,7 +2,6 @@ package com.boothj5.shithead.player;
 
 import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.card.ShitheadCardComparator;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 
 import java.util.*;
 
@@ -21,23 +20,28 @@ public class HumanPlayer implements Player {
 	}
 	
     @Override
-	public Boolean askSwapMore() {
-		return null ;
+    public boolean isComputer() {
+    	return false ;
+    }
+	
+	@Override
+	public boolean askSwapMore() {
+		throw new IllegalStateException("Human players must be asked questions via the user interface") ;
 	}
 	
     @Override
 	public SwapResponse askSwapChoice() {
-		return null ;
+		throw new IllegalStateException("Human players must be asked questions via the user interface") ;
 	}
 	
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-		return null ;
+		throw new IllegalStateException("Human players must be asked questions via the user interface") ;
 	}
 
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-		return null ;
+		throw new IllegalStateException("Human players must be asked questions via the user interface") ;
 	}
 
     @Override

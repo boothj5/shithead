@@ -10,6 +10,7 @@ import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.SwapResponse;
 
 import static org.junit.Assert.* ;
+import static org.mockito.Mockito.* ;
 import java.util.* ;
 
 public class HumanPlayerTest {
@@ -19,6 +20,40 @@ public class HumanPlayerTest {
 		Player james = new HumanPlayer("James", 3) ;
 
 		assertThat(james.getName(), is(equalTo("James"))) ;
+	}
+	
+	@Test
+	public void humanPlayerIsNotComputerPlayer() {
+		Player james = new HumanPlayer("James", 3) ;
+		assertFalse(james.isComputer()) ;
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void humanPlayerCannotBeAskedToSwapCards() {
+		Player james = new HumanPlayer("James", 3) ;
+		james.askSwapMore() ;
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void humanPlayerCannotBeAskedSwapChoice() {
+		Player james = new HumanPlayer("James", 3) ;
+		james.askSwapChoice() ;
+	}
+
+	@Test(expected=IllegalStateException.class)
+	public void humanPlayerCannotBeAskedCardChoiceFromFaceUp() {
+		PlayerHelper playerHelper = mock(PlayerHelper.class); 
+		Player james = new HumanPlayer("James", 3) ;
+		
+		james.askCardChoiceFromFaceUp(playerHelper) ;
+	}
+
+	@Test(expected=IllegalStateException.class)
+	public void humanPlayerCannotBeAskedCardChoiceFromHand() {
+		PlayerHelper playerHelper = mock(PlayerHelper.class); 
+		Player james = new HumanPlayer("James", 3) ;
+		
+		james.askCardChoiceFromHand(playerHelper) ;
 	}
 	
 	@Test

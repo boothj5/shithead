@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.SwapResponse;
@@ -20,8 +19,8 @@ public class LikesRankOrder extends ComputerPlayer {
 	}
 	
     @Override
-	public Boolean askSwapMore() {
-		return new Boolean(false) ;
+	public boolean askSwapMore() {
+		return false ;
 	}
 	
     @Override

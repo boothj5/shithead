@@ -14,7 +14,6 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerFactory;
 import com.boothj5.shithead.player.PlayerHelper;
-import com.boothj5.shithead.player.PlayerSummary;
 import com.boothj5.shithead.player.SwapResponse;
 
 public class ComputerBattleConsoleEngine implements ShitheadEngine {

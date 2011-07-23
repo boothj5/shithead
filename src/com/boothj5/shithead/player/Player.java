@@ -3,7 +3,6 @@ package com.boothj5.shithead.player;
 import java.util.* ;
 
 import com.boothj5.shithead.card.Card;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 
 /**
  * Player interface, all players must implement this interface
@@ -13,6 +12,13 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
  */
 public interface Player {
 	
+	/** 
+	 * Find out of this player is human, or a computer player
+	 * 
+	 * @return true if the player is a computer player
+	 */
+	public boolean isComputer() ;
+	
 	/**
 	 * Ask if the player wishes to swap cards.
 	 * 
@@ -21,7 +27,7 @@ public interface Player {
 	 * 
 	 * @return true if the player wishes to swap cards, false if they don't
 	 */
-	public Boolean askSwapMore() ;
+	public boolean askSwapMore() ;
 		
 	/**
 	 * Ask which cards the player wishes to swap.

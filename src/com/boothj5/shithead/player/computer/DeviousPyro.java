@@ -1,6 +1,5 @@
 package com.boothj5.shithead.player.computer;
 
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.PlayerHelper;
 import com.boothj5.shithead.player.SwapResponse;
 import com.boothj5.shithead.card.*;
@@ -22,8 +21,8 @@ public class DeviousPyro extends ComputerPlayer {
 	
 	
     @Override
-	public Boolean askSwapMore() {
-		return new Boolean(false) ;
+	public boolean askSwapMore() {
+		return false ;
 	}
 	
     @Override

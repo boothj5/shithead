@@ -18,8 +18,8 @@ public class FaceDownChecker extends ComputerPlayer {
 	
 	
     @Override
-	public Boolean askSwapMore() {
-		return new Boolean(false) ;
+	public boolean askSwapMore() {
+		return false ;
 	}
 	
     @Override

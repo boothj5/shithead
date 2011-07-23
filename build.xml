@@ -6,10 +6,15 @@
 	<property name="src" location="src"/>
 	<property name="test" location="test"/>
 	<property name="bin" location="bin"/>
+	<property name="lib" location="lib"/>
 	<property name="testreports" location="testreports"/>
 	<property name="docs" location="docs"/>
 	
-  	<target name="clean" description="clean up" >
+  	<path id="test-classpath">
+	    <pathelement location="${lib}/mockito-all-1.8.5.jar"/>
+	</path>
+	
+	<target name="clean" description="clean up" >
     	<delete dir="${bin}"/>
   		<delete dir="${testreports}"/>
     	<delete dir="${docs}"/>
@@ -26,7 +31,9 @@
   	</target>
 
 	<target name="compile_tests" depends="compile" description="compile unit tests" >
-    	<javac srcdir="${test}" destdir="${bin}"/>
+    	<javac srcdir="${test}" destdir="${bin}">
+    		<classpath refid="test-classpath"/>
+   		</javac>
 	</target>	
 	
 	<target name="doc" depends="init">

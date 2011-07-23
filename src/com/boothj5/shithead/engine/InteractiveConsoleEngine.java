@@ -2,7 +2,6 @@ package com.boothj5.shithead.engine;
 
 import java.util.* ;
 
-import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.player.*;
@@ -64,11 +63,22 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 		
 		for (Player player : details.getPlayers()) {
 			
-			// ask player if they want to swap cards
-			Boolean wantsToSwap = player.askSwapMore() ;
-			
-			// if we got null, its a human and we need to interact
-			if (null == wantsToSwap) {
+			if (player.isComputer()) {
+				boolean wantsToSwap = player.askSwapMore() ;
+				if (wantsToSwap) {
+					SwapResponse response = player.askSwapChoice() ;
+					player.swapCards(response) ;
+					
+					// again and keep swapping until 'n'
+					wantsToSwap = player.askSwapMore() ;
+					while (wantsToSwap) {
+						response = player.askSwapChoice() ;
+						player.swapCards(response) ;
+						wantsToSwap = player.askSwapMore() ;
+					}
+				}
+			}
+			else { // human player
 				console.clearScreen() ;
 				console.showPlayerName(details, player, false);
 				console.line() ;
@@ -76,8 +86,7 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 				console.showFaceUp(player) ;
 				console.line() ;
 				
-				// auto boxing
-				wantsToSwap = console.requestIfWantsToSwapCards(player.getName()) ;
+				boolean wantsToSwap = console.requestIfWantsToSwapCards(player.getName()) ;
 				
 				while (wantsToSwap) {
 					int cardFromHand = console.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
@@ -93,20 +102,6 @@ public class InteractiveConsoleEngine implements ShitheadEngine {
 					console.line() ;
 					
 					wantsToSwap = console.requestIfWantsToSwapCards(player.getName()) ;
-				}
-			}
-
-			// if we get a true of false, its a computer player
-			else if (wantsToSwap) {
-				SwapResponse response = player.askSwapChoice() ;
-				player.swapCards(response) ;
-				
-				// again and keep swapping until 'n'
-				wantsToSwap = player.askSwapMore() ;
-				while (wantsToSwap) {
-					response = player.askSwapChoice() ;
-					player.swapCards(response) ;
-					wantsToSwap = player.askSwapMore() ;
 				}
 			}
 		}

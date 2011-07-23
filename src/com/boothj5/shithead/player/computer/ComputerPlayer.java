@@ -2,7 +2,6 @@ package com.boothj5.shithead.player.computer;
 
 import com.boothj5.shithead.card.Card;
 import com.boothj5.shithead.card.ShitheadCardComparator;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.player.Player;
 import com.boothj5.shithead.player.PlayerHelper;
@@ -26,6 +25,11 @@ public abstract class ComputerPlayer implements Player {
 	}
 
     @Override
+    public boolean isComputer() {
+    	return true ;
+    }
+	
+	@Override
 	public String getName() {
 		return name ;
 	}
@@ -214,7 +218,7 @@ public abstract class ComputerPlayer implements Player {
 	}
 	
 	@Override
-	public abstract Boolean askSwapMore() ;
+	public abstract boolean askSwapMore() ;
 	
     @Override
 	public abstract SwapResponse askSwapChoice()  ;
