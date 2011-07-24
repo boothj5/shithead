@@ -41,7 +41,7 @@ public class BattleEngine implements ShitheadEngine {
 				play() ;
 				end() ;
 			}
-			battleSummary() ;
+			globalEnd() ;
 		} catch (Exception e) {
 			ShitheadGameDetails details = game.getGameDetails() ;
 			cli.bail(e, details) ;
@@ -217,7 +217,7 @@ public class BattleEngine implements ShitheadEngine {
 		//cli.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 	}
 	
-	private void battleSummary() {
+	private void globalEnd() {
         stopTime = System.currentTimeMillis() ;
         duration = stopTime - startTime ;
 	    cli.line() ;

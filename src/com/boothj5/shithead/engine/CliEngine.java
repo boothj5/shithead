@@ -10,21 +10,36 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 public class CliEngine implements ShitheadEngine {
 
 	ShitheadGame game ;
+	int numGames = 1 ;
 	ShitheadCli cli = new ShitheadCli() ;
 	
 	public void runEngine(String[] args) {
-		try {
-			init() ;
-			deal() ;
-			swap() ;
-			firstMove() ;
-			play() ;
-			end() ; 
-		} catch (Exception e) {
-			ShitheadGameDetails details = game.getGameDetails() ;
-			cli.bail(e, details) ;
-		}
+
+       try {
+            globalInit(args) ;
+            for (int i = 0 ; i < numGames ; i++) {
+                init() ;
+                deal() ;
+                swap() ;
+                firstMove() ;
+                play() ;
+                end() ;
+            }
+            globalEnd() ;
+        } catch (Exception e) {
+            ShitheadGameDetails details = game.getGameDetails() ;
+            cli.bail(e, details) ;
+        }
 	}
+	
+	private void globalInit(String[] args) {
+	    
+	}
+	
+	private void globalEnd() {
+	    
+	}
+	
 	
 	private void init() throws Exception {
 		int numPlayers ;
