@@ -1,6 +1,7 @@
 package com.boothj5.shithead.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -20,113 +21,75 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 public class BattleEngine implements ShitheadEngine {
 	ShitheadGame game ;
 	ShitheadCli cli = new ShitheadCli() ;
-	int numPlayers, numCards, numGames, turns ;
-	List<String> playerNames = new ArrayList<String>() ;
-	List<String> playerTypes = new ArrayList<String>() ;
-	
-	Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
+	List<String> playerNames = new ArrayList<String>() ; 
+	List<String> playerTypes = Arrays.asList("l", "f", "d", "p", "r", "a", "s") ;
+    Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
+    int numPlayers = playerTypes.size() ;
+    int numCards, numGames, turns ;
 	int stalemates = 0 ;
-	
-	List<Integer> numTimesShithead = new ArrayList<Integer>() ;
-
-	private void initPlayerTypesForBattle() {
-		playerTypes.add("l") ;
-		playerTypes.add("f") ;
-		playerTypes.add("d") ;
-		playerTypes.add("p") ;
-		playerTypes.add("r") ;
-		playerTypes.add("a") ;
-		playerTypes.add("s") ;
-//		playerTypes.add("g") ;
-		Collections.shuffle(playerTypes) ;
-	}	
+	long startTime, stopTime, duration ;
+	boolean stalemate ;
 	
 	public void runEngine(String[] args) {
 		try {
-			boolean stalemate = false ;
-			init(args) ;
-			
-			long start = System.currentTimeMillis() ;
+			globalInit(args) ;
 			for (int i = 0 ; i < numGames ; i++) {
-				try {
-					turns = 0 ;
-					stalemate = false ;
-					init() ;
-					game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
-					deal() ;
-					swap() ;
-					firstMove() ;
-					play() ;
-				} catch (StalemateException e) {
-					stalemates++ ;
-					stalemate = true ;
-				}
-				end(stalemate) ;
+		        init() ;
+				deal() ;
+				swap() ;
+				firstMove() ;
+				play() ;
+				end() ;
 			}
-			
-			long stop = System.currentTimeMillis() ;
-			long time = stop - start ;
-			
-			finish(time) ;
+			battleSummary() ;
 		} catch (Exception e) {
 			ShitheadGameDetails details = game.getGameDetails() ;
 			cli.bail(e, details) ;
 		}
 	}
 	
-	private void init(String[] args) throws Exception {
+	private void globalInit(String[] args) throws Exception {
 		cli.line() ;
 		cli.welcome() ;
-
 		numCards = 3 ;
 		numGames = Integer.parseInt(args[1]) ;
-
-		String name = null;
-		String namePrefix = "Computer-";
-		
-		playerTypes = new ArrayList<String>() ;
-		playerNames = new ArrayList<String>() ;
-		
-		initPlayerTypesForBattle() ;
-		
-		numPlayers = playerTypes.size() ;
-	
-		
-		for (int i = 0 ; i < numPlayers ; i++) { 
-			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() ;
-			StringTokenizer st = new StringTokenizer(className, ".") ;
-			while (st.hasMoreTokens())
-				name = st.nextToken();
-			
-			playerNames.add(name) ;
-			shitheadMap.put(name, 0) ;
-		}	
-	
+	    playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
+        shitheadMap = createShitheadMap(playerNames) ;
+        startTime = System.currentTimeMillis() ;
 	}
 	
 	private void init() throws Exception {
-		String name = null;
-		String namePrefix = "Computer-";
-		
-		playerTypes = new ArrayList<String>() ;
-		playerNames = new ArrayList<String>() ;
-		
-		initPlayerTypesForBattle() ;
-		
-		numPlayers = playerTypes.size() ;
+        Collections.shuffle(playerTypes) ;      
+        playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
+        game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
+        turns = 0 ;
+        stalemate = false ;
+	}
 	
-		
-		for (int i = 0 ; i < numPlayers ; i++) { 
-			String className = (PlayerFactory.createPlayer(playerTypes.get(i), namePrefix, numCards)).getClass().getName() ;
-			StringTokenizer st = new StringTokenizer(className, ".") ;
-			while (st.hasMoreTokens())
-				name = st.nextToken();
-			
-			playerNames.add(name) ;
-		}	
-		
+	private static Map<String, Integer> createShitheadMap(List<String> names) {
+        Map<String, Integer> result = new HashMap<String, Integer>() ;
+	    
+	    for (String playerName : names) {
+            result.put(playerName, 0) ;
+        }
+        return result ;
 	}
 
+	private static List<String> getPlayerNamesFromTypes(int num, List<String> types) throws Exception {
+	    String name = null;
+	    String namePrefix = "Computer-";
+	    List<String> result = new ArrayList<String>() ;
+        
+	    for (int i = 0 ; i < types.size() ; i++) { 
+            String className = (PlayerFactory.createPlayer(types.get(i), namePrefix, num)).getClass().getName() ;
+            StringTokenizer st = new StringTokenizer(className, ".") ;
+            while (st.hasMoreTokens())
+                name = st.nextToken();
+            result.add(name) ;
+        }
+	    
+	    return result ;
+	}
 	
 	private void deal() {
 		game.deal() ;
@@ -168,80 +131,82 @@ public class BattleEngine implements ShitheadEngine {
 			details = game.getGameDetails() ;
 
 			if (turns == 10000) {
-				throw new StalemateException("ERROR - Game got stuck in a loop, " + turns + " turns played!") ;
+				stalemate = true ;
+				stalemates++ ;
+				return ;
 			}
-			
-		    Player currentPlayer = details.getCurrentPlayer() ;
-		    List<Integer> cardChoice = new ArrayList<Integer>() ;
-		    
-		    // if player can possibly lay any cards
-		    if (game.currentPlayerCanPlay()) {
-
-		    	// if computer player
-		    	if (game.isCurrentPlayerComputerPlayer()) {
-		    		
-		    		// if face down, pick for computer, as we don't want any cheating!!
-		    		if (game.playingFromFaceDown()) {
-		    			cardChoice.add(0) ;
-
-		    			// play if valid card
-		    			if (game.checkValidMove(cardChoice)) 
-				    		game.play(cardChoice) ;
-		    			// pick up if not
-		    			else 
-		    				game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
-				    	
-		    			// move game on
-		    			game.moveToNextPlayer() ;
-		    		}
-		    		// otherwise ask it to choose a card
-		    		else {
-				    	PlayerHelper helper = game.getPlayerHelper() ;
-		    			
-		    			details = game.getGameDetails() ;
-
-		    			if (game.playingFromFaceUp()) 
-			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;				    	
-			    		else // play from hand
-			    			cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;				    	
-			    			
-		    			// if its a valid move play
-		    			if (game.checkValidMove(cardChoice)) 
-		    				game.play(cardChoice) ;
-
-		    			// otherwise, computers mustn't try invalid moves when we ask them
-		    			// we could get stuck asking them forever
-		    			else {
-		    				String name = currentPlayer.getName() ;
-		    				Card card ;
-		    				
-		    				if (game.playingFromHand()) 
-		    					card = currentPlayer.getHand().get(0) ;
-		    				else
-		    					card = currentPlayer.getFaceUp().get(0) ;
-		    				throw new Exception("Computer player chose invalid move, player:" + 
-		    											name + ", card:" + card) ;
-		    			}
-		    			// move game on
-		    			game.moveToNextPlayer() ;
-		    		}
-		    	}
-		    	else { // else if human player
-		    		cli.bail(new Exception("Cannot have human player in computer battle!!"), details) ;
-		    	}
-		    }
-		    // current player cannot actually play
-		    else {
-	    		// make them pick up and move game on
-		    	game.playerPickUpPile() ;
-		    	game.moveToNextPlayer() ;
-		    }
-		    
-		    turns++ ;
+			else {
+                Player currentPlayer = details.getCurrentPlayer() ;
+                List<Integer> cardChoice = new ArrayList<Integer>() ;
+                
+                // if player can possibly lay any cards
+                if (game.currentPlayerCanPlay()) {
+    
+                    // if computer player
+                    if (game.isCurrentPlayerComputerPlayer()) {
+                        
+                        // if face down, pick for computer, as we don't want any cheating!!
+                        if (game.playingFromFaceDown()) {
+                            cardChoice.add(0) ;
+    
+                            // play if valid card
+                            if (game.checkValidMove(cardChoice)) 
+                                game.play(cardChoice) ;
+                            // pick up if not
+                            else 
+                                game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
+                            
+                            // move game on
+                            game.moveToNextPlayer() ;
+                        }
+                        // otherwise ask it to choose a card
+                        else {
+                            PlayerHelper helper = game.getPlayerHelper() ;
+                            
+                            details = game.getGameDetails() ;
+    
+                            if (game.playingFromFaceUp()) 
+                                cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;                        
+                            else // play from hand
+                                cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;                      
+                                
+                            // if its a valid move play
+                            if (game.checkValidMove(cardChoice)) 
+                                game.play(cardChoice) ;
+    
+                            // otherwise, computers mustn't try invalid moves when we ask them
+                            // we could get stuck asking them forever
+                            else {
+                                String name = currentPlayer.getName() ;
+                                Card card ;
+                                
+                                if (game.playingFromHand()) 
+                                    card = currentPlayer.getHand().get(0) ;
+                                else
+                                    card = currentPlayer.getFaceUp().get(0) ;
+                                throw new Exception("Computer player chose invalid move, player:" + 
+                                                            name + ", card:" + card) ;
+                            }
+                            // move game on
+                            game.moveToNextPlayer() ;
+                        }
+                    }
+                    else { // else if human player
+                        cli.bail(new Exception("Cannot have human player in computer battle!!"), details) ;
+                    }
+                }
+                // current player cannot actually play
+                else {
+                    // make them pick up and move game on
+                    game.playerPickUpPile() ;
+                    game.moveToNextPlayer() ;
+                }
+                turns++ ;
+			}
 		}
 	}
 
-	private void end(boolean stalemate) throws Exception {
+	private void end() throws Exception {
 		if (!stalemate) {
 			String shithead = game.getShithead() ;
 			int total = shitheadMap.get(shithead) ;
@@ -252,10 +217,12 @@ public class BattleEngine implements ShitheadEngine {
 		//cli.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 	}
 	
-	private void finish(long time) {
-		cli.line() ;
+	private void battleSummary() {
+        stopTime = System.currentTimeMillis() ;
+        duration = stopTime - startTime ;
+	    cli.line() ;
 		Map<String, Integer> sortedShitheads = sortHashMapByValues(shitheadMap) ;
-		cli.showBattleSummary(sortedShitheads, stalemates, time) ;		
+		cli.showBattleSummary(sortedShitheads, stalemates, duration) ;		
 	}
 
 	private LinkedHashMap<String, Integer> sortHashMapByValues(Map<String, Integer> originalMap) {

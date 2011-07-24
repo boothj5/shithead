@@ -223,10 +223,7 @@ public class CliEngine implements ShitheadEngine {
 
 	
 	private void end() throws Exception{
-		
 		String shithead = game.getShithead() ;
-		
 		cli.showGameOver(shithead) ;
-		
 	}
 }
