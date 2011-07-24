@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.card.Card;
@@ -30,25 +31,19 @@ public class BattleEngine implements ShitheadEngine {
 	long startTime, stopTime, duration ;
 	boolean stalemate ;
 	
-	public void runEngine(String[] args) {
-		try {
-			globalInit(args) ;
-			for (int i = 0 ; i < numGames ; i++) {
-		        init() ;
-				deal() ;
-				swap() ;
-				firstMove() ;
-				play() ;
-				end() ;
-			}
-			globalEnd() ;
-		} catch (Exception e) {
-			ShitheadGameDetails details = game.getGameDetails() ;
-			cli.bail(e, details) ;
-		}
+	@Override
+	public int getNumGames() {
+	    return numGames ;
 	}
 	
-	private void globalInit(String[] args) throws Exception {
+	@Override
+	public void error(ShitheadException e) {
+        ShitheadGameDetails details = game.getGameDetails() ;
+        cli.bail(e, details) ;
+    }
+	
+	@Override
+	public void globalInit(String[] args) throws ShitheadException {
 		cli.line() ;
 		cli.welcome() ;
 		numCards = 3 ;
@@ -58,7 +53,8 @@ public class BattleEngine implements ShitheadEngine {
         startTime = System.currentTimeMillis() ;
 	}
 	
-	private void init() throws Exception {
+	@Override
+	public void init() throws ShitheadException {
         Collections.shuffle(playerTypes) ;      
         playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
         game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
@@ -66,36 +62,13 @@ public class BattleEngine implements ShitheadEngine {
         stalemate = false ;
 	}
 	
-	private static Map<String, Integer> createShitheadMap(List<String> names) {
-        Map<String, Integer> result = new HashMap<String, Integer>() ;
-	    
-	    for (String playerName : names) {
-            result.put(playerName, 0) ;
-        }
-        return result ;
-	}
-
-	private static List<String> getPlayerNamesFromTypes(int num, List<String> types) throws Exception {
-	    String name = null;
-	    String namePrefix = "Computer-";
-	    List<String> result = new ArrayList<String>() ;
-        
-	    for (int i = 0 ; i < types.size() ; i++) { 
-            String className = (PlayerFactory.createPlayer(types.get(i), namePrefix, num)).getClass().getName() ;
-            StringTokenizer st = new StringTokenizer(className, ".") ;
-            while (st.hasMoreTokens())
-                name = st.nextToken();
-            result.add(name) ;
-        }
-	    
-	    return result ;
-	}
-	
-	private void deal() {
+	@Override
+	public void deal() {
 		game.deal() ;
 	}
 
-	private void swap() {
+	@Override
+	public void swap() {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		for (Player player : details.getPlayers()) {
@@ -119,11 +92,13 @@ public class BattleEngine implements ShitheadEngine {
 		}
 	}
 	
-	private void firstMove() {
+	@Override
+	public void firstMove() {
 		game.firstMove() ;
 	}
 	
-	private void play() throws Exception {	
+	@Override
+	public void play() throws ShitheadException {	
 		ShitheadGameDetails details ;
 		
 		// while no loser
@@ -184,7 +159,7 @@ public class BattleEngine implements ShitheadEngine {
                                     card = currentPlayer.getHand().get(0) ;
                                 else
                                     card = currentPlayer.getFaceUp().get(0) ;
-                                throw new Exception("Computer player chose invalid move, player:" + 
+                                throw new ShitheadException("Computer player chose invalid move, player:" + 
                                                             name + ", card:" + card) ;
                             }
                             // move game on
@@ -192,7 +167,7 @@ public class BattleEngine implements ShitheadEngine {
                         }
                     }
                     else { // else if human player
-                        cli.bail(new Exception("Cannot have human player in computer battle!!"), details) ;
+                        cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), details) ;
                     }
                 }
                 // current player cannot actually play
@@ -206,7 +181,8 @@ public class BattleEngine implements ShitheadEngine {
 		}
 	}
 
-	private void end() throws Exception {
+	@Override
+	public void end() throws ShitheadException {
 		if (!stalemate) {
 			String shithead = game.getShithead() ;
 			int total = shitheadMap.get(shithead) ;
@@ -217,7 +193,8 @@ public class BattleEngine implements ShitheadEngine {
 		//cli.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 	}
 	
-	private void globalEnd() {
+    @Override
+	public void globalEnd() {
         stopTime = System.currentTimeMillis() ;
         duration = stopTime - startTime ;
 	    cli.line() ;
@@ -247,5 +224,30 @@ public class BattleEngine implements ShitheadEngine {
 	        }
 	    }
 	    return newSortedMap;
-	}	
+	}
+
+   private static Map<String, Integer> createShitheadMap(List<String> names) {
+        Map<String, Integer> result = new HashMap<String, Integer>() ;
+        
+        for (String playerName : names) {
+            result.put(playerName, 0) ;
+        }
+        return result ;
+    }
+
+    private static List<String> getPlayerNamesFromTypes(int num, List<String> types) throws ShitheadException {
+        String name = null;
+        String namePrefix = "Computer-";
+        List<String> result = new ArrayList<String>() ;
+        
+        for (int i = 0 ; i < types.size() ; i++) { 
+            String className = (PlayerFactory.createPlayer(types.get(i), namePrefix, num)).getClass().getName() ;
+            StringTokenizer st = new StringTokenizer(className, ".") ;
+            while (st.hasMoreTokens())
+                name = st.nextToken();
+            result.add(name) ;
+        }
+        
+        return result ;
+    }
 }

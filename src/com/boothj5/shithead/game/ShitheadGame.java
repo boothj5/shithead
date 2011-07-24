@@ -13,20 +13,16 @@ import com.boothj5.shithead.game.player.computer.ComputerPlayer;
 
 public class ShitheadGame {
 	private List<Player> players = new ArrayList<Player>() ;
-
 	private Deck deck = new Deck() ;
 	private int numPlayers ;
 	private int numCardsPerHand ;
-
 	private int currentPlayer ;
-
 	private Stack<Card> pile = new Stack<Card>() ;
 	private List<Card> burnt = new ArrayList<Card>() ;
-	
 	private LastMove lastMove ;
 
 	public ShitheadGame(int numPlayers, List<String> playerNames, List<String> playerTypes, 
-						int cardsPerHand) throws Exception {
+						int cardsPerHand) throws ShitheadException {
 		this.numPlayers = numPlayers ;
 		this.numCardsPerHand = cardsPerHand ;
 
@@ -276,11 +272,11 @@ public class ShitheadGame {
 		return continueGame ;		
 	}
 	
-	public String getShithead() throws Exception {
+	public String getShithead() throws ShitheadException {
 		for (Player player : players) 
 			if (player.hasCards()) 
 				return player.getName() ;
-		throw new Exception("Game finished but no Shithead found!") ;
+		throw new ShitheadException("Game finished but no Shithead found!") ;
 	}
 	
 	public PlayerHelper getPlayerHelper() {

@@ -3,12 +3,13 @@ package com.boothj5.shithead.game.player;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.player.computer.*;
 
 public class PlayerFactory {
 
 	public static Player createPlayer(String playerType, String name, int cardsPerHand)
-			throws Exception {
+			throws ShitheadException {
 		if (playerType.equals("h"))
 			return new HumanPlayer(name, cardsPerHand) ;
 		else if (playerType.equals("s")) 
@@ -26,7 +27,7 @@ public class PlayerFactory {
 		else if (playerType.equals("l")) 
 			return new LikesRankOrder(name, cardsPerHand) ;
 		else 
-			throw new Exception("Cannot find player type to create") ;
+			throw new ShitheadException("Cannot find player type to create") ;
 	}
 	
 	public static Map<String, String> computerPlayerList() {

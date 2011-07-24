@@ -2,6 +2,7 @@ package com.boothj5.shithead.engine;
 
 import java.util.* ;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
@@ -13,35 +14,27 @@ public class CliEngine implements ShitheadEngine {
 	int numGames = 1 ;
 	ShitheadCli cli = new ShitheadCli() ;
 	
-	public void runEngine(String[] args) {
-
-       try {
-            globalInit(args) ;
-            for (int i = 0 ; i < numGames ; i++) {
-                init() ;
-                deal() ;
-                swap() ;
-                firstMove() ;
-                play() ;
-                end() ;
-            }
-            globalEnd() ;
-        } catch (Exception e) {
-            ShitheadGameDetails details = game.getGameDetails() ;
-            cli.bail(e, details) ;
-        }
+	@Override
+	public int getNumGames() {
+	    return numGames ;
 	}
 	
-	private void globalInit(String[] args) {
-	    
+	@Override
+	public void error(ShitheadException e) {
+        ShitheadGameDetails details = game.getGameDetails() ;
+        cli.bail(e, details) ;
 	}
 	
-	private void globalEnd() {
-	    
+	@Override
+	public void globalInit(String[] args) {
 	}
 	
+	@Override
+	public void globalEnd() {
+	}
 	
-	private void init() throws Exception {
+	@Override
+	public void init() throws ShitheadException {
 		int numPlayers ;
 		int numCards ;
 		List<String> playerNames = new ArrayList<String>() ;
@@ -65,7 +58,8 @@ public class CliEngine implements ShitheadEngine {
 		game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;		
 	}
 	
-	private void deal() {
+	@Override
+	public void deal() {
 		game.deal() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
@@ -74,7 +68,8 @@ public class CliEngine implements ShitheadEngine {
 		cli.waitOnUser() ;
 	}
 
-	private void swap() {
+	@Override
+	public void swap() {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		for (Player player : details.getPlayers()) {
@@ -111,7 +106,8 @@ public class CliEngine implements ShitheadEngine {
 		cli.showGame(details, true) ;
 	}
 	
-	private void firstMove() {
+	@Override
+	public void firstMove() {
 		game.firstMove() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 
@@ -122,7 +118,8 @@ public class CliEngine implements ShitheadEngine {
 		cli.waitOnUser() ;
 	}
 	
-	private void play() throws Exception {
+	@Override
+	public void play() throws ShitheadException {
 		ShitheadGameDetails details ;
 		
 		// while no loser
@@ -172,7 +169,7 @@ public class CliEngine implements ShitheadEngine {
 		    			// otherwise, computers mustn't try invalid moves when we ask them
 		    			// we could get stuck asking them forever
 		    			else
-		    				throw new Exception("Computer player chose invalid move") ;
+		    				throw new ShitheadException("Computer player chose invalid move") ;
 
 		    			// move game on
 		    			game.moveToNextPlayer() ;
@@ -237,7 +234,8 @@ public class CliEngine implements ShitheadEngine {
 	}
 
 	
-	private void end() throws Exception{
+	@Override
+	public void end() throws ShitheadException {
 		String shithead = game.getShithead() ;
 		cli.showGameOver(shithead) ;
 	}
