@@ -8,29 +8,12 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public class CliEngine implements ShitheadEngine {
+public class CliEngine extends ShitheadEngine {
+    ShitheadCli cli = new ShitheadCli() ;
 
-	ShitheadGame game ;
-	int numGames = 1 ;
-	ShitheadCli cli = new ShitheadCli() ;
-	
-	@Override
-	public int getNumGames() {
-	    return numGames ;
-	}
-	
-	@Override
-	public void error(ShitheadException e) {
-        ShitheadGameDetails details = game.getGameDetails() ;
-        cli.bail(e, details) ;
-	}
-	
 	@Override
 	public void globalInit(String[] args) {
-	}
-	
-	@Override
-	public void globalEnd() {
+	    numGames = 1 ;
 	}
 	
 	@Override
@@ -71,41 +54,18 @@ public class CliEngine implements ShitheadEngine {
 	@Override
 	public void swap() {
 		ShitheadGameDetails details = game.getGameDetails() ;
-		
-		for (Player player : details.getPlayers()) {
-			
-			if (player.isComputer()) {
-				boolean wantsToSwap = player.askSwapMore() ;
-				if (wantsToSwap) {
-					SwapResponse response = player.askSwapChoice() ;
-					player.swapCards(response) ;
-					wantsToSwap = player.askSwapMore() ;
-					while (wantsToSwap) {
-						response = player.askSwapChoice() ;
-						player.swapCards(response) ;
-						wantsToSwap = player.askSwapMore() ;
-					}
-				}
-			}
-			else { 
-				cli.showPlayerSwap(details, player) ;
 
-				boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
-				while (wantsToSwap) {
-					int cardFromHand = cli.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
-					int cardFromPile = cli.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
-					SwapResponse response = new SwapResponse(cardFromHand, cardFromPile) ;
-					player.swapCards(response) ;
-					cli.showPlayerSwap(details, player) ;
-					wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
-				}
-			}
+		for (Player player : details.getPlayers()) {
+			if (player.isComputer()) 
+		        computerPlayerSwap(player) ;
+			else 
+			    humanPlayerSwap(details, player, cli) ;
 		}
 		
 		details = game.getGameDetails() ;
 		cli.showGame(details, true) ;
 	}
-	
+
 	@Override
 	public void firstMove() {
 		game.firstMove() ;
@@ -239,4 +199,32 @@ public class CliEngine implements ShitheadEngine {
 		String shithead = game.getShithead() ;
 		cli.showGameOver(shithead) ;
 	}
+
+    @Override
+    public void globalEnd() {
+    }
+	
+	
+	@Override
+    public void error(ShitheadException e) {
+        ShitheadGameDetails details = game.getGameDetails() ;
+        cli.bail(e, details) ;
+    }
+
+    private static void humanPlayerSwap(ShitheadGameDetails details, Player player, ShitheadCli cli) {
+        cli.showPlayerSwap(details, player) ;
+
+        boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
+        while (wantsToSwap) {
+            int cardFromHand = cli.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
+            int cardFromPile = cli.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
+            SwapResponse response = new SwapResponse(cardFromHand, cardFromPile) ;
+            player.swapCards(response) ;
+            cli.showPlayerSwap(details, player) ;
+            wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
+        }
+    }
+    
+
+
 }

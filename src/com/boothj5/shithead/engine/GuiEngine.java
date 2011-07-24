@@ -3,17 +3,13 @@ package com.boothj5.shithead.engine;
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.ui.gui.MainWindow;
 
-public class GuiEngine implements ShitheadEngine {
+public class GuiEngine extends ShitheadEngine {
 
     private String[] args ;
-    private int numGames = 1 ;
     
     public void globalInit(String[] args) throws ShitheadException {
         this.args = args ;
-    }
-    
-    public int getNumGames() {
-        return numGames ;
+        this.numGames = 1;
     }
     
     public void init() throws ShitheadException {

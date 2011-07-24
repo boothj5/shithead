@@ -16,31 +16,18 @@ import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
-import com.boothj5.shithead.game.player.SwapResponse;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public class BattleEngine implements ShitheadEngine {
-	ShitheadGame game ;
-	ShitheadCli cli = new ShitheadCli() ;
-	List<String> playerNames = new ArrayList<String>() ; 
+public class BattleEngine extends ShitheadEngine {
+    ShitheadCli cli = new ShitheadCli() ;
+    List<String> playerNames = new ArrayList<String>() ; 
 	List<String> playerTypes = Arrays.asList("l", "f", "d", "p", "r", "a", "s") ;
     Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
     int numPlayers = playerTypes.size() ;
-    int numCards, numGames, turns ;
+    int numCards, turns ;
 	int stalemates = 0 ;
 	long startTime, stopTime, duration ;
 	boolean stalemate ;
-	
-	@Override
-	public int getNumGames() {
-	    return numGames ;
-	}
-	
-	@Override
-	public void error(ShitheadException e) {
-        ShitheadGameDetails details = game.getGameDetails() ;
-        cli.bail(e, details) ;
-    }
 	
 	@Override
 	public void globalInit(String[] args) throws ShitheadException {
@@ -72,23 +59,7 @@ public class BattleEngine implements ShitheadEngine {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		for (Player player : details.getPlayers()) {
-			
-			// ask player if they want to swap cards
-			Boolean wantsToSwap = player.askSwapMore() ;
-
-			// if we get a true of false, its a computer player
-			if (wantsToSwap) {
-				SwapResponse response = player.askSwapChoice() ;
-				player.swapCards(response) ;
-				
-				// again and keep swapping until 'n'
-				wantsToSwap = player.askSwapMore() ;
-				while (wantsToSwap) {
-					response = player.askSwapChoice() ;
-					player.swapCards(response) ;
-					wantsToSwap = player.askSwapMore() ;
-				}
-			}
+			computerPlayerSwap(player) ;
 		}
 	}
 	
@@ -202,6 +173,13 @@ public class BattleEngine implements ShitheadEngine {
 		cli.showBattleSummary(sortedShitheads, stalemates, duration) ;		
 	}
 
+    @Override
+    public void error(ShitheadException e) {
+        ShitheadGameDetails details = game.getGameDetails() ;
+        cli.bail(e, details) ;
+    }
+    
+    
 	private LinkedHashMap<String, Integer> sortHashMapByValues(Map<String, Integer> originalMap) {
 	    List<String> sortedKeys = new ArrayList<String>(originalMap.keySet());
 	    List<Integer> sortedValues = new ArrayList<Integer>(originalMap.values());
