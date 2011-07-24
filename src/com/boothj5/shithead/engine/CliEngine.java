@@ -78,20 +78,8 @@ public class CliEngine extends ShitheadEngine {
 		cli.waitOnUser() ;
 	}
 	
-	private void showGame(boolean wait) {
-		ShitheadGameDetails details = game.getGameDetails() ;
-		cli.showGame(details, true) ;
-		cli.showLastMove(details) ;
-		if (wait) 
-			cli.waitPressEnter() ;
-		else
-			cli.line() ;
-	}
-	
 	@Override
 	public void play() throws ShitheadException {
-		
-		// while no loser
 		while (game.canContinueGame()) {
 			showGame(false) ;
 
@@ -102,64 +90,67 @@ public class CliEngine extends ShitheadEngine {
 		    		if (game.playingFromFaceDown())
 		    		    computerPlayerFaceDownMove();
 		    		else 
-				    	computerPlayerMove(currentPlayer);
+				    	computerPlayerMove();
 
 		    		showGame(true) ;
 		    	}
-		    	
-		    	else { // human player
-		    		String playerName = game.getCurrentPlayer().getName() ;
-		    		
-		    		int handSize = game.getHandSize() ;
-		    		
-		    		// if playing from face down
-		    		if (game.playingFromFaceDown()) {
-		    		    List<Integer> cardChoice = new ArrayList<Integer>() ;
-		    			int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
-		    			cardChoice.add(cardChoiceFromFaceDown) ;
-		    			
-		    			// play if valid card
-		    			if (game.checkValidMove(cardChoice)) {
-				    		cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
-		    				game.play(cardChoice) ;
-		    			}
-		    			// pick up if not
-		    			else {
-				    		cli.showHandDownNotOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
-		    				game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
-		    			}
-				    	// move game on
-		    			game.moveToNextPlayer() ;
-		    		}
-		    		// if from hand or face up
-		    		else {
-		    		    List<Integer> cardChoice = new ArrayList<Integer>() ;
-		    			cardChoice = cli.requestMove(playerName, handSize, false) ;
-			    		boolean validMove = game.checkValidMove(cardChoice) ;
-			    		
-			    		// we know there is a valid move, since we've checked, so loop until they pick it
-			    		while (!validMove) {
-			    			cardChoice = cli.requestMove(playerName, handSize, true) ;
-			    			validMove = game.checkValidMove(cardChoice) ;
-			    		}
-	
-			    		// once they've picked, play and move game on
-			    		game.play(cardChoice) ;
-				    	game.moveToNextPlayer() ;
-		    		}
-		    	}
+		    	else // human player
+		    		if (game.playingFromFaceDown())
+		    		    humanPlayerFaceDownMove();
+		    		else 
+		    		    humanPlayerMove();
 		    }
-		    // current player cannot actually play
 		    else {
-	    		String playerName = game.getCurrentPlayer().getName() ;
-	    		cli.showPlayerPickupMessage(playerName) ;
-		    	cli.waitOnUser() ;
-		    	
-	    		// make them pick up and move game on
+	    		showPickupAndWait();
 		    	game.playerPickUpPile() ;
 		    	game.moveToNextPlayer() ;
 		    }
 		}
+	}
+
+	private void showPickupAndWait() {
+		String playerName = game.getCurrentPlayer().getName() ;
+		cli.showPlayerPickupMessage(playerName) ;
+		cli.waitOnUser() ;
+	}
+
+	private void humanPlayerMove() {
+		int handSize = game.getHandSize() ;
+		String playerName = game.getCurrentPlayer().getName() ;
+		List<Integer> cardChoice = new ArrayList<Integer>() ;
+		cardChoice = cli.requestMove(playerName, handSize, false) ;
+		boolean validMove = game.checkValidMove(cardChoice) ;
+		
+		// we know there is a valid move, since we've checked, so loop until they pick it
+		while (!validMove) {
+			cardChoice = cli.requestMove(playerName, handSize, true) ;
+			validMove = game.checkValidMove(cardChoice) ;
+		}
+
+		// once they've picked, play and move game on
+		game.play(cardChoice) ;
+		game.moveToNextPlayer() ;
+	}
+
+	private void humanPlayerFaceDownMove() {
+		int handSize = game.getHandSize() ;
+		String playerName = game.getCurrentPlayer().getName() ;
+		List<Integer> cardChoice = new ArrayList<Integer>() ;
+		int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
+		cardChoice.add(cardChoiceFromFaceDown) ;
+		
+		// play if valid card
+		if (game.checkValidMove(cardChoice)) {
+			cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+			game.play(cardChoice) ;
+		}
+		// pick up if not
+		else {
+			cli.showHandDownNotOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+			game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
+		}
+		// move game on
+		game.moveToNextPlayer() ;
 	}
 
 	@Override
@@ -193,6 +184,15 @@ public class CliEngine extends ShitheadEngine {
         }
     }
     
+	private void showGame(boolean wait) {
+		ShitheadGameDetails details = game.getGameDetails() ;
+		cli.showGame(details, true) ;
+		cli.showLastMove(details) ;
+		if (wait) 
+			cli.waitPressEnter() ;
+		else
+			cli.line() ;
+	}
 
 
 }

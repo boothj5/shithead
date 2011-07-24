@@ -71,34 +71,28 @@ public class BattleEngine extends ShitheadEngine {
 	
 	@Override
 	public void play() throws ShitheadException {	
-		ShitheadGameDetails details ;
-		
-		// while no loser
 		while (game.canContinueGame()) {
-			details = game.getGameDetails() ;
-
 			if (turns == 10000) {
 				stalemate = true ;
 				stalemates++ ;
 				return ;
 			}
 			else {
-                Player currentPlayer = details.getCurrentPlayer() ;
+                Player currentPlayer = game.getCurrentPlayer() ;
                 
                 if (game.currentPlayerCanPlay()) {
                    if (currentPlayer.isComputer()) {
                         if (game.playingFromFaceDown())
                         	computerPlayerFaceDownMove() ;
                         else
-                        	computerPlayerMove(currentPlayer) ;
+                        	computerPlayerMove() ;
                     }
-                    else { // else if human player
-                        cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), details) ;
+                    else { // human player
+                        ShitheadGameDetails details = game.getGameDetails() ;
+                    	cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), details) ;
                     }
                 }
-                // current player cannot actually play
                 else {
-                    // make them pick up and move game on
                     game.playerPickUpPile() ;
                     game.moveToNextPlayer() ;
                 }

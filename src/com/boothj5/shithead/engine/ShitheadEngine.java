@@ -27,7 +27,8 @@ public abstract class ShitheadEngine {
         }
     }
     
-	protected final void computerPlayerMove(Player currentPlayer) throws ShitheadException {
+	protected final void computerPlayerMove() throws ShitheadException {
+		Player currentPlayer = game.getCurrentPlayer() ;
 		PlayerHelper helper = game.getPlayerHelper() ;
 		List<Integer> cardChoice = new ArrayList<Integer>() ;
 
