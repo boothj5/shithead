@@ -78,86 +78,54 @@ public class CliEngine extends ShitheadEngine {
 		cli.waitOnUser() ;
 	}
 	
+	private void showGame(boolean wait) {
+		ShitheadGameDetails details = game.getGameDetails() ;
+		cli.showGame(details, true) ;
+		cli.showLastMove(details) ;
+		if (wait) 
+			cli.waitPressEnter() ;
+		else
+			cli.line() ;
+	}
+	
 	@Override
 	public void play() throws ShitheadException {
-		ShitheadGameDetails details ;
 		
 		// while no loser
 		while (game.canContinueGame()) {
-			details = game.getGameDetails() ;
-			cli.showGame(details, true) ;
-			cli.showLastMove(details) ;
-			cli.line() ;
+			showGame(false) ;
 
-		    Player currentPlayer = details.getCurrentPlayer() ;
-		    List<Integer> cardChoice = new ArrayList<Integer>() ;
+		    Player currentPlayer = game.getCurrentPlayer() ;
 		    
-		    // if player can possibly lay any cards
 		    if (game.currentPlayerCanPlay()) {
+		    	if (currentPlayer.isComputer()) {
+		    		if (game.playingFromFaceDown())
+		    		    computerPlayerFaceDownMove();
+		    		else 
+				    	computerPlayerMove(currentPlayer);
 
-		    	// if computer player
-		    	if (game.isCurrentPlayerComputerPlayer()) {
-		    		
-		    		// if face down, pick for computer, as we don't want any cheating!!
-		    		if (game.playingFromFaceDown()) {
-		    			cardChoice.add(0) ;
-
-		    			// play if valid card
-		    			if (game.checkValidMove(cardChoice)) 
-				    		game.play(cardChoice) ;
-		    			// pick up if not
-		    			else 
-		    				game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
-				    	
-		    			// move game on
-		    			game.moveToNextPlayer() ;
-		    		}
-		    		// otherwise ask it to choose a card
-		    		else {
-				    	PlayerHelper helper = game.getPlayerHelper() ;
-		    			details = game.getGameDetails() ;
-
-		    			if (game.playingFromFaceUp()) 
-			    			cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;				    	
-			    		else // play from hand
-			    			cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;				    	
-			    			
-		    			// if its a valid move play
-		    			if (game.checkValidMove(cardChoice)) 
-		    				game.play(cardChoice) ;
-
-		    			// otherwise, computers mustn't try invalid moves when we ask them
-		    			// we could get stuck asking them forever
-		    			else
-		    				throw new ShitheadException("Computer player chose invalid move") ;
-
-		    			// move game on
-		    			game.moveToNextPlayer() ;
-		    		}
-		    		details = game.getGameDetails() ;
-		    		cli.showGame(details, true) ;
-		    		cli.showLastMove(details) ; 
-		    		cli.waitPressEnter() ;
+		    		showGame(true) ;
 		    	}
-		    	// else if human player
-		    	else {
-		    		String playerName = details.getCurrentPlayer().getName() ;
+		    	
+		    	else { // human player
+		    		String playerName = game.getCurrentPlayer().getName() ;
 		    		
 		    		int handSize = game.getHandSize() ;
 		    		
 		    		// if playing from face down
 		    		if (game.playingFromFaceDown()) {
+		    		    List<Integer> cardChoice = new ArrayList<Integer>() ;
 		    			int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
 		    			cardChoice.add(cardChoiceFromFaceDown) ;
 		    			
 		    			// play if valid card
 		    			if (game.checkValidMove(cardChoice)) {
-				    		cli.showHandDownOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+				    		cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    				game.play(cardChoice) ;
 		    			}
 		    			// pick up if not
 		    			else {
-				    		cli.showHandDownNotOk(playerName, details.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
+				    		cli.showHandDownNotOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
 		    				game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
 		    			}
 				    	// move game on
@@ -165,6 +133,7 @@ public class CliEngine extends ShitheadEngine {
 		    		}
 		    		// if from hand or face up
 		    		else {
+		    		    List<Integer> cardChoice = new ArrayList<Integer>() ;
 		    			cardChoice = cli.requestMove(playerName, handSize, false) ;
 			    		boolean validMove = game.checkValidMove(cardChoice) ;
 			    		
@@ -182,7 +151,7 @@ public class CliEngine extends ShitheadEngine {
 		    }
 		    // current player cannot actually play
 		    else {
-	    		String playerName = details.getCurrentPlayer().getName() ;
+	    		String playerName = game.getCurrentPlayer().getName() ;
 	    		cli.showPlayerPickupMessage(playerName) ;
 		    	cli.waitOnUser() ;
 		    	
@@ -193,7 +162,6 @@ public class CliEngine extends ShitheadEngine {
 		}
 	}
 
-	
 	@Override
 	public void end() throws ShitheadException {
 		String shithead = game.getShithead() ;

@@ -84,59 +84,13 @@ public class BattleEngine extends ShitheadEngine {
 			}
 			else {
                 Player currentPlayer = details.getCurrentPlayer() ;
-                List<Integer> cardChoice = new ArrayList<Integer>() ;
                 
-                // if player can possibly lay any cards
                 if (game.currentPlayerCanPlay()) {
-    
-                    // if computer player
-                    if (game.isCurrentPlayerComputerPlayer()) {
-                        
-                        // if face down, pick for computer, as we don't want any cheating!!
-                        if (game.playingFromFaceDown()) {
-                            cardChoice.add(0) ;
-    
-                            // play if valid card
-                            if (game.checkValidMove(cardChoice)) 
-                                game.play(cardChoice) ;
-                            // pick up if not
-                            else 
-                                game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
-                            
-                            // move game on
-                            game.moveToNextPlayer() ;
-                        }
-                        // otherwise ask it to choose a card
-                        else {
-                            PlayerHelper helper = game.getPlayerHelper() ;
-                            
-                            details = game.getGameDetails() ;
-    
-                            if (game.playingFromFaceUp()) 
-                                cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;                        
-                            else // play from hand
-                                cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;                      
-                                
-                            // if its a valid move play
-                            if (game.checkValidMove(cardChoice)) 
-                                game.play(cardChoice) ;
-    
-                            // otherwise, computers mustn't try invalid moves when we ask them
-                            // we could get stuck asking them forever
-                            else {
-                                String name = currentPlayer.getName() ;
-                                Card card ;
-                                
-                                if (game.playingFromHand()) 
-                                    card = currentPlayer.getHand().get(0) ;
-                                else
-                                    card = currentPlayer.getFaceUp().get(0) ;
-                                throw new ShitheadException("Computer player chose invalid move, player:" + 
-                                                            name + ", card:" + card) ;
-                            }
-                            // move game on
-                            game.moveToNextPlayer() ;
-                        }
+                   if (currentPlayer.isComputer()) {
+                        if (game.playingFromFaceDown())
+                        	computerPlayerFaceDownMove() ;
+                        else
+                        	computerPlayerMove(currentPlayer) ;
                     }
                     else { // else if human player
                         cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), details) ;
@@ -180,7 +134,7 @@ public class BattleEngine extends ShitheadEngine {
         cli.bail(e, details) ;
     }
     
-   private static Map<String, Integer> createShitheadMap(List<String> names) {
+    private static Map<String, Integer> createShitheadMap(List<String> names) {
         Map<String, Integer> result = new HashMap<String, Integer>() ;
         
         for (String playerName : names) {

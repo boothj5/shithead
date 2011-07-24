@@ -9,7 +9,6 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
-import com.boothj5.shithead.game.player.computer.ComputerPlayer;
 
 public class ShitheadGame {
 	private List<Player> players = new ArrayList<Player>() ;
@@ -133,10 +132,6 @@ public class ShitheadGame {
 		}
 		
 		return canPlay ;
-	}
-
-	public boolean isCurrentPlayerComputerPlayer() {
-		return players.get(currentPlayer) instanceof ComputerPlayer ;
 	}
 	
 	public int getHandSize() {
@@ -403,5 +398,9 @@ public class ShitheadGame {
 			}
 		}
 	}	
+	
+	public Player getCurrentPlayer() {
+		return players.get(currentPlayer) ;
+	}
 
 }
