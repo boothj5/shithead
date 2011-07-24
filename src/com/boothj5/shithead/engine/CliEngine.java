@@ -52,7 +52,7 @@ public class CliEngine extends ShitheadEngine {
 	}
 
 	@Override
-	public void swap() {
+	public void swap() throws ShitheadException {
 		ShitheadGameDetails details = game.getGameDetails() ;
 
 		for (Player player : details.getPlayers()) {

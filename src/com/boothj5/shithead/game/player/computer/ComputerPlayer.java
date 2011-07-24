@@ -1,5 +1,6 @@
 package com.boothj5.shithead.game.player.computer;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.ShitheadCardComparator;
@@ -221,7 +222,7 @@ public abstract class ComputerPlayer implements Player {
 	public abstract boolean askSwapMore() ;
 	
     @Override
-	public abstract SwapResponse askSwapChoice()  ;
+	public abstract SwapResponse askSwapChoice() throws ShitheadException ;
 	
     @Override
 	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;

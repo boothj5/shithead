@@ -26,6 +26,8 @@ public class PlayerFactory {
 			return new FaceDownChecker(name, cardsPerHand) ;
 		else if (playerType.equals("l")) 
 			return new LikesRankOrder(name, cardsPerHand) ;
+		else if (playerType.equals("ros")) 
+			return new RankOrderSwapper(name, cardsPerHand) ;
 		else 
 			throw new ShitheadException("Cannot find player type to create") ;
 	}
@@ -40,6 +42,7 @@ public class PlayerFactory {
 	    players.put("DeviousPyro", "d") ;
 	    players.put("FaceDownChecker", "f") ;
 	    players.put("LikesRankOrder", "l") ;
+	    players.put("RankOrderSwapper", "ros") ;
 	    
 	    return players ;
 	}
@@ -54,6 +57,7 @@ public class PlayerFactory {
 	        players.put("DeviousPyro", DeviousPyro.description) ;
 	        players.put("FaceDownChecker", FaceDownChecker.description) ;
 	        players.put("LikesRankOrder", LikesRankOrder.description) ;
+	        players.put("RankOrderSwapper", RankOrderSwapper.description) ;
 	        
 	        return players ;
 	    }

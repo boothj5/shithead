@@ -2,6 +2,7 @@ package com.boothj5.shithead.game.player;
 
 import java.util.* ;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.card.Card;
 
 /**
@@ -36,7 +37,7 @@ public interface Player {
 	 * 
 	 * @return SwapResponse detailing the choice of cards to swap
 	 */
-	public SwapResponse askSwapChoice() ;
+	public SwapResponse askSwapChoice() throws ShitheadException;
 	
 	/**
 	 * Ask the player to swap cards between hand and face up hand,

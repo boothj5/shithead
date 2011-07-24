@@ -1,5 +1,6 @@
 package com.boothj5.shithead.engine;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,22 +13,21 @@ import java.util.StringTokenizer;
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
-import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
-import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 import com.boothj5.util.MapUtil;
 
 public class BattleEngine extends ShitheadEngine {
     ShitheadCli cli = new ShitheadCli() ;
     List<String> playerNames = new ArrayList<String>() ; 
-	List<String> playerTypes = Arrays.asList("l", "f", "d", "p", "r", "a", "s") ;
+	List<String> playerTypes = Arrays.asList("l", "f", "d", "p", "r", "a", "s", "ros") ;
     Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
     int numPlayers = playerTypes.size() ;
     int numCards, turns ;
 	int stalemates = 0 ;
-	long startTime, stopTime, duration ;
+	long startTime, stopTime, duration ; 
+	float avg ;
 	boolean stalemate ;
 	
 	@Override
@@ -56,7 +56,7 @@ public class BattleEngine extends ShitheadEngine {
 	}
 
 	@Override
-	public void swap() {
+	public void swap() throws ShitheadException {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		for (Player player : details.getPlayers()) {
@@ -109,17 +109,19 @@ public class BattleEngine extends ShitheadEngine {
 			total++ ;
 			shitheadMap.put(shithead, total) ;
 		}
-		//cli.dot() ;
-		//cli.showMidBattleSummary(shitheadMap, turns, stalemate) ;
 	}
 	
     @Override
 	public void globalEnd() {
         stopTime = System.currentTimeMillis() ;
         duration = stopTime - startTime ;
+    	DecimalFormat twoPlaces = new DecimalFormat("#.##");
+        avg = (new Float(duration) / new Float(numGames)) ;
+        float avgRounded = Float.valueOf(twoPlaces.format(avg)) ;
+        
 	    cli.line() ;
 		Map<String, Integer> sortedShitheads = MapUtil.sortHashMapByValues(shitheadMap) ;
-		cli.showBattleSummary(sortedShitheads, stalemates, duration) ;		
+		cli.showBattleSummary(sortedShitheads, stalemates, duration, avgRounded) ;		
 	}
 
     @Override

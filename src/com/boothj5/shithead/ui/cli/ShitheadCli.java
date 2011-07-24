@@ -46,14 +46,15 @@ public class ShitheadCli {
 	}
 	
 	private void showPlayerTypes() {
-		System.out.println("(h)- Human  - Human player") ;
-		System.out.println("(s)- Simple - Always lays lowest") ;
-		System.out.println("(a)- Aggressive - Always lays highest") ;
-		System.out.println("(r)- Random - Somes times lays lowest, sometimes hightest") ;
-		System.out.println("(p)- Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
-		System.out.println("(d)- Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
-		System.out.println("(f)- FaceDownChecker - Lays high if next player on facedown") ;
-		System.out.println("(l)- LikesRankOrder - Has a set of ordered ranks to use") ;
+		System.out.println("(h)  - Human  - Human player") ;
+		System.out.println("(s)  - Simple - Always lays lowest") ;
+		System.out.println("(a)  - Aggressive - Always lays highest") ;
+		System.out.println("(r)  - Random - Somes times lays lowest, sometimes hightest") ;
+		System.out.println("(p)  - Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
+		System.out.println("(d)  - Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
+		System.out.println("(f)  - FaceDownChecker - Lays high if next player on facedown") ;
+		System.out.println("(l)  - LikesRankOrder - Has a set of ordered ranks to use") ;
+		System.out.println("(ros)- RankOrderSwapper - Has a set of ordered ranks to use, and swaps at beginning") ;
 	}
 
 	public void waitOnUser() {
@@ -238,7 +239,7 @@ public class ShitheadCli {
 		System.out.println("Cards swapped, press enter:") ;
 	}
 	
-	public void showBattleSummary(Map<String, Integer> shitheadMap, int stalemates, long time) {
+	public void showBattleSummary(Map<String, Integer> shitheadMap, int stalemates, long time, float avg) {
 		int totalGames = 0 ;
 
 		Collection<Integer> winsEach = shitheadMap.values() ;
@@ -252,6 +253,7 @@ public class ShitheadCli {
 		System.out.println("SUMMARY:") ;
 		System.out.println("Total games: " + totalGames) ;
 		System.out.println("Total time: " + timeSeconds + " seconds") ;
+		System.out.println("Avg time: " + avg + " milliseconds") ;
 		double stalematePercentage = ((double)stalemates / totalGames) * 100.0 ;
 		System.out.println("Stalemates: " + stalemates + ", " + roundTwoDecimals(stalematePercentage) + "%") ;
 		System.out.println() ;

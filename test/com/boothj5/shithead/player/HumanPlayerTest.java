@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.* ;
 import org.junit.Test ;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.HumanPlayer;
 import com.boothj5.shithead.game.player.Player;
@@ -36,7 +37,7 @@ public class HumanPlayerTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
-	public void humanPlayerCannotBeAskedSwapChoice() {
+	public void humanPlayerCannotBeAskedSwapChoice() throws ShitheadException {
 		Player james = new HumanPlayer("James", 3) ;
 		james.askSwapChoice() ;
 	}
