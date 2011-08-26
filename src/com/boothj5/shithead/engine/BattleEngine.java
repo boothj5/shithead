@@ -2,7 +2,6 @@ package com.boothj5.shithead.engine;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +20,9 @@ import com.boothj5.util.MapUtil;
 public class BattleEngine extends ShitheadEngine {
     ShitheadCli cli = new ShitheadCli() ;
     List<String> playerNames = new ArrayList<String>() ; 
-	List<String> playerTypes = Arrays.asList("l", "f", "d", "p", "r", "a", "s", "ros") ;
+	List<String> playerTypes = new ArrayList<String>() ;
     Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
-    int numPlayers = playerTypes.size() ;
+    int numPlayers ;
     int numCards, turns ;
 	int stalemates = 0 ;
 	long startTime, stopTime, duration ; 
@@ -36,7 +35,13 @@ public class BattleEngine extends ShitheadEngine {
 		cli.welcome() ;
 		numCards = 3 ;
 		numGames = Integer.parseInt(args[1]) ;
-	    playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
+		Map<String, String> compPlayerList = PlayerFactory.computerPlayerList();
+	    
+		for (String shortName : compPlayerList.keySet()) {
+		    playerTypes.add(compPlayerList.get(shortName)) ;
+		}
+		numPlayers = playerTypes.size() ;
+		playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
         shitheadMap = createShitheadMap(playerNames) ;
         startTime = System.currentTimeMillis() ;
 	}
