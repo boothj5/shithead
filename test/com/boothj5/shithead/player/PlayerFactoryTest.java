@@ -20,6 +20,20 @@ import com.boothj5.shithead.game.player.computer.SimplePlayer;
 public class PlayerFactoryTest {
 
     @Test
+    public void computerPlayerListContainsAllPlayers() {
+        Map<String, String> players = PlayerFactory.computerPlayerList() ;
+        
+        assertEquals("s", players.get("SimplePlayer")) ;
+        assertEquals("a", players.get("Aggressive")) ;
+        assertEquals("r", players.get("RandomPlayer")) ;
+        assertEquals("p", players.get("Pyromaniac")) ;
+        assertEquals("d", players.get("DeviousPyro")) ;
+        assertEquals("f", players.get("FaceDownChecker")) ;
+        assertEquals("l", players.get("LikesRankOrder")) ;
+        assertEquals("o", players.get("RankOrderSwapper")) ;
+    }
+    
+    @Test
     public void computerPlayerDescriptionsContainsAllPlayers() throws ShitheadException {
         Map<String, String> descriptions = PlayerFactory.computerPlayerDescriptions() ;
 

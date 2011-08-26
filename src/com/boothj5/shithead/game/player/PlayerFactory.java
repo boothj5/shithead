@@ -22,29 +22,6 @@ public class PlayerFactory {
         players.put("o", RankOrderSwapper.class) ;
 	}
 	
-	public static final Map<String, Class<? extends ComputerPlayer>> getPlayers() {
-	    return players ;
-	}
-	
-    public static Map<String, String> computerPlayerDescriptions() throws ShitheadException {
-        Map<String, String> result = new HashMap<String, String>() ;
-        
-        try {
-        
-            for(String key : players.keySet()) {
-                Class<? extends ComputerPlayer> player = players.get(key) ;
-                Field descField = player.getField("description") ;
-                String description = (String) descField.get(null) ;
-                result.put(player.getName().substring(player.getPackage().getName().length() + 1), description) ; 
-            }
-        } catch (IllegalAccessException iae) {
-            throw new ShitheadException("Error getting computer player description") ;
-        } catch (NoSuchFieldException fsfe) {
-            throw new ShitheadException("Error getting computer player description") ;
-        }
-        return result ;
-    }
-    
     public static Player createPlayer(String playerType, String name, int cardsPerHand)
 			throws ShitheadException {
 		if (playerType.equals("h"))
@@ -63,39 +40,43 @@ public class PlayerFactory {
 			return new FaceDownChecker(name, cardsPerHand) ;
 		else if (playerType.equals("l")) 
 			return new LikesRankOrder(name, cardsPerHand) ;
-		else if (playerType.equals("ros")) 
+		else if (playerType.equals("o")) 
 			return new RankOrderSwapper(name, cardsPerHand) ;
 		else 
 			throw new ShitheadException("Cannot find player type to create") ;
 	}
 	
 	public static Map<String, String> computerPlayerList() {
-	    Map<String, String> players = new HashMap<String, String>() ;
+	    Map<String, String> result = new HashMap<String, String>() ;
+
+	    for (String key : players.keySet()) {
+	        Class<? extends ComputerPlayer> player = players.get(key) ;
+	        result.put(getShortClassName(player), key) ;
+	    }
 	    
-	    players.put("SimplePlayer", "s") ;
-	    players.put("Aggressive", "a") ;
-	    players.put("RandomPlayer", "r") ;
-	    players.put("Pyromaniac", "p") ;
-	    players.put("DeviousPyro", "d") ;
-	    players.put("FaceDownChecker", "f") ;
-	    players.put("LikesRankOrder", "l") ;
-	    players.put("RankOrderSwapper", "ros") ;
-	    
-	    return players ;
+	    return result ;
 	}
-	
-//    public static Map<String, String> computerPlayerDescriptions() {
-//        Map<String, String> players = new HashMap<String, String>() ;
-//
-//        players.put("SimplePlayer", SimplePlayer.description) ;
-//        players.put("Aggressive", Aggressive.description) ;
-//        players.put("RandomPlayer", RandomPlayer.description) ;
-//        players.put("Pyromaniac", Pyromaniac.description) ;
-//        players.put("DeviousPyro", DeviousPyro.description) ;
-//        players.put("FaceDownChecker", FaceDownChecker.description) ;
-//        players.put("LikesRankOrder", LikesRankOrder.description) ;
-//        players.put("RankOrderSwapper", RankOrderSwapper.description) ;
-//
-//        return players ;
-//    }
+
+    public static Map<String, String> computerPlayerDescriptions() throws ShitheadException {
+        Map<String, String> result = new HashMap<String, String>() ;
+        
+        try {
+        
+            for(String key : players.keySet()) {
+                Class<? extends ComputerPlayer> player = players.get(key) ;
+                Field descField = player.getField("description") ;
+                String description = (String) descField.get(null) ;
+                result.put(getShortClassName(player), description) ; 
+            }
+        } catch (IllegalAccessException iae) {
+            throw new ShitheadException("Error getting computer player description") ;
+        } catch (NoSuchFieldException fsfe) {
+            throw new ShitheadException("Error getting computer player description") ;
+        }
+        return result ;
+    }
+
+    private static String getShortClassName(Class<? extends ComputerPlayer> player) {
+        return player.getName().substring(player.getPackage().getName().length() + 1) ;
+    }
 }
