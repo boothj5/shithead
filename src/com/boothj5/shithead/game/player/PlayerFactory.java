@@ -1,6 +1,8 @@
 package com.boothj5.shithead.game.player;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,24 +28,23 @@ public class PlayerFactory {
 			throws ShitheadException {
 		if (playerType.equals("h"))
 			return new HumanPlayer(name, cardsPerHand) ;
-		else if (playerType.equals("s")) 
-			return new SimplePlayer(name, cardsPerHand) ;
-		else if (playerType.equals("a")) 
-			return new Aggressive(name, cardsPerHand) ;
-		else if (playerType.equals("r")) 
-			return new RandomPlayer(name, cardsPerHand) ;
-		else if (playerType.equals("p")) 
-			return new Pyromaniac(name, cardsPerHand) ;
-		else if (playerType.equals("d")) 
-			return new DeviousPyro(name, cardsPerHand) ;
-		else if (playerType.equals("f")) 
-			return new FaceDownChecker(name, cardsPerHand) ;
-		else if (playerType.equals("l")) 
-			return new LikesRankOrder(name, cardsPerHand) ;
-		else if (playerType.equals("o")) 
-			return new RankOrderSwapper(name, cardsPerHand) ;
-		else 
-			throw new ShitheadException("Cannot find player type to create") ;
+		else {
+		    Class<? extends ComputerPlayer> playerClass = players.get(playerType) ;
+		    if (playerClass == null)
+		        throw new ShitheadException("Trying to create no existent player type : " + playerType) ;
+		    try {
+		        Constructor<? extends ComputerPlayer> cons = playerClass.getConstructor(String.class, Integer.TYPE) ;
+		        return (cons.newInstance(name, cardsPerHand)) ;
+		    } catch (NoSuchMethodException nsme) {
+		        throw new ShitheadException("Error creating new computer player") ;
+		    } catch (InvocationTargetException ite) {
+		        throw new ShitheadException("Error creating new computer player") ;
+            } catch (IllegalAccessException ite) {
+                throw new ShitheadException("Error creating new computer player") ;
+            } catch (InstantiationException ite) {
+                throw new ShitheadException("Error creating new computer player") ;
+            }
+		}
 	}
 	
 	public static Map<String, String> computerPlayerList() {
