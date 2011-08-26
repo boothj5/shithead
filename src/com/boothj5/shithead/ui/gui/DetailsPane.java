@@ -18,6 +18,7 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.player.PlayerFactory;
 
@@ -36,7 +37,7 @@ public class DetailsPane extends JPanel implements ActionListener {
     /**
      * Create the panel.
      */
-    public DetailsPane() {
+    public DetailsPane() throws ShitheadException {
         
         // Heading
         JLabel welcomeLabel = new JLabel("Welcome to Javahead!");
@@ -157,7 +158,11 @@ public class DetailsPane extends JPanel implements ActionListener {
             
         }
         if (("selectComp").equals(e.getActionCommand())) {
-            compDescription.setText(PlayerFactory.computerPlayerDescriptions().get(compType.getSelectedItem())) ;
+            try {
+                compDescription.setText(PlayerFactory.computerPlayerDescriptions().get(compType.getSelectedItem())) ;
+            } catch (ShitheadException she) {
+                compDescription.setText("ERROR!!!" + she.getMessage()) ;
+            }
         }
     }
 }

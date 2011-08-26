@@ -8,6 +8,7 @@ import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.Player;
+import com.boothj5.shithead.game.player.PlayerFactory;
 
 public class ShitheadCli {
 	
@@ -45,17 +46,18 @@ public class ShitheadCli {
 		return (c.readLine("Player type for  " + playerName + ": ")) ;
 	}
 	
-	private void showPlayerTypes() {
-		System.out.println("(h)  - Human  - Human player") ;
-		System.out.println("(s)  - Simple - Always lays lowest") ;
-		System.out.println("(a)  - Aggressive - Always lays highest") ;
-		System.out.println("(r)  - Random - Somes times lays lowest, sometimes hightest") ;
-		System.out.println("(p)  - Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
-		System.out.println("(d)  - Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
-		System.out.println("(f)  - FaceDownChecker - Lays high if next player on facedown") ;
-		System.out.println("(l)  - LikesRankOrder - Has a set of ordered ranks to use") ;
-		System.out.println("(ros)- RankOrderSwapper - Has a set of ordered ranks to use, and swaps at beginning") ;
-	}
+    private void showPlayerTypes() {
+        System.out.println("(h)  - Human  - Human player") ;
+        System.out.println("(s)  - Simple - Always lays lowest") ;
+        System.out.println("(a)  - Aggressive - Always lays highest") ;
+        System.out.println("(r)  - Random - Somes times lays lowest, sometimes hightest") ;
+        System.out.println("(p)  - Pyromaniac - Plays a 10 if they have one, otherwise lowest") ;
+        System.out.println("(d)  - Devious Pyromaniac - Plays a 10 if they have one and more than 5 cards on pile, otherwise lowest") ;
+        System.out.println("(f)  - FaceDownChecker - Lays high if next player on facedown") ;
+        System.out.println("(l)  - LikesRankOrder - Has a set of ordered ranks to use") ;
+        System.out.println("(ros)- RankOrderSwapper - Has a set of ordered ranks to use, and swaps at beginning") ;
+    }
+
 
 	public void waitOnUser() {
 		c.readLine() ;

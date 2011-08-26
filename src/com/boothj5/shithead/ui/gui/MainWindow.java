@@ -3,6 +3,9 @@ package com.boothj5.shithead.ui.gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
+import com.boothj5.shithead.game.ShitheadException;
+
 import java.awt.BorderLayout;
 
 public class MainWindow {
@@ -28,14 +31,14 @@ public class MainWindow {
     /**
      * Create the application.
      */
-    public MainWindow() {
+    public MainWindow() throws ShitheadException {
         initialize();
     }
 
     /**
      * Initialize the contents of the frame.
      */
-    private void initialize() {
+    private void initialize() throws ShitheadException{
         frame = new JFrame();
         frame.setBounds(100, 100, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

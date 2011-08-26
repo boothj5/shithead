@@ -7,7 +7,8 @@ import java.util.*;
 
 public class HumanPlayer implements Player {
 
-	private String name ;
+	public static final String description = "Human player" ;
+    private String name ;
 	private int handSize ;
 	
 	private List<Card> faceDown = new ArrayList<Card>() ;

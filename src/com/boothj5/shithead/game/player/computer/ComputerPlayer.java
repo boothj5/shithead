@@ -13,7 +13,7 @@ import java.util.*;
 
 public abstract class ComputerPlayer implements Player {
 
-	private String name ;
+    private String name ;
 	private int handSize ;
 	
 	private List<Card> faceDown = new ArrayList<Card>() ;
@@ -24,7 +24,7 @@ public abstract class ComputerPlayer implements Player {
 		this.name = name ;
 		this.handSize = handSize ;
 	}
-
+	
     @Override
     public boolean isComputer() {
     	return true ;

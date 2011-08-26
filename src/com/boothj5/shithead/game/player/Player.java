@@ -12,8 +12,8 @@ import com.boothj5.shithead.game.card.Card;
  *
  */
 public interface Player {
-	
-	/** 
+    
+    /** 
 	 * Find out of this player is human, or a computer player
 	 * 
 	 * @return true if the player is a computer player

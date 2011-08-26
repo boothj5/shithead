@@ -1,5 +1,6 @@
 package com.boothj5.shithead.game.player;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +9,43 @@ import com.boothj5.shithead.game.player.computer.*;
 
 public class PlayerFactory {
 
-	public static Player createPlayer(String playerType, String name, int cardsPerHand)
+	private static final Map<String, Class<? extends ComputerPlayer>> players = 
+	            new HashMap<String, Class<? extends ComputerPlayer>>() ;
+	static {
+        players.put("s", SimplePlayer.class) ;
+        players.put("a", Aggressive.class) ;
+        players.put("r", RandomPlayer.class) ;
+        players.put("p", Pyromaniac.class) ;
+        players.put("d", DeviousPyro.class) ;
+        players.put("f", FaceDownChecker.class) ;
+        players.put("l", LikesRankOrder.class) ;
+        players.put("o", RankOrderSwapper.class) ;
+	}
+	
+	public static final Map<String, Class<? extends ComputerPlayer>> getPlayers() {
+	    return players ;
+	}
+	
+    public static Map<String, String> computerPlayerDescriptions() throws ShitheadException {
+        Map<String, String> result = new HashMap<String, String>() ;
+        
+        try {
+        
+            for(String key : players.keySet()) {
+                Class<? extends ComputerPlayer> player = players.get(key) ;
+                Field descField = player.getField("description") ;
+                String description = (String) descField.get(null) ;
+                result.put(player.getName().substring(player.getPackage().getName().length() + 1), description) ; 
+            }
+        } catch (IllegalAccessException iae) {
+            throw new ShitheadException("Error getting computer player description") ;
+        } catch (NoSuchFieldException fsfe) {
+            throw new ShitheadException("Error getting computer player description") ;
+        }
+        return result ;
+    }
+    
+    public static Player createPlayer(String playerType, String name, int cardsPerHand)
 			throws ShitheadException {
 		if (playerType.equals("h"))
 			return new HumanPlayer(name, cardsPerHand) ;
@@ -47,18 +84,18 @@ public class PlayerFactory {
 	    return players ;
 	}
 	
-	   public static Map<String, String> computerPlayerDescriptions() {
-	        Map<String, String> players = new HashMap<String, String>() ;
-	        
-	        players.put("SimplePlayer", SimplePlayer.description) ;
-	        players.put("Aggressive", Aggressive.description) ;
-	        players.put("RandomPlayer", RandomPlayer.description) ;
-	        players.put("Pyromaniac", Pyromaniac.description) ;
-	        players.put("DeviousPyro", DeviousPyro.description) ;
-	        players.put("FaceDownChecker", FaceDownChecker.description) ;
-	        players.put("LikesRankOrder", LikesRankOrder.description) ;
-	        players.put("RankOrderSwapper", RankOrderSwapper.description) ;
-	        
-	        return players ;
-	    }
+//    public static Map<String, String> computerPlayerDescriptions() {
+//        Map<String, String> players = new HashMap<String, String>() ;
+//
+//        players.put("SimplePlayer", SimplePlayer.description) ;
+//        players.put("Aggressive", Aggressive.description) ;
+//        players.put("RandomPlayer", RandomPlayer.description) ;
+//        players.put("Pyromaniac", Pyromaniac.description) ;
+//        players.put("DeviousPyro", DeviousPyro.description) ;
+//        players.put("FaceDownChecker", FaceDownChecker.description) ;
+//        players.put("LikesRankOrder", LikesRankOrder.description) ;
+//        players.put("RankOrderSwapper", RankOrderSwapper.description) ;
+//
+//        return players ;
+//    }
 }
