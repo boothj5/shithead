@@ -1,4 +1,4 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.game.player;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.matchers.JUnitMatchers.* ;

@@ -144,13 +144,13 @@ public class BattleEngine extends ShitheadEngine {
         return result ;
     }
 
-    private static List<String> getPlayerNamesFromTypes(int num, List<String> types) throws ShitheadException {
+    private static List<String> getPlayerNamesFromTypes(int numCards, List<String> types) throws ShitheadException {
         String name = null;
         String namePrefix = "Computer-";
         List<String> result = new ArrayList<String>() ;
         
         for (int i = 0 ; i < types.size() ; i++) { 
-            String className = (PlayerFactory.createPlayer(types.get(i), namePrefix, num)).getClass().getName() ;
+            String className = (PlayerFactory.createPlayer(types.get(i), namePrefix, numCards)).getClass().getName() ;
             StringTokenizer st = new StringTokenizer(className, ".") ;
             while (st.hasMoreTokens())
                 name = st.nextToken();

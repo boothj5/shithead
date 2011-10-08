@@ -1,4 +1,4 @@
-package com.boothj5.shithead.player;
+package com.boothj5.shithead.game.player;
 
 import static org.junit.Assert.*;
 
