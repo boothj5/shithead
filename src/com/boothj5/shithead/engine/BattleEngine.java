@@ -17,13 +17,12 @@ import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 import com.boothj5.util.MapUtil;
 
-public class BattleEngine extends ShitheadEngine {
+public final class BattleEngine extends ShitheadEngine {
     final ShitheadCli cli ;
     List<String> playerNames = new ArrayList<String>() ; 
-	List<String> playerTypes = new ArrayList<String>() ;
-    Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
-    int numPlayers ;
-    int numCards, turns ;
+	final List<String> playerTypes = new ArrayList<String>() ;
+    final Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
+    int numPlayers, numCards, turns ;
 	int stalemates = 0 ;
 	long startTime, stopTime, duration ; 
 	float avg ;
@@ -46,7 +45,7 @@ public class BattleEngine extends ShitheadEngine {
 		}
 		numPlayers = playerTypes.size() ;
 		playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
-        shitheadMap = createShitheadMap(playerNames) ;
+        updateShitheadMap(playerNames, shitheadMap) ;
         startTime = System.currentTimeMillis() ;
 	}
 	
@@ -139,13 +138,10 @@ public class BattleEngine extends ShitheadEngine {
         cli.bail(e, details) ;
     }
     
-    private static Map<String, Integer> createShitheadMap(List<String> names) {
-        Map<String, Integer> result = new HashMap<String, Integer>() ;
-        
+    private static void updateShitheadMap(List<String> names, Map<String, Integer> shitheadMap) {
         for (String playerName : names) {
-            result.put(playerName, 0) ;
+            shitheadMap.put(playerName, 0) ;
         }
-        return result ;
     }
 
     private static List<String> getPlayerNamesFromTypes(int numCards, List<String> types) throws ShitheadException {
