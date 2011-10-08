@@ -2,12 +2,14 @@ package com.boothj5.shithead.game;
 
 import com.boothj5.shithead.engine.ShitheadEngine;
 import com.boothj5.shithead.engine.EngineFactory;
+import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public class Shithead {
 	
 	public static void main(String[] args) throws Exception {
 		String gameType = args[0] ;
-		ShitheadEngine engine = EngineFactory.createEngine(gameType) ;
+		ShitheadCli cli = new ShitheadCli() ;
+		ShitheadEngine engine = EngineFactory.createEngine(gameType, cli) ;
 		
         try {
             engine.globalInit(args) ;

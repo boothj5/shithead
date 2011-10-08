@@ -18,7 +18,7 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 import com.boothj5.util.MapUtil;
 
 public class BattleEngine extends ShitheadEngine {
-    ShitheadCli cli = new ShitheadCli() ;
+    final ShitheadCli cli ;
     List<String> playerNames = new ArrayList<String>() ; 
 	List<String> playerTypes = new ArrayList<String>() ;
     Map<String, Integer> shitheadMap = new HashMap<String, Integer>() ;
@@ -28,6 +28,10 @@ public class BattleEngine extends ShitheadEngine {
 	long startTime, stopTime, duration ; 
 	float avg ;
 	boolean stalemate ;
+
+	public BattleEngine(ShitheadCli cli) {
+	    this.cli = cli ;
+	}
 	
 	@Override
 	public void globalInit(String[] args) throws ShitheadException {

@@ -1,6 +1,9 @@
 package com.boothj5.shithead.engine;
 
 import static org.junit.Assert.* ;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +14,18 @@ import org.junit.Test;
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
+import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public class BattleEngineTest {
     
     private BattleEngine engine ;
-    private String[] args = {"b", "100"} ; 
+    private String[] args = {"b", "100"} ;
+    private ShitheadCli cli = mock(ShitheadCli.class) ;
 
     @Before 
     public void setup() throws Exception {
-        engine = (BattleEngine) EngineFactory.createEngine(args[0]) ;
+        
+        engine = (BattleEngine) EngineFactory.createEngine(args[0], cli) ;
     }
     
     @Test
@@ -138,10 +144,26 @@ public class BattleEngineTest {
         assertEquals(engine.numCards, engine.game.getGameDetails().getNumCardsPerHand()) ;
     }
     
+    @Test
+    public void running100GamesDoesntBail() throws ShitheadException {
+        engine.globalInit(args) ;
+        for (int i = 0 ; i < engine.getNumGames() ; i++) {
+            engine.init() ;
+            engine.deal() ;
+            engine.swap() ;
+            engine.firstMove() ;
+            engine.play() ;
+            engine.end() ;
+        }
+        engine.globalEnd() ;    
+    }
     
+    // mocking the cli
     
-    
-    
-    
-    
+    @Test
+    public void globalInitShowsWelcome() throws ShitheadException {
+        engine.globalInit(args) ;
+        verify(cli).line() ;
+        verify(cli).welcome() ;
+    }
 }
