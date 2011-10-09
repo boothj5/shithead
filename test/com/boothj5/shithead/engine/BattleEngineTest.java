@@ -1,7 +1,6 @@
 package com.boothj5.shithead.engine;
 
 import static org.junit.Assert.* ;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +15,9 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public class BattleEngineTest {
     
+    private ShitheadCli cli = new ShitheadCli() ;
     private BattleEngine engine ;
     private String[] args = {"b", "100"} ;
-    private ShitheadCli cli = mock(ShitheadCli.class) ;
 
     @Before 
     public void setup() throws Exception {
@@ -27,42 +26,42 @@ public class BattleEngineTest {
     }
     
     @Test
-    public void hasThreeCards() throws ShitheadException {
+    public void hasThreeCards() {
         assertEquals(3, engine.numCards) ;
     }
     
     @Test
-    public void hasCorrectNumGames() throws ShitheadException {
+    public void hasCorrectNumGames() {
         int arg1 = Integer.parseInt(args[1]) ;
         assertEquals(arg1, engine.numGames) ; 
     }
     
     @Test
-    public void hasCorrectNumPlayers() throws ShitheadException {
+    public void hasCorrectNumPlayers() {
         int numComputerPlayers = PlayerFactory.computerPlayerList().size() ;
         assertEquals(numComputerPlayers, engine.numPlayers) ;
     }
     
     @Test
-    public void hasCorrectNumPlayerNames() throws ShitheadException {
+    public void hasCorrectNumPlayerNames() {
         int numPlayerNames = engine.playerNames.size() ;
         assertEquals(engine.numPlayers, numPlayerNames) ;
     }
     
     @Test
-    public void hasCorrectPlayerNames() throws ShitheadException {
+    public void hasCorrectPlayerNames() {
         for (String playerShortName : PlayerFactory.computerPlayerList().keySet()) {
             assertTrue(engine.playerNames.contains(playerShortName)) ;
         }
     }
     
     @Test 
-    public void initiatesShitheadMapToCorrectSize() throws ShitheadException {
+    public void initiatesShitheadMapToCorrectSize() {
         assertEquals(engine.numPlayers, engine.shitheadMap.size()) ;
     }
     
     @Test 
-    public void initiatesShitheadMapWithZeros() throws ShitheadException {
+    public void initiatesShitheadMapWithZeros() {
         for (String player : engine.shitheadMap.keySet()) {
             int shitheadCount = (Integer)engine.shitheadMap.get(player).intValue() ;
             assertEquals(0, shitheadCount) ;

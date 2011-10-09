@@ -8,10 +8,14 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public class CliEngine extends ShitheadEngine {
-    ShitheadCli cli = new ShitheadCli() ;
+public final class CliEngine extends ShitheadEngine {
+    ShitheadCli cli ;
 
-	@Override
+    public CliEngine(ShitheadCli cli) {
+        this.cli = cli ;
+    }
+    
+    @Override
 	public void globalInit(String[] args) {
 	    numGames = 1 ;
 	}
