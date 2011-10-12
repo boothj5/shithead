@@ -18,6 +18,7 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 import com.boothj5.util.MapUtil;
 
 public final class BattleEngine extends ShitheadEngine {
+    private static final int TURNS_THRESHOLD = 10000;
     final ShitheadCli cli ;
     List<String> playerNames = new ArrayList<String>() ; 
 	final List<String> playerTypes = new ArrayList<String>() ;
@@ -25,7 +26,6 @@ public final class BattleEngine extends ShitheadEngine {
     int numPlayers, numCards, turns ;
 	int stalemates = 0 ;
 	long startTime, stopTime, duration ; 
-	float avg ;
 	boolean stalemate ;
 
 	public BattleEngine(ShitheadCli cli) {
@@ -43,7 +43,7 @@ public final class BattleEngine extends ShitheadEngine {
 		for (String shortName : compPlayerList.keySet())
 		    playerTypes.add(compPlayerList.get(shortName)) ;
 
-		        numPlayers = playerTypes.size() ;
+		numPlayers = playerTypes.size() ;
 		playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
         updateShitheadMap(playerNames, shitheadMap) ;
         startTime = System.currentTimeMillis() ;
@@ -78,7 +78,7 @@ public final class BattleEngine extends ShitheadEngine {
 	@Override
 	public void play() throws ShitheadException {	
 		while (game.canContinueGame()) {
-			if (turns == 10000) {
+			if (turns == TURNS_THRESHOLD) {
 				stalemate = true ;
 				stalemates++ ;
 				return ;
@@ -121,12 +121,10 @@ public final class BattleEngine extends ShitheadEngine {
 	public void globalEnd() {
         stopTime = System.currentTimeMillis() ;
         duration = stopTime - startTime ;
-    	final DecimalFormat twoPlaces = new DecimalFormat("#.##");
-        avg = (new Float(duration) / new Float(numGames)) ;
-        final float avgRounded = Float.valueOf(twoPlaces.format(avg)) ;
+        final float avg = getAverageGameTime(duration, numGames) ;
 	    cli.line() ;
 		final Map<String, Integer> sortedShitheads = MapUtil.sortHashMapByValues(shitheadMap) ;
-		cli.showBattleSummary(sortedShitheads, stalemates, duration, avgRounded) ;		
+		cli.showBattleSummary(sortedShitheads, stalemates, duration, avg) ;		
 	}
 
     @Override
@@ -134,7 +132,14 @@ public final class BattleEngine extends ShitheadEngine {
         final ShitheadGameDetails details = game.getGameDetails() ;
         cli.bail(e, details) ;
     }
-    
+
+    private float getAverageGameTime(long duration, int numGames) {
+        final DecimalFormat twoPlaces = new DecimalFormat("#.##");
+        final float avg = (new Float(duration) / new Float(numGames)) ;
+        final float avgRounded = Float.valueOf(twoPlaces.format(avg)) ;
+        return avgRounded ;
+    }
+
     private static void updateShitheadMap(List<String> names, Map<String, Integer> shitheadMap) {
         for (String playerName : names)
             shitheadMap.put(playerName, 0) ;
