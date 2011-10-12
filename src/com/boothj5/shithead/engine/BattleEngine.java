@@ -94,8 +94,8 @@ public final class BattleEngine extends ShitheadEngine {
                            computerPlayerMove() ;
                     } 
                     else { // human player
-                        final ShitheadGameDetails details = game.getGameDetails() ;
-                    	cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), details) ;
+                    	cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), 
+                    	        game.getGameDetails()) ;
                     }
                 } 
                 else {
@@ -129,8 +129,7 @@ public final class BattleEngine extends ShitheadEngine {
 
     @Override
     public void error(ShitheadException e) {
-        final ShitheadGameDetails details = game.getGameDetails() ;
-        cli.bail(e, details) ;
+        cli.bail(e, game.getGameDetails()) ;
     }
 
     private float getAverageGameTime(long duration, int numGames) {

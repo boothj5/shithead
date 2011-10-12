@@ -312,4 +312,14 @@ public class ShitheadCli {
 		System.out.println("Exception message: " + e.getMessage()) ;
 		e.printStackTrace() ;
 	}
+
+    public void showGameWithWait(final ShitheadGameDetails details, final boolean wait) {
+        showGame(details, true) ;
+        showLastMove(details) ;
+        if (wait) 
+            waitPressEnter() ;
+        else
+            line() ;
+    }
+
 }
