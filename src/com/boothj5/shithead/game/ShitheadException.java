@@ -4,7 +4,7 @@ public class ShitheadException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public ShitheadException(String message) {
+	public ShitheadException(final String message) {
 		super(message) ;
 	}
 }

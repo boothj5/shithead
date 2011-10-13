@@ -7,9 +7,9 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 public class Shithead {
 	
 	public static void main(String[] args) throws Exception {
-		String gameType = args[0] ;
-		ShitheadCli cli = new ShitheadCli() ;
-		ShitheadEngine engine = EngineFactory.createEngine(gameType, cli) ;
+		final String gameType = args[0] ;
+		final ShitheadCli cli = new ShitheadCli() ;
+		final ShitheadEngine engine = EngineFactory.createEngine(gameType, cli) ;
 		
         try {
             engine.globalInit(args) ;
@@ -25,6 +25,5 @@ public class Shithead {
         } catch (ShitheadException e) {
             engine.error(e) ;
         }		
-		
 	}
 }
