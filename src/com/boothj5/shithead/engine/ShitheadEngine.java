@@ -10,10 +10,10 @@ import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
 
 public abstract class ShitheadEngine {
-    ShitheadGame game ;
-    int numGames ;
+    protected ShitheadGame game ;
+    protected int numGames ;
     
-    protected static final void computerPlayerSwap(Player player) throws ShitheadException {
+    protected static final void computerPlayerSwap(final Player player) throws ShitheadException {
         boolean wantsToSwap = player.askSwapMore() ;
         if (wantsToSwap) {
             SwapResponse response = player.askSwapChoice() ;
@@ -28,8 +28,8 @@ public abstract class ShitheadEngine {
     }
     
 	protected final void computerPlayerMove() throws ShitheadException {
-		Player currentPlayer = game.getCurrentPlayer() ;
-		PlayerHelper helper = game.getPlayerHelper() ;
+		final Player currentPlayer = game.getCurrentPlayer() ;
+		final PlayerHelper helper = game.getPlayerHelper() ;
 		List<Integer> cardChoice = new ArrayList<Integer>() ;
 
 		if (game.playingFromFaceUp()) 
@@ -46,7 +46,7 @@ public abstract class ShitheadEngine {
 	}
 
 	protected final void computerPlayerFaceDownMove() {
-		List<Integer> cardChoice = new ArrayList<Integer>() ;
+		final List<Integer> cardChoice = new ArrayList<Integer>() ;
 		cardChoice.add(0) ;
 
 		if (game.checkValidMove(cardChoice)) 
@@ -61,7 +61,7 @@ public abstract class ShitheadEngine {
         return numGames ;
     }
 
-    public abstract void globalInit(String[] args) throws ShitheadException;
+    public abstract void globalInit(final String[] args) throws ShitheadException;
     public abstract void init() throws ShitheadException;
     public abstract void deal() ;
     public abstract void swap() throws ShitheadException ;
@@ -69,5 +69,5 @@ public abstract class ShitheadEngine {
     public abstract void play() throws ShitheadException;
     public abstract void end() throws ShitheadException;
     public abstract void globalEnd() ;
-    public abstract void error(ShitheadException e) ;
+    public abstract void error(final ShitheadException e) ;
 }	
