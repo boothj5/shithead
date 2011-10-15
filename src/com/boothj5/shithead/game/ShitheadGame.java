@@ -10,52 +10,47 @@ import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
 
-public class ShitheadGame {
-	private List<Player> players = new ArrayList<Player>() ;
-	private Deck deck = new Deck() ;
+public final class ShitheadGame {
+	final private List<Player> players = new ArrayList<Player>() ;
+	final private Deck deck = new Deck() ;
+    final private Stack<Card> pile = new Stack<Card>() ;
+    final private List<Card> burnt = new ArrayList<Card>() ;
 	private int numPlayers ;
 	private int numCardsPerHand ;
 	private int currentPlayer ;
-	private Stack<Card> pile = new Stack<Card>() ;
-	private List<Card> burnt = new ArrayList<Card>() ;
 	private LastMove lastMove ;
 
-	public ShitheadGame(int numPlayers, List<String> playerNames, List<String> playerTypes, 
-						int cardsPerHand) throws ShitheadException {
+	public ShitheadGame(final int numPlayers, final List<String> playerNames, final List<String> playerTypes, 
+						final int cardsPerHand) throws ShitheadException {
 		this.numPlayers = numPlayers ;
 		this.numCardsPerHand = cardsPerHand ;
 
 		for (int i = 0 ; i < numPlayers ; i++) {
-			Player player = PlayerFactory.createPlayer(playerTypes.get(i), playerNames.get(i), numCardsPerHand) ;
+			final Player player = PlayerFactory.createPlayer(playerTypes.get(i), playerNames.get(i), numCardsPerHand) ;
 			players.add(player) ;
 		}
 	}
 	
 	public ShitheadGameDetails getGameDetails() {
-		ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
+		final ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
 				numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
 		
 		return details ;
 	}
 	
 	public void deal() {
-		int decksRequired = 1 ;
-		
-		int totalCardsNeeded = (numCardsPerHand * numPlayers) * 3 ;
-
-		int div = totalCardsNeeded / 52 ;
-		int add = ((totalCardsNeeded % 52) > 0) ? 1 : 0 ; ;
+		final int totalCardsNeeded = (numCardsPerHand * numPlayers) * 3 ;
+		final int div = totalCardsNeeded / 52 ;
+		final int add = ((totalCardsNeeded % 52) > 0) ? 1 : 0 ; ;
+        int decksRequired = 1 ;
 
 		decksRequired = div + add ;
 		
-		deck = new Deck() ;
 		for (int i = 1 ; i < decksRequired ; i++) 
-			  deck.addAll(new Deck().getCards()) ;
+			  deck.addDeck(new Deck()) ;
 		
 		deck.shuffle() ;
-
-		Iterator<Card> deckIterator = deck.getCards().iterator() ;
-
+		final Iterator<Card> deckIterator = deck.getCards().iterator() ;
 		for (int i = 0 ; i < numCardsPerHand ; i++) 
 			for (int j = 0 ; j < numPlayers ; j++) 
 				players.get(j).dealToFaceDown(deckIterator.next());
@@ -67,7 +62,7 @@ public class ShitheadGame {
 				players.get(j).dealToHand(deckIterator.next());
 
 		// remove the dealt cards from the pack
-		int totalToRemove = (numCardsPerHand * 3) * numPlayers ;
+		final int totalToRemove = (numCardsPerHand * 3) * numPlayers ;
 		for (int i = 0 ; i < totalToRemove ; i++) 
 			deck.remove(0) ;
 		

@@ -11,20 +11,17 @@ import com.boothj5.shithead.game.player.Player;
 import static org.junit.Assert.* ;
 import java.util.* ;
 
-
 public class ShitheadGameTest {
 
 	@Test
 	public void newGameContainsSpecifiedPlayers() throws Exception {
 		int numPlayers = 3 ;
 		int numCardsPerHand = 4 ;
-		
 		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		ShitheadGameDetails details = game.getGameDetails() ;
 
 		assertThat("Correct number of players", details.getPlayers().size(), is(numPlayers)) ;
 		assertThat("Correct cards per hand", details.getNumCardsPerHand(), is(numCardsPerHand)) ;
-		
 	}
 	
 	@Test
@@ -32,7 +29,6 @@ public class ShitheadGameTest {
 		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		ShitheadGameDetails details = game.getGameDetails() ;
-		
 		int totalCardsInGame = details.getDeck().getSize() + 
 								details.getPile().size() + 
 								details.getBurnt().size() ;
