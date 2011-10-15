@@ -30,10 +30,6 @@ public class Deck {
 	public void removeAll(List<Card> cards) {
 		this.cards.removeAll(cards) ;
 	}
-//
-//	public void addAll(List<Card> cards) {
-//		this.cards.addAll(cards) ;
-//	}
 	
 	public void addDeck(Deck deck) {
 	    this.cards.addAll(deck.getCards()) ;
