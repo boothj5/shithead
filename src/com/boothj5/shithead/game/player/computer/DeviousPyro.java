@@ -34,10 +34,10 @@ public class DeviousPyro extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		List<Card> myHand = getHand() ;
+		Hand myHand = getHand() ;
 
 		if (helper.getPile().size() >= threshold) {
-			Card burnCard = getBurnCardInHand(myHand) ;
+			Card burnCard = myHand.getBurnCard() ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;
 				chosenCards.add(myHand.indexOf(burnCard)) ;
@@ -53,10 +53,10 @@ public class DeviousPyro extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		List<Card> myHand = getFaceUp() ;
+		Hand myHand = getFaceUp() ;
 
 		if (helper.getPile().size() >= threshold) {
-			Card burnCard = getBurnCardInHand(myHand) ;
+			Card burnCard = myHand.getBurnCard() ;
 			if (burnCard != null) {
 				chosenCards = new ArrayList<Integer>() ;
 				chosenCards.add(myHand.indexOf(burnCard)) ;

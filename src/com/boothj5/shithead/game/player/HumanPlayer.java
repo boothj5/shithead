@@ -1,19 +1,19 @@
 package com.boothj5.shithead.game.player;
 
 import com.boothj5.shithead.game.card.Card;
-import com.boothj5.shithead.game.card.ShitheadCardComparator;
+import com.boothj5.shithead.game.card.Hand;
 
 import java.util.*;
 
-public class HumanPlayer implements Player {
+public final class HumanPlayer implements Player {
 
 	public static final String description = "Human player" ;
     private String name ;
 	private int handSize ;
 	
-	private List<Card> faceDown = new ArrayList<Card>() ;
-	private List<Card> faceUp = new ArrayList<Card>() ;
-	private List<Card> hand = new ArrayList<Card>() ;	
+	private Hand faceDown = new Hand() ;
+	private Hand faceUp = new Hand() ;
+	private Hand hand = new Hand() ;	
 	
 	public HumanPlayer(String name, int handSize) {
 		this.name = name ;
@@ -51,17 +51,17 @@ public class HumanPlayer implements Player {
 	}
 
     @Override
-	public List<Card> getFaceDown() {
+	public Hand getFaceDown() {
 		return faceDown;
 	}
 
     @Override
-	public List<Card> getFaceUp() {
+	public Hand getFaceUp() {
 		return faceUp;
 	}
 
     @Override
-	public List<Card> getHand() {
+	public Hand getHand() {
 		return hand;
 	}	
 	
@@ -80,23 +80,23 @@ public class HumanPlayer implements Player {
     @Override
 	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
+		hand.sort() ;
 	}
 
     @Override
 	public void dealToHand(Card card) {
-		this.hand.add(card) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
+		hand.add(card) ;
+		hand.sort() ;
 	}
 
     @Override
 	public void dealToFaceUp(Card card) {
-		this.faceUp.add(card) ;
+		faceUp.add(card) ;
 	}
 
     @Override
 	public void dealToFaceDown(Card card) {
-		this.faceDown.add(card) ;
+		faceDown.add(card) ;
 	}
 	
     @Override
@@ -110,8 +110,7 @@ public class HumanPlayer implements Player {
 			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
 			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
 			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
-			Collections.sort(hand, new ShitheadCardComparator()) ;
+			hand.sort() ;
 		}
 	}	
-	
 }

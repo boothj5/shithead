@@ -28,9 +28,9 @@ public class Pyromaniac extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		List<Card> myHand = getHand() ;
+		Hand myHand = getHand() ;
 
-		Card burnCard = getBurnCardInHand(myHand) ;
+		Card burnCard = myHand.getBurnCard() ;
 		if (burnCard != null) {
 			chosenCards = new ArrayList<Integer>() ;
 			chosenCards.add(myHand.indexOf(burnCard)) ;
@@ -43,8 +43,8 @@ public class Pyromaniac extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		List<Card> myHand = getFaceUp() ;
-		Card burnCard = getBurnCardInHand(myHand) ;
+		Hand myHand = getFaceUp() ;
+		Card burnCard = myHand.getBurnCard() ;
 		if (burnCard != null) {
 			chosenCards = new ArrayList<Integer>() ;
 			chosenCards.add(myHand.indexOf(burnCard)) ;

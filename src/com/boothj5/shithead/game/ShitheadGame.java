@@ -4,6 +4,7 @@ import java.util.* ;
 
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Deck;
+import com.boothj5.shithead.game.card.Hand;
 import com.boothj5.shithead.game.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
@@ -77,8 +78,8 @@ public final class ShitheadGame {
 
 		// add lowest card of each player to a list
 		for (Player player : players) {
-			List<Card> playersHand = player.getHand() ;
-			Card playersLowestCard = Collections.min(playersHand, new ShitheadCardComparator()) ;
+			Hand playersHand = player.getHand() ;
+			Card playersLowestCard = playersHand.lowest() ;
 
 			lowestCardsByPlayerIndex.add(playersLowestCard) ;
 		}
@@ -92,7 +93,7 @@ public final class ShitheadGame {
 		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
 
 		// iterate over the players cards for any of the same rank and add them 
-		for (Card toCompare : players.get(playerToLayIndex).getHand())
+		for (Card toCompare : players.get(playerToLayIndex).getHand().cards())
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
 								(!cardsToPlay.get(0).equals(toCompare))) 
 				cardsToPlay.add(toCompare) ;
@@ -186,7 +187,7 @@ public final class ShitheadGame {
 	
 	private List<Card> getCards(List<Integer> cardChoice) {
 		
-		List<Card> handToPlayFrom = getCurrentPlayersActiveHand() ;
+		Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
 		List<Card> returnCards = new ArrayList<Card>() ;
 
 		for (int cardIndex : cardChoice) {
@@ -195,7 +196,7 @@ public final class ShitheadGame {
 		return returnCards ;
 	}	
 	
-	private List<Card> getCurrentPlayersActiveHand() {
+	private Hand getCurrentPlayersActiveHand() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
 		
 		if (playingFromHand()) 
@@ -278,7 +279,7 @@ public final class ShitheadGame {
 				numPlayersStillPlaying++ ;
 			PlayerSummary playerSummary = new PlayerSummary(player.getName(), 
 															player.getHand().size(), 
-															Collections.unmodifiableList(player.getFaceUp()), 
+															Collections.unmodifiableList(player.getFaceUp().cards()), 
 															player.getFaceDown().size(), player.hasCards()) ;
 			playerSummaries.add(playerSummary) ;
 		}

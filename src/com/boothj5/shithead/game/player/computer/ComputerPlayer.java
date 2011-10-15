@@ -3,6 +3,7 @@ package com.boothj5.shithead.game.player.computer;
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
+import com.boothj5.shithead.game.card.Hand;
 import com.boothj5.shithead.game.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerHelper;
@@ -16,9 +17,9 @@ public abstract class ComputerPlayer implements Player {
     private String name ;
 	private int handSize ;
 	
-	private List<Card> faceDown = new ArrayList<Card>() ;
-	private List<Card> faceUp = new ArrayList<Card>() ;
-	private List<Card> hand = new ArrayList<Card>() ;	
+	private final Hand faceDown = new Hand() ;
+	private final Hand faceUp = new Hand() ;
+	private final Hand hand = new Hand() ;	
 
 	public ComputerPlayer(String name, int handSize) {
 		this.name = name ;
@@ -36,17 +37,17 @@ public abstract class ComputerPlayer implements Player {
 	}
 
     @Override
-	public List<Card> getFaceDown() {
+	public Hand getFaceDown() {
 		return faceDown;
 	}
 
     @Override
-	public List<Card> getFaceUp() {
+	public Hand getFaceUp() {
 		return faceUp;
 	}
 
     @Override
-	public List<Card> getHand() {
+	public Hand getHand() {
 		return hand;
 	}	
 	
@@ -65,23 +66,23 @@ public abstract class ComputerPlayer implements Player {
     @Override
 	public void recieve(List<Card> cards) {
 		hand.addAll(cards) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
+		hand.sort() ;
 	}
 
     @Override
 	public void dealToHand(Card card) {
-		this.hand.add(card) ;
-		Collections.sort(hand, new ShitheadCardComparator()) ;
+		hand.add(card) ;
+		hand.sort() ;
 	}
 
     @Override
 	public void dealToFaceUp(Card card) {
-		this.faceUp.add(card) ;
+		faceUp.add(card) ;
 	}
 
     @Override
 	public void dealToFaceDown(Card card) {
-		this.faceDown.add(card) ;
+		faceDown.add(card) ;
 	}
 	
     @Override
@@ -95,7 +96,7 @@ public abstract class ComputerPlayer implements Player {
 			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
 			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
 			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
-			Collections.sort(hand, new ShitheadCardComparator()) ;
+			hand.sort() ;
 		}
 	}		
 	
@@ -131,12 +132,12 @@ public abstract class ComputerPlayer implements Player {
 		}
 	}	
 	
-	protected List<Integer> pickHighCards(PlayerHelper helper, List<Card> myHand) {
+	protected List<Integer> pickHighCards(PlayerHelper helper, Hand myHand) {
 		List<Integer> returnChoice = new ArrayList<Integer>() ;
 		List<Card> handMinusSpecial = new ArrayList<Card>() ;
 		
 		// get normal cards
-		for (Card testCard : myHand) {
+		for (Card testCard : myHand.cards()) {
 			if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(testCard.getRank())) {
 				handMinusSpecial.add(testCard) ;
 			}
@@ -150,7 +151,7 @@ public abstract class ComputerPlayer implements Player {
 			// if valid search for more and add them to choice
 			if (checkValidMove(maxNormalCard, helper)) {
 				returnChoice.add(myHand.indexOf(maxNormalCard)) ;
-				for (Card toCompare : myHand) {
+				for (Card toCompare : myHand.cards()) {
 					if ((myHand.get(returnChoice.get(0)).getRank().compareTo(toCompare.getRank()) == 0) && 
 										(!myHand.get(returnChoice.get(0)).equals(toCompare))) 
 						returnChoice.add(myHand.indexOf(toCompare)) ;	
@@ -158,21 +159,21 @@ public abstract class ComputerPlayer implements Player {
 				return returnChoice ;
 			}
 			else {
-				returnChoice.add(myHand.indexOf(Collections.max(myHand, new ShitheadCardComparator()))) ;
+				returnChoice.add(myHand.indexOf(myHand.highest())) ;
 				return returnChoice ;
 
 			}
 		}
 		else {
-			returnChoice.add(myHand.indexOf(Collections.max(myHand, new ShitheadCardComparator()))) ;
+			returnChoice.add(myHand.indexOf(myHand.highest())) ;
 			return returnChoice ;
 		}
 	}
 	
-	protected List<Integer> pickLowCards(PlayerHelper helper, List<Card> myHand) {
+	protected List<Integer> pickLowCards(PlayerHelper helper, Hand myHand) {
 		List<Integer> chosenCards = null; 
 		
-		for (Card tryCard : myHand) {
+		for (Card tryCard : myHand.cards()) {
 			if (checkValidMove(tryCard, helper)) {
 				int chosen = myHand.indexOf(tryCard) ;
 				chosenCards = new ArrayList<Integer>() ;
@@ -187,20 +188,12 @@ public abstract class ComputerPlayer implements Player {
 			return chosenCards ;
 		else {
 			// iterate over the players cards for any of the same rank and add them 
-			for (Card toCompare : myHand)
+			for (Card toCompare : myHand.cards())
 				if ((myHand.get(chosenCards.get(0)).compareTo(toCompare) == 0) && 
 									(!myHand.get(chosenCards.get(0)).equals(toCompare))) 
 					chosenCards.add(myHand.indexOf(toCompare)) ;	
 			return chosenCards;
 		}
-	}
-	
-	protected Card getBurnCardInHand(List<Card> myHand) {
-		for (Card tryCard : myHand) {
-			if (tryCard.getRank().equals(ShitheadRules.BURN)) 
-				return tryCard ;
-		}
-		return null ;
 	}
 	
 	protected PlayerSummary getNextPlayer(PlayerHelper helper) {
