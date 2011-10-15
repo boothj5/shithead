@@ -64,7 +64,23 @@ public final class HumanPlayer implements Player {
 	public Hand getHand() {
 		return hand;
 	}	
-	
+
+    @Override
+    public int getFaceDownSize() {
+        return faceDown.size();
+    }
+
+    @Override
+    public int getFaceUpSize() {
+        return faceUp.size();
+    }
+
+    @Override
+    public int getHandSize() {
+        return hand.size();
+    }   
+    
+    
     @Override
 	public boolean hasCards() {
 		if (!faceUp.isEmpty()) 

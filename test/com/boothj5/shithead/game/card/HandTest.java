@@ -6,7 +6,6 @@ import static org.junit.matchers.JUnitMatchers.* ;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import com.boothj5.shithead.game.card.Card.Rank;

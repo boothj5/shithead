@@ -183,7 +183,7 @@ public class ShitheadCli {
 	public void showHand(ShitheadGameDetails details, Player player, boolean hideWhenNotCurrent) {
 		if (hideWhenNotCurrent && !details.isCurrentPlayer(player)) {
 			System.out.print("HAND:    ") ;
-			System.out.println(player.getHand().size() + " cards."); 
+			System.out.println(player.getHandSize() + " cards."); 
 		}
 		else {
 				System.out.print("HAND:    ") ;

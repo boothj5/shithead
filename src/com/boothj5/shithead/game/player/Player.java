@@ -28,6 +28,12 @@ public interface Player {
 
 	public Hand getHand() ;
 	
+    public int getFaceDownSize() ;
+
+    public int getFaceUpSize() ;
+
+    public int getHandSize() ;
+	
 	public boolean hasCards() ;
 
 	public void recieve(List<Card> cards) ;

@@ -109,21 +109,21 @@ public final class ShitheadGame {
 		boolean canPlay = false ;
 		
 		// check can play from hand
-		if (currentPlayer.getHand().size() > 0) {
+		if (currentPlayer.getHandSize() > 0) {
 			Iterator<Card> cardIterator = currentPlayer.getHand().iterator() ;
 			while (!canPlay && cardIterator.hasNext()) {
 					canPlay = checkValidMove(cardIterator.next()) ;
 			}
 		}
 		// check can play from face up
-		else if (currentPlayer.getFaceUp().size() > 0) {
+		else if (currentPlayer.getFaceUpSize() > 0) {
 			Iterator<Card> cardIterator = currentPlayer.getFaceUp().iterator() ;
 			while (!canPlay && cardIterator.hasNext()) {
 					canPlay = checkValidMove(cardIterator.next()) ;
 			}
 		}
 		// else can play from face down
-		else if (currentPlayer.getFaceDown().size() > 0) {
+		else if (currentPlayer.getFaceDownSize() > 0) {
 			canPlay = true ;
 		}
 		
@@ -132,17 +132,17 @@ public final class ShitheadGame {
 	
 	public int getHandSize() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
-		if (currentPlayer.getHand().size() > 0) 
-			return currentPlayer.getHand().size() ;
-		else if (currentPlayer.getFaceUp().size() > 0) 
-			return currentPlayer.getFaceUp().size() ;
+		if (currentPlayer.getHandSize() > 0) 
+			return currentPlayer.getHandSize() ;
+		else if (currentPlayer.getFaceUpSize() > 0) 
+			return currentPlayer.getFaceUpSize() ;
 		else 
-			return currentPlayer.getFaceDown().size() ;
+			return currentPlayer.getFaceDownSize() ;
 	}
 	
 	public boolean playingFromHand() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
-		if (currentPlayer.getHand().size() > 0) 
+		if (currentPlayer.getHandSize() > 0) 
 			return true ;
 		else 
 			return false ;
@@ -152,7 +152,7 @@ public final class ShitheadGame {
 		Player currentPlayer = players.get(this.currentPlayer) ;
 		if (playingFromHand()) 
 			return false ;
-		else if (currentPlayer.getFaceUp().size() > 0) 
+		else if (currentPlayer.getFaceUpSize() > 0) 
 			return true ;
 		else 
 			return false;
@@ -278,9 +278,9 @@ public final class ShitheadGame {
 			if (player.hasCards()) 
 				numPlayersStillPlaying++ ;
 			PlayerSummary playerSummary = new PlayerSummary(player.getName(), 
-															player.getHand().size(), 
+															player.getHandSize(), 
 															Collections.unmodifiableList(player.getFaceUp().cards()), 
-															player.getFaceDown().size(), player.hasCards()) ;
+															player.getFaceDownSize(), player.hasCards()) ;
 			playerSummaries.add(playerSummary) ;
 		}
 		
@@ -384,7 +384,7 @@ public final class ShitheadGame {
 		for (int i = 0 ; i < toPlay.size() ; i++) {
 			boolean deckIsEmpty = deck.getCards().isEmpty() ;
 			boolean playersHandLessThanGameHandSize = 
-				players.get(player).getHand().size() < numCardsPerHand ;
+				players.get(player).getHandSize() < numCardsPerHand ;
 			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
 					Card pickup = deck.getCards().get(0) ;
 					List<Card> pickupList = new ArrayList<Card>();
