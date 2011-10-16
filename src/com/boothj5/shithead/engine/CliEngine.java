@@ -6,6 +6,8 @@ import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
+import com.boothj5.shithead.game.player.interaction.ComputerPlayerInteraction;
+import com.boothj5.shithead.game.player.interaction.HumanPlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public final class CliEngine extends ShitheadEngine {
@@ -55,9 +57,9 @@ public final class CliEngine extends ShitheadEngine {
 
 		for (Player player : details.getPlayers()) {
 			if (player.isComputer()) 
-		        computerPlayerSwap(player) ;
+			    ComputerPlayerInteraction.swap(player) ;
 			else 
-			    humanPlayerSwap(details, player, cli) ;
+			    HumanPlayerInteraction.swap(cli, details, player) ;
 		}
 		
 		cli.showGame(game.getGameDetails(), true) ;
@@ -84,17 +86,17 @@ public final class CliEngine extends ShitheadEngine {
 		    if (game.currentPlayerCanPlay()) {
 		    	if (currentPlayer.isComputer()) {
 		    		if (game.playingFromFaceDown())
-		    		    computerPlayerFaceDownMove();
+		    		    ComputerPlayerInteraction.faceDownMove(game);
 		    		else 
-				    	computerPlayerMove();
+		    		    ComputerPlayerInteraction.move(game);
 
 		    		cli.showGameWithWait(game.getGameDetails(), true) ;
 		    	}
 		    	else // human player
 		    		if (game.playingFromFaceDown())
-		    		    humanPlayerFaceDownMove();
+		    		    HumanPlayerInteraction.faceDownMove(cli, game);
 		    		else 
-		    		    humanPlayerMove();
+		    		    HumanPlayerInteraction.move(cli, game);
 		    }
 		    else {
 	    		showPickupAndWait();
@@ -119,62 +121,9 @@ public final class CliEngine extends ShitheadEngine {
         cli.bail(e, game.getGameDetails()) ;
     }
 
-    private static void humanPlayerSwap(final ShitheadGameDetails details, final Player player, final ShitheadCli cli) {
-        cli.showPlayerSwap(details, player) ;
-
-        boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
-        while (wantsToSwap) {
-            final int cardFromHand = cli.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
-            final int cardFromPile = cli.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
-            final SwapResponse response = new SwapResponse(cardFromHand, cardFromPile) ;
-            player.swapCards(response) ;
-            cli.showPlayerSwap(details, player) ;
-            wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
-        }
-    }
-
     private void showPickupAndWait() {
         final String playerName = game.getCurrentPlayer().getName() ;
         cli.showPlayerPickupMessage(playerName) ;
         cli.waitOnUser() ;
-    }
-
-    private void humanPlayerMove() {
-        final int handSize = game.getHandSize() ;
-        final String playerName = game.getCurrentPlayer().getName() ;
-        List<Integer> cardChoice = cli.requestMove(playerName, handSize, false) ;
-        boolean validMove = game.checkValidMove(cardChoice) ;
-
-        // we know there is a valid move, since we've checked, so loop until they pick it
-        while (!validMove) {
-            cardChoice = cli.requestMove(playerName, handSize, true) ;
-            validMove = game.checkValidMove(cardChoice) ;
-        }
-
-        // once they've picked, play and move game on
-        game.play(cardChoice) ;
-        game.moveToNextPlayer() ;
-    }
-
-    private void humanPlayerFaceDownMove() {
-        final int handSize = game.getHandSize() ;
-        final String playerName = game.getCurrentPlayer().getName() ;
-        List<Integer> cardChoice = new ArrayList<Integer>() ;
-
-        final int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
-        cardChoice.add(cardChoiceFromFaceDown) ;
-        
-        // play if valid card
-        if (game.checkValidMove(cardChoice)) {
-            cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
-            game.play(cardChoice) ;
-        }
-        // pick up if not
-        else {
-            cli.showHandDownNotOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
-            game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
-        }
-        // move game on
-        game.moveToNextPlayer() ;
     }
 }
