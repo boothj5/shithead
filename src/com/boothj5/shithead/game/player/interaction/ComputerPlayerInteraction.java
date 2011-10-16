@@ -9,8 +9,15 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
 
-public final class ComputerPlayerInteraction {
-    public static final void swap(final Player player) throws ShitheadException {
+public final class ComputerPlayerInteraction extends PlayerInteraction {
+    private final ShitheadGame game ;
+    
+    public ComputerPlayerInteraction(final Player player, final ShitheadGame game) {
+        this.player = player ;
+        this.game = game ;
+    }
+    
+    public void swap() throws ShitheadException {
         boolean wantsToSwap = player.askSwapMore() ;
         if (wantsToSwap) {
             SwapResponse response = player.askSwapChoice() ;
@@ -24,7 +31,7 @@ public final class ComputerPlayerInteraction {
         }
     }
     
-    public static final void move(ShitheadGame game) throws ShitheadException {
+    public void move() throws ShitheadException {
         final Player currentPlayer = game.getCurrentPlayer() ;
         final PlayerHelper helper = game.getPlayerHelper() ;
         List<Integer> cardChoice = new ArrayList<Integer>() ;
@@ -42,7 +49,7 @@ public final class ComputerPlayerInteraction {
         game.moveToNextPlayer() ;
     }
 
-    public static final void faceDownMove(ShitheadGame game) {
+    public void faceDownMove() {
         final List<Integer> cardChoice = new ArrayList<Integer>() ;
         cardChoice.add(0) ;
 

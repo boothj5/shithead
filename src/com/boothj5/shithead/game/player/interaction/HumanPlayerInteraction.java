@@ -9,8 +9,19 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.SwapResponse;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public final class HumanPlayerInteraction {
-    public static void swap(final ShitheadCli cli, final ShitheadGameDetails details, final Player player) {
+public final class HumanPlayerInteraction extends PlayerInteraction {
+    
+    private final ShitheadGame game ;
+    private final ShitheadCli cli ;
+    
+    public HumanPlayerInteraction(final Player player, final ShitheadGame game, final ShitheadCli cli) {
+        this.player = player ;
+        this.game = game ; 
+        this.cli = cli ;
+    }
+    
+    public void swap() {
+        final ShitheadGameDetails details = game.getGameDetails() ;
         cli.showPlayerSwap(details, player) ;
 
         boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
@@ -24,7 +35,7 @@ public final class HumanPlayerInteraction {
         }
     }
 
-    public static void move(final ShitheadCli cli, final ShitheadGame game) {
+    public void move() {
         final Player currentPlayer = game.getCurrentPlayer() ;
         final int handSize = currentPlayer.getCurrentHandSize() ;
         final String playerName = currentPlayer.getName() ;
@@ -42,7 +53,7 @@ public final class HumanPlayerInteraction {
         game.moveToNextPlayer() ;
     }
 
-    public static void faceDownMove(final ShitheadCli cli, final ShitheadGame game) {
+    public void faceDownMove() {
         final Player currentPlayer = game.getCurrentPlayer() ;
         final int handSize = currentPlayer.getCurrentHandSize() ;
         final String playerName = currentPlayer.getName() ;
@@ -64,5 +75,4 @@ public final class HumanPlayerInteraction {
         // move game on
         game.moveToNextPlayer() ;
     }
-
 }

@@ -14,7 +14,7 @@ import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
-import com.boothj5.shithead.game.player.interaction.ComputerPlayerInteraction;
+import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 import com.boothj5.util.MapUtil;
 
@@ -63,8 +63,10 @@ public final class BattleEngine extends ShitheadEngine {
 	@Override
 	public void swap() throws ShitheadException {
 		final ShitheadGameDetails details = game.getGameDetails() ;
-		for (Player player : details.getPlayers())
-			ComputerPlayerInteraction.swap(player) ;
+		for (Player player : details.getPlayers()) {
+		    PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
+			playerInteraction.swap() ;
+		}
 	}
 	
 	@Override
@@ -84,16 +86,8 @@ public final class BattleEngine extends ShitheadEngine {
                 final Player currentPlayer = game.getCurrentPlayer() ;
                 
                 if (game.currentPlayerCanPlay()) {
-                   if (currentPlayer.isComputer()) {
-                       if (currentPlayer.playingFromFaceDown())
-                           ComputerPlayerInteraction.faceDownMove(game) ;
-                       else
-                           ComputerPlayerInteraction.move(game) ;
-                    } 
-                    else { // human player
-                    	cli.bail(new ShitheadException("Cannot have human player in computer battle!!"), 
-                    	        game.getGameDetails()) ;
-                    }
+                    PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
+                    playerInteraction.makeMove() ;
                 } 
                 else {
                     game.playerPickUpPile() ;

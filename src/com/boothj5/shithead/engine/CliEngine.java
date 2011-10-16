@@ -6,8 +6,7 @@ import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
-import com.boothj5.shithead.game.player.interaction.ComputerPlayerInteraction;
-import com.boothj5.shithead.game.player.interaction.HumanPlayerInteraction;
+import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public final class CliEngine extends ShitheadEngine {
@@ -56,10 +55,8 @@ public final class CliEngine extends ShitheadEngine {
 		ShitheadGameDetails details = game.getGameDetails() ;
 
 		for (Player player : details.getPlayers()) {
-			if (player.isComputer()) 
-			    ComputerPlayerInteraction.swap(player) ;
-			else 
-			    HumanPlayerInteraction.swap(cli, details, player) ;
+		    final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
+			playerInteraction.swap() ;
 		}
 		
 		cli.showGame(game.getGameDetails(), true) ;
@@ -84,19 +81,10 @@ public final class CliEngine extends ShitheadEngine {
 		    final Player currentPlayer = game.getCurrentPlayer() ;
 		    
 		    if (game.currentPlayerCanPlay()) {
-		    	if (currentPlayer.isComputer()) {
-		    		if (currentPlayer.playingFromFaceDown())
-		    		    ComputerPlayerInteraction.faceDownMove(game);
-		    		else 
-		    		    ComputerPlayerInteraction.move(game);
-
+		        final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
+	            playerInteraction.makeMove() ;
+		        if (currentPlayer.isComputer())
 		    		cli.showGameWithWait(game.getGameDetails(), true) ;
-		    	}
-		    	else // human player
-		    		if (currentPlayer.playingFromFaceDown())
-		    		    HumanPlayerInteraction.faceDownMove(cli, game);
-		    		else 
-		    		    HumanPlayerInteraction.move(cli, game);
 		    }
 		    else {
 	    		showPickupAndWait();
