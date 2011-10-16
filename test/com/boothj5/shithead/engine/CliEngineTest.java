@@ -26,46 +26,40 @@ public class CliEngineTest {
     
     @Before 
     public void setup() throws Exception {
-        engine = (CliEngine) EngineFactory.createEngine(args[0], cli) ;
+        engine = (CliEngine) EngineFactory.createEngine(cli, args) ;
     }
     
     @Test
     public void hasCorrectNumGames() throws ShitheadException {
-        engine.globalInit(args) ;
         assertEquals(1, engine.numGames) ; 
     }
     
     @Test
     public void screenIsClearedOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         engine.init() ;
         verify(cli).clearScreen() ;
     }
 
     @Test
     public void weclomeMessageOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         engine.init() ;
         verify(cli).welcome() ;
     }
     
     @Test
     public void numPlayersRequestedOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         engine.init() ;
         verify(cli).requestNumPlayers() ;
     }
     
     @Test
     public void numCardsEachRequestedOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         engine.init() ;
         verify(cli).requestNumCardsPerHand() ;
     }
     
     @Test
     public void requestCorrectNumPlayerNamesOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails();
         engine.init() ;
         
@@ -76,7 +70,6 @@ public class CliEngineTest {
 
     @Test
     public void requestCorrectNumPlayerTypesOnInit() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails();
         engine.init() ;
         
@@ -87,7 +80,6 @@ public class CliEngineTest {
     
     @Test
     public void initCreatesGameWithCorrectNumberOfCards() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails();
         engine.init() ;
         assertEquals(4, engine.game.getGameDetails().getNumCardsPerHand()) ;
@@ -95,7 +87,6 @@ public class CliEngineTest {
 
     @Test
     public void initCreatesGameWithCorrectNumberOfPlayers() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails();
         engine.init() ;
         assertEquals(3, engine.game.getGameDetails().getNumPlayers()) ;
@@ -103,7 +94,6 @@ public class CliEngineTest {
     
     @Test
     public void initCreatesGameWithCorrectPlayerNames() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails();
         engine.init() ;
         String[] names = { "James", "Mike", "Comp" };
@@ -116,7 +106,6 @@ public class CliEngineTest {
 
     @Test
     public void initCreatesGameWithCorrectPlayerTypes() throws ShitheadException {
-        engine.globalInit(args) ;
         respondWithGameDetails() ;
         engine.init() ;
         String[] types = {"h", "s", "r" } ;

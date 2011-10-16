@@ -28,23 +28,19 @@ public final class BattleEngine extends ShitheadEngine {
 	long startTime, stopTime, duration ; 
 	boolean stalemate ;
 
-	public BattleEngine(ShitheadCli cli) {
+	public BattleEngine(String[] args, ShitheadCli cli) throws ShitheadException {
 	    this.cli = cli ;
-	}
-	
-	@Override
-	public void globalInit(String[] args) throws ShitheadException {
-		cli.line() ;
-		cli.welcome() ;
-		numCards = 3 ;
-		numGames = Integer.parseInt(args[1]) ;
-		final Map<String, String> compPlayerList = PlayerFactory.computerPlayerList();
-	    
-		for (String shortName : compPlayerList.keySet())
-		    playerTypes.add(compPlayerList.get(shortName)) ;
+        cli.line() ;
+        cli.welcome() ;
+        numCards = 3 ;
+        numGames = Integer.parseInt(args[1]) ;
+        final Map<String, String> compPlayerList = PlayerFactory.computerPlayerList();
+        
+        for (String shortName : compPlayerList.keySet())
+            playerTypes.add(compPlayerList.get(shortName)) ;
 
-		numPlayers = playerTypes.size() ;
-		playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
+        numPlayers = playerTypes.size() ;
+        playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
         updateShitheadMap(playerNames, shitheadMap) ;
         startTime = System.currentTimeMillis() ;
 	}

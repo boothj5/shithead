@@ -11,44 +11,53 @@ public class EngineFactoryTest {
 
     @Test
     public void returnsCliEngine() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        ShitheadEngine engine = EngineFactory.createEngine("i", cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {"i"} ;
+        final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
         
         assertTrue(engine instanceof CliEngine) ;
     }
 
     @Test
     public void returnsBattleEngine() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        ShitheadEngine engine = EngineFactory.createEngine("b", cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {"b", "100"} ;
+        final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
         
         assertTrue(engine instanceof BattleEngine) ;
     }
 
     @Test
     public void returnsGuiEngine() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        ShitheadEngine engine = EngineFactory.createEngine("g", cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {"g"} ;
+        final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
         
         assertTrue(engine instanceof GuiEngine) ;
     }
 
     @Test (expected=ShitheadException.class)
     public void ThrowsExceptionOnEmptyString() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        EngineFactory.createEngine("", cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {""} ;
+        
+        EngineFactory.createEngine(cli, args) ;
     }
 
     @Test (expected=ShitheadException.class)
     public void ThrowsExceptionOnNullString() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        EngineFactory.createEngine(null, cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {} ;
+        
+        EngineFactory.createEngine(cli, args) ;
     }
     
     @Test (expected=ShitheadException.class)
     public void ThrowsExceptionOnInvalidString() throws ShitheadException {
-        ShitheadCli cli = new ShitheadCli() ;
-        EngineFactory.createEngine("p", cli) ;
+        final ShitheadCli cli = new ShitheadCli() ;
+        final String[] args = {"p"} ;
+        
+        EngineFactory.createEngine(cli, args) ;
     }
     
     

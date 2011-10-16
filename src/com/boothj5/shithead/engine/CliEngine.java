@@ -13,13 +13,9 @@ public final class CliEngine extends ShitheadEngine {
 
     public CliEngine(final ShitheadCli cli) {
         this.cli = cli ;
+        numGames = 1 ;
     }
     
-    @Override
-	public void globalInit(final String[] args) {
-	    numGames = 1 ;
-	}
-	
 	@Override
 	public void init() throws ShitheadException {
 		int numPlayers ;

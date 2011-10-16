@@ -61,7 +61,6 @@ public abstract class ShitheadEngine {
         return numGames ;
     }
 
-    public abstract void globalInit(final String[] args) throws ShitheadException;
     public abstract void init() throws ShitheadException;
     public abstract void deal() ;
     public abstract void swap() throws ShitheadException ;

@@ -7,7 +7,7 @@ public class GuiEngine extends ShitheadEngine {
 
     private String[] args ;
     
-    public void globalInit(String[] args) throws ShitheadException {
+    public GuiEngine(String[] args) {
         this.args = args ;
         this.numGames = 1;
     }

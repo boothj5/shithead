@@ -48,7 +48,7 @@ public final class ShitheadGame {
 		decksRequired = div + add ;
 		
 		for (int i = 1 ; i < decksRequired ; i++) 
-			  deck.addDeck(new Deck()) ;
+			  deck.addAnotherDeck() ;
 		
 		deck.shuffle() ;
 		final Iterator<Card> deckIterator = deck.getCards().iterator() ;

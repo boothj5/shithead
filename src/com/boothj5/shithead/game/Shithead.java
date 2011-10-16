@@ -7,12 +7,10 @@ import com.boothj5.shithead.ui.cli.ShitheadCli;
 public class Shithead {
 	
 	public static void main(String[] args) throws Exception {
-		final String gameType = args[0] ;
 		final ShitheadCli cli = new ShitheadCli() ;
-		final ShitheadEngine engine = EngineFactory.createEngine(gameType, cli) ;
+        final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
 		
         try {
-            engine.globalInit(args) ;
             for (int i = 0 ; i < engine.getNumGames() ; i++) {
                 engine.init() ;
                 engine.deal() ;

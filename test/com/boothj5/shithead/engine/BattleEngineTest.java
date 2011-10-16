@@ -21,8 +21,7 @@ public class BattleEngineTest {
 
     @Before 
     public void setup() throws Exception {
-        engine = (BattleEngine) EngineFactory.createEngine(args[0], cli) ;
-        engine.globalInit(args) ;
+        engine = (BattleEngine) EngineFactory.createEngine(cli, args) ;
     }
     
     @Test
