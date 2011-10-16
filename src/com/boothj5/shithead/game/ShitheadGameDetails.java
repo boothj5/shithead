@@ -21,14 +21,8 @@ public class ShitheadGameDetails {
 	private final List<Card> burnt ;
 	private final LastMove lastmove ;
 
-	public ShitheadGameDetails(final List<Player> players, 
-								final Deck deck, 
-								final int numPlayers, 
-								final int numCardsPerHand, 
-								final int currentPlayer, 
-								final Stack<Card> pile, 
-								final List<Card> burnt, 
-								final LastMove lastMove) {
+	public ShitheadGameDetails(final List<Player> players, final Deck deck, final int numPlayers, final int numCardsPerHand, 
+	        final int currentPlayer, final Stack<Card> pile, final List<Card> burnt, final LastMove lastMove) {
 		this.players = Collections.unmodifiableList(players) ;
 		this.deck = deck ;
 		this.numPlayers = numPlayers ;

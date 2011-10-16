@@ -62,7 +62,6 @@ public final class ShitheadGame {
 			for (int j = 0 ; j < numPlayers ; j++)
 				players.get(j).dealToHand(deckIterator.next());
 
-		// remove the dealt cards from the pack
 		final int totalToRemove = (numCardsPerHand * 3) * numPlayers ;
 		for (int i = 0 ; i < totalToRemove ; i++) 
 			deck.remove(0) ;
@@ -73,76 +72,51 @@ public final class ShitheadGame {
 	
 	public void firstMove() {
 		int playerToLayIndex ;
-		List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
-		List<Card> cardsToPlay = new ArrayList<Card>() ;
+		final List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
+		final List<Card> cardsToPlay = new ArrayList<Card>() ;
 
-		// add lowest card of each player to a list
 		for (Player player : players) {
-			Hand playersHand = player.getHand() ;
-			Card playersLowestCard = playersHand.lowest() ;
-
+			final Hand playersHand = player.getHand() ;
+			final Card playersLowestCard = playersHand.lowest() ;
 			lowestCardsByPlayerIndex.add(playersLowestCard) ;
 		}
 		
-		Card lowestOfAllCards = Collections.min(lowestCardsByPlayerIndex, new ShitheadCardComparator()) ;
-
-		// get the index of the player with the lowest card
+		final Card lowestOfAllCards = Collections.min(lowestCardsByPlayerIndex, new ShitheadCardComparator()) ;
 		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(lowestOfAllCards) ;
-
-		// add to the list to be played
 		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
 
-		// iterate over the players cards for any of the same rank and add them 
 		for (Card toCompare : players.get(playerToLayIndex).getHand().cards())
 			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
 								(!cardsToPlay.get(0).equals(toCompare))) 
 				cardsToPlay.add(toCompare) ;
 
 		playFromHand(playerToLayIndex, cardsToPlay) ;
-		
 		currentPlayer = playerToLayIndex ;
 		moveToNextPlayer() ;
 	}
 	
 	public boolean currentPlayerCanPlay() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
-		boolean canPlay = false ;
+		final Player currentPlayer = players.get(this.currentPlayer) ;
 		
-		// check can play from hand
-		if (currentPlayer.getHandSize() > 0) {
-			Iterator<Card> cardIterator = currentPlayer.getHand().iterator() ;
-			while (!canPlay && cardIterator.hasNext()) {
-					canPlay = checkValidMove(cardIterator.next()) ;
-			}
-		}
-		// check can play from face up
-		else if (currentPlayer.getFaceUpSize() > 0) {
-			Iterator<Card> cardIterator = currentPlayer.getFaceUp().iterator() ;
-			while (!canPlay && cardIterator.hasNext()) {
-					canPlay = checkValidMove(cardIterator.next()) ;
-			}
-		}
-		// else can play from face down
-		else if (currentPlayer.getFaceDownSize() > 0) {
-			canPlay = true ;
-		}
-		
-		return canPlay ;
+		if (currentPlayer.hasCardsInHand())
+		    return canPlayWIthCards(currentPlayer.getHand());
+		else if (currentPlayer.hasCardsInFaceUp()) 
+			return canPlayWIthCards(currentPlayer.getFaceUp());
+		else if (currentPlayer.hasCardsInFaceDown()) 
+			return true ;
+		else 
+		    return false ;
 	}
-	
 
-	public boolean checkValidMove(List<Integer> choice) {
-		List<Card> cardsToLay = getCards(choice) ;
+	public boolean checkValidMove(final List<Integer> choice) {
+		final List<Card> cardsToLay = getCards(choice) ;
+        final Card firstCard = cardsToLay.get(0) ;
 		boolean validRank = true ;
-		
-		
-		// check the first one is valid
-		Card firstCard = cardsToLay.get(0) ;
 		validRank = checkValidMove(firstCard) ;
 		
 		if (!validRank) 
 			return false ;
-		else { // check whether the rest are the same rank
+		else {
 			for (Card otherCard : cardsToLay) {
 				if (firstCard.compareTo(otherCard)!=0)
 					return false ;
@@ -151,10 +125,9 @@ public final class ShitheadGame {
 		}
 	}	
 	
-	private List<Card> getCards(List<Integer> cardChoice) {
-		
-		Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
-		List<Card> returnCards = new ArrayList<Card>() ;
+	private List<Card> getCards(final List<Integer> cardChoice) {
+		final Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
+		final List<Card> returnCards = new ArrayList<Card>() ;
 
 		for (int cardIndex : cardChoice) {
 			returnCards.add(handToPlayFrom.get(cardIndex)) ;
@@ -163,7 +136,7 @@ public final class ShitheadGame {
 	}	
 	
 	private Hand getCurrentPlayersActiveHand() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
+		final Player currentPlayer = players.get(this.currentPlayer) ;
 		
 		if (currentPlayer.playingFromHand()) 
 			return currentPlayer.getHand() ;
@@ -175,21 +148,20 @@ public final class ShitheadGame {
 	
 	
 	public void playerPickUpPile() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
-		
+		final Player currentPlayer = players.get(this.currentPlayer) ;
 		currentPlayer.recieve(pile) ;
 		pile.removeAllElements() ;
 	}
 	
-	public void playerPickUpPileAndFaceDownCard(int cardFromFaceDown) {
+	public void playerPickUpPileAndFaceDownCard(final int cardFromFaceDown) {
 		playerPickUpPile() ;
-		Player currentPlayer = players.get(this.currentPlayer) ;
+		final Player currentPlayer = players.get(this.currentPlayer) ;
 		currentPlayer.getHand().add(currentPlayer.getFaceDown().get(cardFromFaceDown)) ;
 		currentPlayer.getFaceDown().remove(cardFromFaceDown) ;
 	}
 	
-	public void play(List<Integer> choice) {
-		List<Card> cardsToPlay = getCards(choice) ;
+	public void play(final List<Integer> choice) {
+		final List<Card> cardsToPlay = getCards(choice) ;
 		final Player currentPlayer = players.get(this.currentPlayer) ;
 		
 		if (currentPlayer.playingFromHand()) 
@@ -199,8 +171,6 @@ public final class ShitheadGame {
 		else
 			playFromFaceDown(this.currentPlayer, cardsToPlay) ;
 	}	
-	
-	
 
 	public void moveToNextPlayer() {
 		currentPlayer ++ ;
@@ -214,20 +184,12 @@ public final class ShitheadGame {
 	}
 	
 	public boolean canContinueGame() {
-		boolean continueGame = true ;
-
-		// if more than one player with cards, continue
 		int numPlayersWithCards = 0 ;
 		for (Player player : players) 
 			if (player.hasCards()) 
 				numPlayersWithCards++ ;
 
-		if (numPlayersWithCards >= 2)
-			continueGame = true ;
-		else 
-			continueGame = false ;
-
-		return continueGame ;		
+		return (numPlayersWithCards >= 2) ;
 	}
 	
 	public String getShithead() throws ShitheadException {
@@ -239,33 +201,24 @@ public final class ShitheadGame {
 	
 	public PlayerHelper getPlayerHelper() {
 		int numPlayersStillPlaying = 0 ;
-		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+		final List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
 
 		for (Player player : players) {
 			if (player.hasCards()) 
 				numPlayersStillPlaying++ ;
-			PlayerSummary playerSummary = new PlayerSummary(player.getName(), 
-															player.getHandSize(), 
-															Collections.unmodifiableList(player.getFaceUp().cards()), 
-															player.getFaceDownSize(), player.hasCards()) ;
+			final PlayerSummary playerSummary = new PlayerSummary(player.getName(), player.getHandSize(), 
+			        Collections.unmodifiableList(player.getFaceUp().cards()), player.getFaceDownSize(), player.hasCards()) ;
 			playerSummaries.add(playerSummary) ;
 		}
 		
-		return new PlayerHelper(deck.getSize(), 
-						numPlayers, 
-						numPlayersStillPlaying, 
-						numCardsPerHand, 
-						currentPlayer, 
-						pile, 
-						Collections.unmodifiableList(burnt),
-						playerSummaries) ;
+		return new PlayerHelper(deck.getSize(), numPlayers, numPlayersStillPlaying, numCardsPerHand, currentPlayer, 
+		        pile, Collections.unmodifiableList(burnt), playerSummaries) ;
 	}
 		
-	private boolean checkValidMove(Card cardToLay) {
+	private boolean checkValidMove(final Card cardToLay) {
 		if (pile.empty()) 
 			return true ;
 		else if (Card.Rank.SEVEN.equals(pile.peek().getRank())) {
-			//look for first non invisible and check that
 			Card testCard = pile.peek() ;
 			for (int i = pile.size() -1 ; (i >=0 && (testCard.getRank().equals(Card.Rank.SEVEN))) ; i-- ) {
 				testCard = pile.get(i) ;
@@ -279,21 +232,20 @@ public final class ShitheadGame {
 			return checkValidMove(pile.peek(), cardToLay) ;	
 	}
 	
-	private boolean checkValidMove(Card onPile, Card toLay) {
+	private boolean checkValidMove(final Card onPile, final Card toLay) {
 		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.getRank())) 
 			return true ;
 		else {
 			return (onPile.compareTo(toLay) <= 0);
 		}
 	}	
-	
 
 	private boolean burnIfPossible() {
 		boolean didBurn = false ;
 
-		boolean burnCardOnPile = (!pile.empty()) && (pile.peek().getRank().equals(ShitheadRules.BURN)) ;
-		boolean fourOfAKindOnPile = (pile.size() >= 4) && 
-		((pile.get(pile.size()-1).getRank().equals(pile.get(pile.size()-2).getRank())) && 
+		final boolean burnCardOnPile = (!pile.empty()) && (pile.peek().getRank().equals(ShitheadRules.BURN)) ;
+		final boolean fourOfAKindOnPile = (pile.size() >= 4) && 
+		        ((pile.get(pile.size()-1).getRank().equals(pile.get(pile.size()-2).getRank())) && 
 				  (pile.get(pile.size()-2).getRank().equals(pile.get(pile.size()-3).getRank())) &&
 			  		(pile.get(pile.size()-3).getRank().equals(pile.get(pile.size()-4).getRank()))) ;
 		
@@ -303,13 +255,14 @@ public final class ShitheadGame {
 			pile.removeAllElements() ;
 			didBurn = true ;
 		}
+
 		return didBurn ;
 	}
 	
 	private boolean missAGoIfRequied() {
 		boolean missAGo = false ;
 
-		boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().getRank().equals(ShitheadRules.MISS_A_TURN)) ;
+		final boolean missAGoCardOnPile = (!pile.empty()) && (pile.peek().getRank().equals(ShitheadRules.MISS_A_TURN)) ;
 		if (missAGoCardOnPile) {
 			moveToNextPlayer();
 			missAGo = true ;
@@ -317,44 +270,44 @@ public final class ShitheadGame {
 		return missAGo ;
 	}
 
-	private void playFromHand(int player, List<Card> toPlay) {
+	private void playFromHand(final int player, final List<Card> toPlay) {
 		pile.addAll(toPlay) ;
 		players.get(player).getHand().removeAll(toPlay) ;
 		pickupFromDeck(player, toPlay);
 
-		boolean didBurn = burnIfPossible() ;
-		boolean missedAGo = missAGoIfRequied() ;
+		final boolean didBurn = burnIfPossible() ;
+		final boolean missedAGo = missAGoIfRequied() ;
 		lastMove = new LastMove(players.get(player), toPlay, didBurn, missedAGo) ;
 	}	
 
-	private void playFromFaceUp(int player, List<Card> toPlay) {
+	private void playFromFaceUp(final int player, final List<Card> toPlay) {
 		pile.addAll(toPlay) ;
 		players.get(player).getFaceUp().removeAll(toPlay) ;
 		pickupFromDeck(player, toPlay);
 
-		boolean didBurn = burnIfPossible() ;
-		boolean missedAGo = missAGoIfRequied() ;
+		final boolean didBurn = burnIfPossible() ;
+		final boolean missedAGo = missAGoIfRequied() ;
 		lastMove = new LastMove(players.get(player), toPlay, didBurn, missedAGo) ;
 	}
 
-	private void playFromFaceDown(int player, List<Card> toPlay) {
+	private void playFromFaceDown(final int player, final List<Card> toPlay) {
 		pile.addAll(toPlay) ;
 		players.get(player).getFaceDown().removeAll(toPlay) ;
 		pickupFromDeck(player, toPlay);
 
-		boolean didBurn = burnIfPossible() ;
-		boolean missedAGo = missAGoIfRequied() ;
+		final boolean didBurn = burnIfPossible() ;
+		final boolean missedAGo = missAGoIfRequied() ;
 		lastMove = new LastMove(players.get(player), toPlay, didBurn, missedAGo) ;
 	}	
 
 	private void pickupFromDeck(int player, List<Card> toPlay) {
 		for (int i = 0 ; i < toPlay.size() ; i++) {
-			boolean deckIsEmpty = deck.getCards().isEmpty() ;
-			boolean playersHandLessThanGameHandSize = 
+			final boolean deckIsEmpty = deck.getCards().isEmpty() ;
+			final boolean playersHandLessThanGameHandSize = 
 				players.get(player).getHandSize() < numCardsPerHand ;
 			if (!deckIsEmpty && playersHandLessThanGameHandSize) {
-					Card pickup = deck.getCards().get(0) ;
-					List<Card> pickupList = new ArrayList<Card>();
+					final Card pickup = deck.getCards().get(0) ;
+					final List<Card> pickupList = new ArrayList<Card>();
 					pickupList.add(pickup) ;
 					players.get(player).recieve(pickupList) ;
 					deck.remove(0) ;
@@ -366,4 +319,12 @@ public final class ShitheadGame {
 		return players.get(currentPlayer) ;
 	}
 
+    private boolean canPlayWIthCards(final Hand hand) {
+        final Iterator<Card> cardIterator = hand.iterator() ;
+        boolean canPlay = false ;
+        while (!canPlay && cardIterator.hasNext()) {
+                canPlay = checkValidMove(cardIterator.next()) ;
+        }
+        return canPlay ;
+    }
 }

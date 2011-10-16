@@ -86,6 +86,21 @@ public abstract class ComputerPlayer extends Player {
 	}
 
     @Override
+    public boolean hasCardsInHand() {
+        return (getHandSize() > 0) ;
+    }
+
+    @Override
+    public boolean hasCardsInFaceUp() {
+        return (getFaceUpSize() > 0) ;
+    }
+    
+    @Override
+    public boolean hasCardsInFaceDown() {
+        return (getFaceDownSize() > 0) ;
+    }
+    
+    @Override
 	public void dealToHand(Card card) {
 		hand.add(card) ;
 		hand.sort() ;

@@ -36,6 +36,12 @@ public abstract class Player {
 	
 	public abstract boolean hasCards() ;
 
+    public abstract boolean hasCardsInHand() ;
+
+    public abstract boolean hasCardsInFaceUp() ;
+    
+    public abstract boolean hasCardsInFaceDown() ;
+	
 	public abstract void recieve(List<Card> cards) ;
 
 	public abstract void dealToHand(Card card) ;
