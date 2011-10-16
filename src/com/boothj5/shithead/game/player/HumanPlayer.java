@@ -5,7 +5,7 @@ import com.boothj5.shithead.game.card.Hand;
 
 import java.util.*;
 
-public final class HumanPlayer implements Player {
+public final class HumanPlayer extends Player {
 
 	public static final String description = "Human player" ;
     private String name ;

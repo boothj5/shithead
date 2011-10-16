@@ -12,7 +12,7 @@ import com.boothj5.shithead.game.player.SwapResponse;
 
 import java.util.*;
 
-public abstract class ComputerPlayer implements Player {
+public abstract class ComputerPlayer extends Player {
 
     private String name ;
 	private int handSize ;

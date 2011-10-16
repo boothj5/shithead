@@ -25,8 +25,9 @@ public final class HumanPlayerInteraction {
     }
 
     public static void move(final ShitheadCli cli, final ShitheadGame game) {
-        final int handSize = game.getHandSize() ;
-        final String playerName = game.getCurrentPlayer().getName() ;
+        final Player currentPlayer = game.getCurrentPlayer() ;
+        final int handSize = currentPlayer.getCurrentHandSize() ;
+        final String playerName = currentPlayer.getName() ;
         List<Integer> cardChoice = cli.requestMove(playerName, handSize, false) ;
         boolean validMove = game.checkValidMove(cardChoice) ;
 
@@ -42,9 +43,10 @@ public final class HumanPlayerInteraction {
     }
 
     public static void faceDownMove(final ShitheadCli cli, final ShitheadGame game) {
-        final int handSize = game.getHandSize() ;
-        final String playerName = game.getCurrentPlayer().getName() ;
-        List<Integer> cardChoice = new ArrayList<Integer>() ;
+        final Player currentPlayer = game.getCurrentPlayer() ;
+        final int handSize = currentPlayer.getCurrentHandSize() ;
+        final String playerName = currentPlayer.getName() ;
+        final List<Integer> cardChoice = new ArrayList<Integer>() ;
 
         final int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
         cardChoice.add(cardChoiceFromFaceDown) ;

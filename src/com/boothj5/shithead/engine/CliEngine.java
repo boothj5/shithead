@@ -85,7 +85,7 @@ public final class CliEngine extends ShitheadEngine {
 		    
 		    if (game.currentPlayerCanPlay()) {
 		    	if (currentPlayer.isComputer()) {
-		    		if (game.playingFromFaceDown())
+		    		if (currentPlayer.playingFromFaceDown())
 		    		    ComputerPlayerInteraction.faceDownMove(game);
 		    		else 
 		    		    ComputerPlayerInteraction.move(game);
@@ -93,7 +93,7 @@ public final class CliEngine extends ShitheadEngine {
 		    		cli.showGameWithWait(game.getGameDetails(), true) ;
 		    	}
 		    	else // human player
-		    		if (game.playingFromFaceDown())
+		    		if (currentPlayer.playingFromFaceDown())
 		    		    HumanPlayerInteraction.faceDownMove(cli, game);
 		    		else 
 		    		    HumanPlayerInteraction.move(cli, game);

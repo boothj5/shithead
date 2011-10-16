@@ -130,40 +130,6 @@ public final class ShitheadGame {
 		return canPlay ;
 	}
 	
-	public int getHandSize() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
-		if (currentPlayer.getHandSize() > 0) 
-			return currentPlayer.getHandSize() ;
-		else if (currentPlayer.getFaceUpSize() > 0) 
-			return currentPlayer.getFaceUpSize() ;
-		else 
-			return currentPlayer.getFaceDownSize() ;
-	}
-	
-	public boolean playingFromHand() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
-		if (currentPlayer.getHandSize() > 0) 
-			return true ;
-		else 
-			return false ;
-	}
-
-	public boolean playingFromFaceUp() {
-		Player currentPlayer = players.get(this.currentPlayer) ;
-		if (playingFromHand()) 
-			return false ;
-		else if (currentPlayer.getFaceUpSize() > 0) 
-			return true ;
-		else 
-			return false;
-	}
-	
-	public boolean playingFromFaceDown() {
-		if (playingFromHand() || playingFromFaceUp()) 
-			return false ;
-		else 
-			return true ;
-	}
 
 	public boolean checkValidMove(List<Integer> choice) {
 		List<Card> cardsToLay = getCards(choice) ;
@@ -199,9 +165,9 @@ public final class ShitheadGame {
 	private Hand getCurrentPlayersActiveHand() {
 		Player currentPlayer = players.get(this.currentPlayer) ;
 		
-		if (playingFromHand()) 
+		if (currentPlayer.playingFromHand()) 
 			return currentPlayer.getHand() ;
-		else if (playingFromFaceUp())
+		else if (currentPlayer.playingFromFaceUp())
 			return currentPlayer.getFaceUp() ;
 		else
 			return currentPlayer.getFaceDown() ;
@@ -224,10 +190,11 @@ public final class ShitheadGame {
 	
 	public void play(List<Integer> choice) {
 		List<Card> cardsToPlay = getCards(choice) ;
+		final Player currentPlayer = players.get(this.currentPlayer) ;
 		
-		if (playingFromHand()) 
+		if (currentPlayer.playingFromHand()) 
 			playFromHand(this.currentPlayer, cardsToPlay) ;
-		else if (playingFromFaceUp())
+		else if (currentPlayer.playingFromFaceUp())
 			playFromFaceUp(this.currentPlayer, cardsToPlay) ;
 		else
 			playFromFaceDown(this.currentPlayer, cardsToPlay) ;

@@ -6,42 +6,75 @@ import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Hand;
 
-public interface Player {
+public abstract class Player {
     
-	public boolean isComputer() ;
+	public abstract boolean isComputer() ;
 	
-	public boolean askSwapMore() ;
+	public abstract boolean askSwapMore() ;
 		
-	public SwapResponse askSwapChoice() throws ShitheadException;
+	public abstract SwapResponse askSwapChoice() throws ShitheadException;
 	
-	public void swapCards(SwapResponse swapResponse) ;
+	public abstract void swapCards(SwapResponse swapResponse) ;
 	
-	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
+	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
 
-	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
+	public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 	
-	public String getName() ;
+	public abstract String getName() ;
 
-	public Hand getFaceDown() ;
+	public abstract Hand getFaceDown() ;
 
-	public Hand getFaceUp() ;
+	public abstract Hand getFaceUp() ;
 
-	public Hand getHand() ;
+	public abstract Hand getHand() ;
 	
-    public int getFaceDownSize() ;
+    public abstract int getFaceDownSize() ;
 
-    public int getFaceUpSize() ;
+    public abstract int getFaceUpSize() ;
 
-    public int getHandSize() ;
+    public abstract int getHandSize() ;
 	
-	public boolean hasCards() ;
+	public abstract boolean hasCards() ;
 
-	public void recieve(List<Card> cards) ;
+	public abstract void recieve(List<Card> cards) ;
 
-	public void dealToHand(Card card) ;
+	public abstract void dealToHand(Card card) ;
 
-	public void dealToFaceUp(Card card) ;
+	public abstract void dealToFaceUp(Card card) ;
 
-	public void dealToFaceDown(Card card) ;
+	public abstract void dealToFaceDown(Card card) ;
+
+    public int getCurrentHandSize() {
+        if (getHandSize() > 0) 
+            return getHandSize() ;
+        else if (getFaceUpSize() > 0) 
+            return getFaceUpSize() ;
+        else 
+            return getFaceDownSize() ;
+    }
+    
+    public boolean playingFromHand() {
+        if (getHandSize() > 0) 
+            return true ;
+        else 
+            return false ;
+    }
+
+    public boolean playingFromFaceUp() {
+        if (playingFromHand()) 
+            return false ;
+        else if (getFaceUpSize() > 0) 
+            return true ;
+        else 
+            return false;
+    }
+    
+    public boolean playingFromFaceDown() {
+        if (playingFromHand() || playingFromFaceUp()) 
+            return false ;
+        else 
+            return true ;
+    }
+
 	
 }

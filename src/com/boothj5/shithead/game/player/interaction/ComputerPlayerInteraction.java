@@ -29,7 +29,7 @@ public final class ComputerPlayerInteraction {
         final PlayerHelper helper = game.getPlayerHelper() ;
         List<Integer> cardChoice = new ArrayList<Integer>() ;
 
-        if (game.playingFromFaceUp()) 
+        if (currentPlayer.playingFromFaceUp()) 
             cardChoice = currentPlayer.askCardChoiceFromFaceUp(helper) ;                        
         else // play from hand
             cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;                      
