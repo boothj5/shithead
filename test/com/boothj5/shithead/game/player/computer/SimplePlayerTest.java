@@ -9,10 +9,7 @@ import java.util.Stack;
 
 import org.junit.Test ;
 
-import com.boothj5.shithead.game.LastMove;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.card.Card;
-import com.boothj5.shithead.game.card.Deck;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
@@ -91,6 +88,7 @@ public class SimplePlayerTest {
 		Card hand2 = new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS) ;
 		james.dealToHand(hand1) ;
 		james.dealToHand(hand2) ;
+		james.sortHand() ;
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
@@ -125,6 +123,7 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
+		james.sortHand() ;
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
@@ -194,6 +193,7 @@ public class SimplePlayerTest {
 		james.dealToHand(hand2) ;
 		james.dealToHand(hand3) ;
 		james.dealToHand(hand4) ;
+		james.sortHand() ;
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 

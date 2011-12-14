@@ -29,7 +29,7 @@ public class ShitheadGameTest {
 		ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
 		game.deal();
 		ShitheadGameDetails details = game.getGameDetails() ;
-		int totalCardsInGame = details.getDeck().getSize() + 
+		int totalCardsInGame = details.getDeck().size() + 
 								details.getPile().size() + 
 								details.getBurnt().size() ;
 		
@@ -53,7 +53,7 @@ public class ShitheadGameTest {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		int totalCardsExpected = 104 ;
-		int totalCardsInGame = details.getDeck().getSize() + 
+		int totalCardsInGame = details.getDeck().size() + 
 								details.getPile().size() + 
 								details.getBurnt().size() ;
 		
@@ -77,7 +77,7 @@ public class ShitheadGameTest {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		
 		int totalCardsExpected = 156;
-		int totalCardsInGame = details.getDeck().getSize() + 
+		int totalCardsInGame = details.getDeck().size() + 
 								details.getPile().size() + 
 								details.getBurnt().size() ;
 		
@@ -105,7 +105,7 @@ public class ShitheadGameTest {
 		ShitheadGameDetails details = game.getGameDetails() ;
 		int numberOfCardsThatShouldBeLeft = 52 - ((numPlayers * numCardsPerHand) * 3) ;
 		
-		assertThat(details.getDeck().getSize(), is(numberOfCardsThatShouldBeLeft)) ;
+		assertThat(details.getDeck().size(), is(numberOfCardsThatShouldBeLeft)) ;
 	}
 	
 	@Test
@@ -154,7 +154,6 @@ public class ShitheadGameTest {
 	}
 
 	private ShitheadGame createGameWith3HumanPlayersFourCards() throws Exception {
-		int numPlayers = 3 ;
 		int numCardsPerHand = 4 ;
 		
 		List<String> playerNames = new ArrayList<String>() ;
@@ -167,11 +166,10 @@ public class ShitheadGameTest {
 		playerTypes.add("h") ;
 		playerTypes.add("h") ;
 		
-		return new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		return new ShitheadGame(playerNames, playerTypes, numCardsPerHand) ;
 	}
 	
 	private ShitheadGame createGameWith3HumanPlayersTenCards() throws Exception {
-		int numPlayers = 3 ;
 		int numCardsPerHand = 10 ;
 		
 		List<String> playerNames = new ArrayList<String>() ;
@@ -184,11 +182,10 @@ public class ShitheadGameTest {
 		playerTypes.add("h") ;
 		playerTypes.add("h") ;
 		
-		return new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		return new ShitheadGame(playerNames, playerTypes, numCardsPerHand) ;
 	}	
 
 	private ShitheadGame createGameWith5HumanPlayersTenCards() throws Exception {
-		int numPlayers = 5 ;
 		int numCardsPerHand = 10 ;
 		
 		List<String> playerNames = new ArrayList<String>() ;
@@ -205,7 +202,7 @@ public class ShitheadGameTest {
 		playerTypes.add("h") ;
 		playerTypes.add("h") ;
 		
-		return new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		return new ShitheadGame(playerNames, playerTypes, numCardsPerHand) ;
 	}	
 	
 }

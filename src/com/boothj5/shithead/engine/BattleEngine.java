@@ -50,7 +50,7 @@ public final class BattleEngine extends ShitheadEngine {
 	public void init() throws ShitheadException {
         Collections.shuffle(playerTypes) ;      
         playerNames = getPlayerNamesFromTypes(numCards, playerTypes) ;
-        game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;
+        game = new ShitheadGame(playerNames, playerTypes, numCards) ;
         turns = 0 ;
         stalemate = false ;
 	}

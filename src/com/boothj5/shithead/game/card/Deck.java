@@ -5,40 +5,49 @@ public final class Deck {
 
 	private final List<Card> cards ;
 	
-	public Deck () {
-	    cards = new ArrayList<Card>() ;
-		for (Card.Suit suit : Card.Suit.values())
-			for (Card.Rank rank : Card.Rank.values())
-				cards.add(new Card(rank, suit)) ;
+	public Deck(int numPlayers, int numCardsPerHand) {
+	    int decksRequired = calcDecksRequired(numPlayers, numCardsPerHand) ;
+        cards = new ArrayList<Card>() ;
+
+        for (int i = 0 ; i < decksRequired ; i++) {
+	        for (Card.Suit suit : Card.Suit.values())
+	            for (Card.Rank rank : Card.Rank.values())
+	                cards.add(new Card(rank, suit)) ;
+	    }
+        
+        shuffle() ;
 	}
 	
 	public void shuffle() {
 		Collections.shuffle(cards) ;
 	}
 	
-	public int getSize() {
-		return cards.size() ;
+	public boolean isEmpty() {
+	    return cards.isEmpty() ;
 	}
 	
-	public List<Card> getCards() {
-		return Collections.unmodifiableList(cards) ;
-	}
-	
-	public Card remove(int index) {
-		return cards.remove(index) ;
+	public Card takeCard() {
+	    return cards.remove(0) ;
 	}
 	
 	public void removeAll(List<Card> cards) {
 		this.cards.removeAll(cards) ;
 	}
 	
-	public void addAnotherDeck() {
-	    final Deck extraDeck = new Deck() ;
-	    cards.addAll(extraDeck.getCards()) ;
-	}
-	
 	public int size() {
 	    return cards.size() ;
 	}
+	
+	public boolean contains(Card card) {
+	    return cards.contains(card) ;
+	}
+
+	public static int calcDecksRequired(int numPlayers, int numCardsPerHand) {
+        int totalCardsNeeded = (numCardsPerHand * numPlayers) * 3 ;
+        int div = totalCardsNeeded / 52 ;
+        int add = ((totalCardsNeeded % 52) > 0) ? 1 : 0 ; ;
+
+        return (div + add) ;
+    }
 
 }

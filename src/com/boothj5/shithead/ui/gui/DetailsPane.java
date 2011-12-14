@@ -141,7 +141,7 @@ public class DetailsPane extends JPanel implements ActionListener {
                 types.add("h") ;
                 types.add(PlayerFactory.computerPlayerList().get(compType.getSelectedItem())) ;
                 int numCardsPerHand = 4 ;
-                game = new ShitheadGame(2, names, types, numCardsPerHand) ;
+                game = new ShitheadGame(names, types, numCardsPerHand) ;
                 game.deal();
                 Component component = (Component) e.getSource();
                 JFrame frame = (JFrame) SwingUtilities.getRoot(component);

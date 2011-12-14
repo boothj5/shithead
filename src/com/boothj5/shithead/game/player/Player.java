@@ -46,6 +46,8 @@ public abstract class Player {
 
 	public abstract void dealToHand(Card card) ;
 
+	public abstract void sortHand() ;
+	
 	public abstract void dealToFaceUp(Card card) ;
 
 	public abstract void dealToFaceDown(Card card) ;
@@ -81,6 +83,4 @@ public abstract class Player {
         else 
             return true ;
     }
-
-	
 }

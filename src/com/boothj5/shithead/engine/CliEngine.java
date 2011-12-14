@@ -9,10 +9,10 @@ import com.boothj5.shithead.game.player.*;
 import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
-public final class CliEngine extends ShitheadEngine {
-    final ShitheadCli cli ;
+public class CliEngine extends ShitheadEngine {
+    ShitheadCli cli ;
 
-    public CliEngine(final ShitheadCli cli) {
+    public CliEngine(ShitheadCli cli) {
         this.cli = cli ;
         numGames = 1 ;
     }
@@ -21,8 +21,8 @@ public final class CliEngine extends ShitheadEngine {
 	public void init() throws ShitheadException {
 		int numPlayers ;
 		int numCards ;
-		final List<String> playerNames = new ArrayList<String>() ;
-		final List<String> playerTypes = new ArrayList<String>() ;
+		List<String> playerNames = new ArrayList<String>() ;
+		List<String> playerTypes = new ArrayList<String>() ;
 
 		cli.clearScreen() ;
 		cli.welcome() ;
@@ -39,7 +39,7 @@ public final class CliEngine extends ShitheadEngine {
 			playerTypes.add(type) ;
 		}
 		
-		game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCards) ;		
+		game = new ShitheadGame(playerNames, playerTypes, numCards) ;		
 	}
 	
 	@Override

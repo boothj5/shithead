@@ -127,7 +127,7 @@ public class ShitheadCli {
 		System.out.println() ;
 		
 		// deck left
-		System.out.println(details.getDeck().getSize() + " remaining on deck") ;
+		System.out.println(details.getDeck().size() + " remaining on deck") ;
 		System.out.println() ;		
 		
 		// burnt
@@ -186,12 +186,12 @@ public class ShitheadCli {
 			System.out.println(player.getHandSize() + " cards."); 
 		}
 		else {
-				System.out.print("HAND:    ") ;
-				for (Card card : player.getHand().cards()) { 
-					System.out.print(card + "(" + (player.getHand().indexOf(card)+1) + "), ") ;
-				}
-				System.out.println() ;
+			System.out.print("HAND:    ") ;
+			for (Card card : player.getHand().cards()) { 
+				System.out.print(card + "(" + (player.getHand().indexOf(card)+1) + "), ") ;
 			}
+			System.out.println() ;
+		}
 	}
 
 	public void showPlayerName(ShitheadGameDetails details, Player player, boolean indicateCurrent) {

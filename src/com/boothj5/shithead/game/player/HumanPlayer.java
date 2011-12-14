@@ -117,8 +117,12 @@ public final class HumanPlayer extends Player {
     @Override
 	public void dealToHand(Card card) {
 		hand.add(card) ;
-		hand.sort() ;
 	}
+    
+    @Override
+    public void sortHand() {
+        hand.sort() ;
+    }
 
     @Override
 	public void dealToFaceUp(Card card) {

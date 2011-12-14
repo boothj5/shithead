@@ -162,7 +162,6 @@ public class PlayerHelperTest {
 	
 	
 	private ShitheadGame createGameWith3HumanPlayersTenCards() throws Exception {
-		int numPlayers = 3 ;
 		int numCardsPerHand = 10 ;
 		
 		List<String> playerNames = new ArrayList<String>() ;
@@ -175,7 +174,7 @@ public class PlayerHelperTest {
 		playerTypes.add("h") ;
 		playerTypes.add("h") ;
 		
-		ShitheadGame game = new ShitheadGame(numPlayers, playerNames, playerTypes, numCardsPerHand) ;
+		ShitheadGame game = new ShitheadGame(playerNames, playerTypes, numCardsPerHand) ;
 		game.deal();
 		return game ;
 	}		
