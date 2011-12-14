@@ -44,4 +44,8 @@ public class Card {
 	public String getImage() {
 	    return "/" + rank.toString() + suit.toString() + ".png" ;
 	}
+	
+	public boolean sameRankDifferentSuit(Card card) {
+        return ((this.rank == card.rank) && (this.suit != card.suit)) ; 
+	}
 }

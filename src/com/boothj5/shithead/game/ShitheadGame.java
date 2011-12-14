@@ -50,28 +50,34 @@ public class ShitheadGame {
 	}
 	
 	public void firstMove() {
-		int playerToLayIndex ;
-		List<Card> lowestCardsByPlayerIndex = new ArrayList<Card>() ;
-		List<Card> cardsToPlay = new ArrayList<Card>() ;
-
-		for (Player player : players) {
-			Hand playersHand = player.getHand() ;
-			Card playersLowestCard = playersHand.lowest() ;
-			lowestCardsByPlayerIndex.add(playersLowestCard) ;
-		}
-		
-		Card lowestOfAllCards = Collections.min(lowestCardsByPlayerIndex, new ShitheadCardComparator()) ;
-		playerToLayIndex = lowestCardsByPlayerIndex.indexOf(lowestOfAllCards) ;
-		cardsToPlay.add(lowestCardsByPlayerIndex.get(playerToLayIndex)) ;
-
-		for (Card toCompare : players.get(playerToLayIndex).getHand().cards())
-			if ((cardsToPlay.get(0).compareTo(toCompare) == 0) && 
-								(!cardsToPlay.get(0).equals(toCompare))) 
-				cardsToPlay.add(toCompare) ;
-
-		playFromHand(playerToLayIndex, cardsToPlay) ;
-		currentPlayer = playerToLayIndex ;
+	    currentPlayer = playerWithLowest() ;
+	    Player player = getCurrentPlayer() ;
+	    List<Card> cardsToLay = new ArrayList<Card>() ;
+	    cardsToLay.add(player.getLowestHandCard()) ;
+	    Card firstCardToLay = cardsToLay.get(0) ;
+	    
+	    for(Card handCard : player.getHand().cards()) {
+	        if (handCard.sameRankDifferentSuit(firstCardToLay)) {
+	            cardsToLay.add(handCard) ;
+	        }
+	    }
+	    
+		playFromHand(currentPlayer, cardsToLay) ;
 		moveToNextPlayer() ;
+	}
+	
+	public int playerWithLowest() {
+	    int lowestPlayer = 0 ;
+	    ShitheadCardComparator comp = new ShitheadCardComparator() ;
+	    
+	    for (int i = 2 ; i < players.size() ; i++) {
+	        Card playersLowest = players.get(i).getLowestHandCard() ;
+	        Card currentLowest = players.get(lowestPlayer).getLowestHandCard();
+	        
+	        if (comp.compare(playersLowest, currentLowest) < 0)
+	            lowestPlayer = i ;
+	    }
+	    return lowestPlayer ;
 	}
 	
 	public boolean currentPlayerCanPlay() {
@@ -193,7 +199,17 @@ public class ShitheadGame {
 		return new PlayerHelper(deck.size(), numPlayers, numPlayersStillPlaying, numCardsPerHand, currentPlayer, 
 		        pile, Collections.unmodifiableList(burnt), playerSummaries) ;
 	}
-		
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer) ;
+    }
+
+    public ShitheadGameDetails getGameDetails() {
+        ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
+                numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
+        return details ;
+    }
+	
 	private boolean checkValidMove(Card cardToLay) {
 		if (pile.empty()) 
 			return true ;
@@ -294,17 +310,6 @@ public class ShitheadGame {
 			}
 		}
 	}	
-	
-	public Player getCurrentPlayer() {
-		return players.get(currentPlayer) ;
-	}
-
-    public ShitheadGameDetails getGameDetails() {
-        ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
-                numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
-        return details ;
-    }
-
 	
     private boolean canPlayWIthCards(Hand hand) {
         Iterator<Card> cardIterator = hand.iterator() ;

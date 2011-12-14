@@ -66,6 +66,11 @@ public final class HumanPlayer extends Player {
 	}	
 
     @Override
+    public Card getLowestHandCard() {
+        return hand.lowest() ;
+    }
+
+    @Override
     public int getFaceDownSize() {
         return faceDown.size();
     }

@@ -28,6 +28,8 @@ public abstract class Player {
 
 	public abstract Hand getHand() ;
 	
+	public abstract Card getLowestHandCard() ;
+	
     public abstract int getFaceDownSize() ;
 
     public abstract int getFaceUpSize() ;

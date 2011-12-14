@@ -109,6 +109,11 @@ public abstract class ComputerPlayer extends Player {
     public void sortHand() {
         hand.sort() ;
     }
+    
+    @Override
+    public Card getLowestHandCard() {
+        return hand.lowest() ;
+    }
 
     @Override
 	public void dealToFaceUp(Card card) {
