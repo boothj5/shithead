@@ -5,18 +5,18 @@ public final class Deck {
 
 	private final List<Card> cards ;
 	
-	public Deck(int numPlayers, int numCardsPerHand) {
-	    int decksRequired = calcDecksRequired(numPlayers, numCardsPerHand) ;
+	public Deck(int totalCards) {
+        int decksRequired = calcDecksRequired(totalCards) ;
         cards = new ArrayList<Card>() ;
 
         for (int i = 0 ; i < decksRequired ; i++) {
-	        for (Card.Suit suit : Card.Suit.values())
-	            for (Card.Rank rank : Card.Rank.values())
-	                cards.add(new Card(rank, suit)) ;
-	    }
+            for (Card.Suit suit : Card.Suit.values())
+                for (Card.Rank rank : Card.Rank.values())
+                    cards.add(new Card(rank, suit)) ;
+        }
         
         shuffle() ;
-	}
+    }
 	
 	public void shuffle() {
 		Collections.shuffle(cards) ;
@@ -42,12 +42,10 @@ public final class Deck {
 	    return cards.contains(card) ;
 	}
 
-	public static int calcDecksRequired(int numPlayers, int numCardsPerHand) {
-        int totalCardsNeeded = (numCardsPerHand * numPlayers) * 3 ;
+	private static int calcDecksRequired(int totalCardsNeeded) {
         int div = totalCardsNeeded / 52 ;
         int add = ((totalCardsNeeded % 52) > 0) ? 1 : 0 ; ;
 
         return (div + add) ;
     }
-
 }

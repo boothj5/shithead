@@ -48,4 +48,8 @@ public class Card {
 	public boolean sameRankDifferentSuit(Card card) {
         return ((this.rank == card.rank) && (this.suit != card.suit)) ; 
 	}
+	
+	public boolean equalsRank(Card card) {
+	    return this.rank == card.rank ;
+	}
 }

@@ -121,7 +121,7 @@ public class BattleEngineTest {
     }
     
     @Test
-    public void initCteatesGameWithCorrectNumCardsPerHand() throws ShitheadException {
+    public void initCreatesGameWithCorrectNumCardsPerHand() throws ShitheadException {
         engine.init();
         assertEquals(engine.numCards, engine.game.getGameDetails().getNumCardsPerHand()) ;
     }
