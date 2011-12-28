@@ -49,24 +49,13 @@ public final class ShitheadGame {
 	}
 	
 	public void firstMove() {
-	    // find player with lowest card
 	    currentPlayer = playerWithLowest() ;
 	    Player player = getCurrentPlayer() ;
-	    List<Card> cardsToLay = new ArrayList<Card>() ;
-
-	    // get other cards of same rank
-	    Card first = player.getHand().get(0) ;
-	    for(Card current : player.getHand().cards()) {
-	        if (current.equalsRank(first)) {
-	            cardsToLay.add(current) ;
-	        }
-	    }
-	    
-	    // play them
+	    List<Card> cardsToLay = getAllLowest(player);
 		playFromHand(cardsToLay) ;
 		moveToNextPlayer() ;
 	}
-	
+
 	public boolean currentPlayerCanMove() {
 		if (pile.isEmpty())
 		    return true ;
@@ -351,4 +340,16 @@ public final class ShitheadGame {
         return lowestPlayer ;
     }
 
+    private List<Card> getAllLowest(Player player) {
+        List<Card> cardsToLay = new ArrayList<Card>() ;
+        Card first = player.getHand().get(0) ;
+        for(Card current : player.getHand().cards()) {
+            if (current.equalsRank(first)) {
+                cardsToLay.add(current) ;
+            }
+        }
+        return cardsToLay ;
+    }
+    
+    
 }
