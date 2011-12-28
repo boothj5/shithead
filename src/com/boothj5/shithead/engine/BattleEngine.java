@@ -76,7 +76,7 @@ public final class BattleEngine extends ShitheadEngine {
 	
 	@Override
 	public void play() throws ShitheadException {	
-		while (game.canContinueGame()) {
+		while (game.canContinue()) {
 			if (turns == TURNS_THRESHOLD) {
 				stalemate = true ;
 				stalemates++ ;
@@ -85,7 +85,7 @@ public final class BattleEngine extends ShitheadEngine {
 			else {
                 final Player currentPlayer = game.getCurrentPlayer() ;
                 
-                if (game.currentPlayerCanPlay()) {
+                if (game.currentPlayerCanMove()) {
                     PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
                     playerInteraction.makeMove() ;
                 } 

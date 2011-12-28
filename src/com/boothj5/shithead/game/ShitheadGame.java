@@ -67,19 +67,42 @@ public final class ShitheadGame {
 		moveToNextPlayer() ;
 	}
 	
-	public boolean currentPlayerCanPlay() {
+	public boolean currentPlayerCanMove() {
+		if (pile.isEmpty())
+		    return true ;
+
 		Player player = getCurrentPlayer() ;
-		
 		if (player.hasCardsInHand())
-		    return canPlayWIthCards(player.getHand());
+		    return canMoveWithOneOf(player.getHand());
 		else if (player.hasCardsInFaceUp()) 
-			return canPlayWIthCards(player.getFaceUp());
+			return canMoveWithOneOf(player.getFaceUp());
 		else if (player.hasCardsInFaceDown()) 
 			return true ;
 		else 
 		    return false ;
 	}
 
+	private boolean canLay(Card card, Stack<Card> cards) {
+	    if (cards.isEmpty()) {
+	        return true ;
+	    }
+	    else if (ShitheadRules.isSpecial(card)) {
+	        return true ;
+	    }
+	    else if (ShitheadRules.isInvisible(cards.peek())) {
+	        Stack<Card> newPile = new Stack<Card>() ;
+	        newPile.addAll(cards) ;
+	        newPile.pop() ;
+	        return canLay(card, newPile) ;
+	    }
+	    else if ((card.compareTo(cards.peek())) < 0) {
+	        return false ;
+	    }
+	    else {
+	        return true ;
+	    }	    
+	}
+	
 	public boolean checkValidMove(List<Integer> choice) {
 		List<Card> cardsToLay = getCards(choice) ;
         Card firstCard = cardsToLay.get(0) ;
@@ -155,13 +178,13 @@ public final class ShitheadGame {
 		}
 	}
 	
-	public boolean canContinueGame() {
+	public boolean canContinue() {
 		int numPlayersWithCards = 0 ;
 		for (Player player : players) 
 			if (player.hasCards()) 
 				numPlayersWithCards++ ;
 
-		return (numPlayersWithCards >= 2) ;
+		return (numPlayersWithCards > 1) ;
 	}
 	
 	public String getShithead() throws ShitheadException {
@@ -306,13 +329,11 @@ public final class ShitheadGame {
 		}
 	}	
 	
-    private boolean canPlayWIthCards(Hand hand) {
-        Iterator<Card> cardIterator = hand.iterator() ;
-        boolean canPlay = false ;
-        while (!canPlay && cardIterator.hasNext()) {
-                canPlay = checkValidMove(cardIterator.next()) ;
-        }
-        return canPlay ;
+    private boolean canMoveWithOneOf(Hand hand) {
+        for (Card card : hand.cards())
+            if (canLay(card, pile))
+                return true ;
+        return false ;
     }
 
     private int playerWithLowest() {

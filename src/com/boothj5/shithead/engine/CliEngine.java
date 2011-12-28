@@ -75,12 +75,12 @@ public class CliEngine extends ShitheadEngine {
 	
 	@Override
 	public void play() throws ShitheadException {
-		while (game.canContinueGame()) {
+		while (game.canContinue()) {
 		    cli.showGameWithWait(game.getGameDetails(), false) ;
 
 		    final Player currentPlayer = game.getCurrentPlayer() ;
 		    
-		    if (game.currentPlayerCanPlay()) {
+		    if (game.currentPlayerCanMove()) {
 		        final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
 	            playerInteraction.makeMove() ;
 		        if (currentPlayer.isComputer())
