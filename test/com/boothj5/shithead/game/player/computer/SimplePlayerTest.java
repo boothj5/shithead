@@ -32,7 +32,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -61,7 +61,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -92,7 +92,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -127,7 +127,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -158,7 +158,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -197,7 +197,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -230,7 +230,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -258,7 +258,7 @@ public class SimplePlayerTest {
 
 		PlayerSummary playerSummaryJames = new PlayerSummary(james.getName(), 
 				james.getHand().size(), 
-				Collections.unmodifiableList(james.getFaceUp().cards()), 
+				Collections.unmodifiableList(james.getFaceUp()), 
 				james.getFaceDown().size(), james.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;

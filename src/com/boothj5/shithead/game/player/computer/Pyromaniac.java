@@ -1,5 +1,6 @@
 package com.boothj5.shithead.game.player.computer;
 
+import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.*;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
@@ -28,9 +29,9 @@ public class Pyromaniac extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		Hand myHand = getHand() ;
+		List<Card> myHand = getHand() ;
 
-		Card burnCard = myHand.getBurnCard() ;
+		Card burnCard = getBurnCard(myHand) ;
 		if (burnCard != null) {
 			chosenCards = new ArrayList<Integer>() ;
 			chosenCards.add(myHand.indexOf(burnCard)) ;
@@ -43,8 +44,8 @@ public class Pyromaniac extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		List<Integer> chosenCards = null ;
-		Hand myHand = getFaceUp() ;
-		Card burnCard = myHand.getBurnCard() ;
+		List<Card> myHand = getFaceUp() ;
+		Card burnCard = getBurnCard(myHand) ;
 		if (burnCard != null) {
 			chosenCards = new ArrayList<Integer>() ;
 			chosenCards.add(myHand.indexOf(burnCard)) ;
@@ -53,4 +54,13 @@ public class Pyromaniac extends ComputerPlayer {
 		else 
 			return pickLowCards(helper, myHand);
 	}	
+
+    private Card getBurnCard(List<Card> cards) {
+        for (Card tryCard : cards) {
+            if (tryCard.getRank().equals(ShitheadRules.BURN)) 
+                return tryCard ;
+        }
+        return null ;        
+    }
+
 }

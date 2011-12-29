@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
-import com.boothj5.shithead.game.card.Hand;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
 
@@ -50,20 +49,20 @@ public class LikesRankOrder extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
 		initRankOrder() ;
-		Hand myHand = getHand() ;
+		List<Card> myHand = getHand() ;
 		List<Integer> choices = new ArrayList<Integer>() ;
 
 		// go through my rank order
 		for (Card.Rank testRank : rankOrder) {
 			// go through my hand and see if I have one
-			for (Card cardFromHand : myHand.cards()) {
+			for (Card cardFromHand : myHand) {
 				if (cardFromHand.getRank().compareTo(testRank) == 0) {
 					// check I can lay it
 					if (checkValidMove(cardFromHand, helper)) {
 						 choices.add(myHand.indexOf(cardFromHand)) ;
 						 // pick more of the same if not special card 
 						 if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
-							 for (Card toCompare : myHand.cards())
+							 for (Card toCompare : myHand)
 								if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
 													(!myHand.get(choices.get(0)).equals(toCompare))) 
 									choices.add(myHand.indexOf(toCompare)) ;	
@@ -80,20 +79,20 @@ public class LikesRankOrder extends ComputerPlayer {
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
 		initRankOrder() ;
-		Hand myHand = getFaceUp();
+		List<Card> myHand = getFaceUp();
 		List<Integer> choices = new ArrayList<Integer>() ;
 
 		// go through my rank order
 		for (Card.Rank testRank : rankOrder) {
 			// go through my hand and see if I have one
-			for (Card cardFromHand : myHand.cards()) {
+			for (Card cardFromHand : myHand) {
 				if (cardFromHand.getRank().compareTo(testRank) == 0) 
 					// check I can lay it
 					if (checkValidMove(cardFromHand, helper)) {
 						choices.add(myHand.indexOf(cardFromHand)) ;
 						 // pick more of the same if not special card 
 						 if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
-							 for (Card toCompare : myHand.cards())
+							 for (Card toCompare : myHand)
 								if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
 													(!myHand.get(choices.get(0)).equals(toCompare))) 
 									choices.add(myHand.indexOf(toCompare)) ;	

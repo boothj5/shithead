@@ -27,13 +27,13 @@ public class SimplePlayer extends ComputerPlayer {
 
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-		Hand myHand = getHand() ;
+        List<Card> myHand = getHand() ;
 		return pickLowCards(helper, myHand);
 	}	
 	
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-		Hand myHand = getFaceUp() ;
+		List<Card> myHand = getFaceUp() ;
 		return pickLowCards(helper, myHand);
 	}	
 }

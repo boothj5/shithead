@@ -4,7 +4,6 @@ import java.util.* ;
 
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Deck;
-import com.boothj5.shithead.game.card.Hand;
 import com.boothj5.shithead.game.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
@@ -140,7 +139,7 @@ public final class ShitheadGame {
 			if (player.hasCards()) 
 				numPlayersStillPlaying++ ;
 			PlayerSummary playerSummary = new PlayerSummary(player.getName(), player.getHandSize(), 
-			        Collections.unmodifiableList(player.getFaceUp().cards()), player.getFaceDownSize(), player.hasCards()) ;
+			        Collections.unmodifiableList(player.getFaceUp()), player.getFaceDownSize(), player.hasCards()) ;
 			playerSummaries.add(playerSummary) ;
 		}
 		
@@ -242,8 +241,8 @@ public final class ShitheadGame {
 		}
 	}	
 	
-    private boolean canMoveWithOneOf(Hand hand) {
-        for (Card card : hand.cards())
+    private boolean canMoveWithOneOf(List<Card> hand) {
+        for (Card card : hand)
             if (canLay(card, pile))
                 return true ;
         return false ;
@@ -266,7 +265,7 @@ public final class ShitheadGame {
 
     private List<Card> getCardsFromIndexes(List<Integer> cardChoice) {
         Player player = getCurrentPlayer() ;
-        Hand handToPlayFrom = player.getHandPlayingFrom() ;
+        List<Card> handToPlayFrom = player.getHandPlayingFrom() ;
         List<Card> returnCards = new ArrayList<Card>() ;
 
         for (int cardIndex : cardChoice) {

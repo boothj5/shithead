@@ -121,9 +121,9 @@ public class ShitheadGameTest {
 		boolean foundLower = false ;
 		
 		for (Player player : details.getPlayers()) {
-			Hand hand = player.getHand() ;
+			List<Card> hand = player.getHand() ;
 			
-			for (Card card : hand.cards()) {
+			for (Card card : hand) {
 				ShitheadCardComparator comp = new ShitheadCardComparator();
 				 foundLower = (comp.compare(testCard, card) > 0) ;
 				 if (foundLower) break ;

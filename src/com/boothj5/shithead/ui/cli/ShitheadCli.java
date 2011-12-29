@@ -165,7 +165,7 @@ public class ShitheadCli {
 	public void showFaceDown(Player player) {
 		// player face down
 		System.out.print("FACE DOWN: ") ;
-		for (Card card : player.getFaceDown().cards()) {
+		for (Card card : player.getFaceDown()) {
 			System.out.print("****, ") ;
 		}			
 		System.out.println() ;
@@ -174,7 +174,7 @@ public class ShitheadCli {
 	public void showFaceUp(Player player) {
 		// player face up
 		System.out.print("FACE UP: ") ;
-		for (Card card : player.getFaceUp().cards()) {
+		for (Card card : player.getFaceUp()) {
 			System.out.print(card + "(" + (player.getFaceUp().indexOf(card)+1) + "), ") ;
 		}			
 		System.out.println() ;
@@ -187,7 +187,7 @@ public class ShitheadCli {
 		}
 		else {
 			System.out.print("HAND:    ") ;
-			for (Card card : player.getHand().cards()) { 
+			for (Card card : player.getHand()) { 
 				System.out.print(card + "(" + (player.getHand().indexOf(card)+1) + "), ") ;
 			}
 			System.out.println() ;

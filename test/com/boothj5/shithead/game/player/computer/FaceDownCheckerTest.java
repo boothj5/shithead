@@ -40,12 +40,12 @@ public class FaceDownCheckerTest {
 
 		PlayerSummary playerSummaryFaceDown = new PlayerSummary(faceDown.getName(), 
 				faceDown.getHand().size(), 
-				Collections.unmodifiableList(faceDown.getFaceUp().cards()), 
+				Collections.unmodifiableList(faceDown.getFaceUp()), 
 				faceDown.getFaceDown().size(), faceDown.hasCards()) ;
 		
 		PlayerSummary playerSummaryOther = new PlayerSummary(other.getName(), 
 				other.getHand().size(), 
-				Collections.unmodifiableList(other.getFaceUp().cards()), 
+				Collections.unmodifiableList(other.getFaceUp()), 
 				other.getFaceDown().size(), other.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
@@ -80,12 +80,12 @@ public class FaceDownCheckerTest {
 
 		PlayerSummary playerSummaryFaceDown = new PlayerSummary(checker.getName(), 
 				checker.getHand().size(), 
-				Collections.unmodifiableList(checker.getFaceUp().cards()), 
+				Collections.unmodifiableList(checker.getFaceUp()), 
 				checker.getFaceDown().size(), checker.hasCards()) ;
 		
 		PlayerSummary playerSummaryOther = new PlayerSummary(other.getName(), 
 				other.getHand().size(), 
-				Collections.unmodifiableList(other.getFaceUp().cards()), 
+				Collections.unmodifiableList(other.getFaceUp()), 
 				other.getFaceDown().size(), other.hasCards()) ;
 
 		List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;

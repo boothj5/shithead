@@ -23,8 +23,8 @@ public class RankOrderSwapper extends ComputerPlayer {
 	
     @Override
 	public boolean askSwapMore() {
-    	for (Card handCard : getHand().cards()) {
-    		for (Card faceUpCard : getFaceUp().cards()) {
+    	for (Card handCard : getHand()) {
+    		for (Card faceUpCard : getFaceUp()) {
     			int handIndex = getOrder(handCard.getRank()) ;
     			int faceUpIndex = getOrder(faceUpCard.getRank()) ;
     			if (handIndex > faceUpIndex) {
@@ -37,8 +37,8 @@ public class RankOrderSwapper extends ComputerPlayer {
 	
     @Override
 	public SwapResponse askSwapChoice() throws ShitheadException {
-    	for (Card handCard : getHand().cards()) {
-    		for (Card faceUpCard : getFaceUp().cards()) {
+    	for (Card handCard : getHand()) {
+    		for (Card faceUpCard : getFaceUp()) {
     			int handIndex = getOrder(handCard.getRank()) ;
     			int faceUpIndex = getOrder(faceUpCard.getRank()) ;
     			if (handIndex > faceUpIndex) {
@@ -79,7 +79,7 @@ public class RankOrderSwapper extends ComputerPlayer {
 	
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-		List<Card> myHand = getHand().cards() ;
+		List<Card> myHand = getHand() ;
 		List<Integer> choices = new ArrayList<Integer>() ;
 
 		// go through my rank order
@@ -108,7 +108,7 @@ public class RankOrderSwapper extends ComputerPlayer {
 
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-		List<Card> myHand = getFaceUp().cards();
+		List<Card> myHand = getFaceUp();
 		List<Integer> choices = new ArrayList<Integer>() ;
 
 		// go through my rank order

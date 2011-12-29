@@ -3,7 +3,7 @@ package com.boothj5.shithead.game.player.computer;
 import java.util.List;
 import java.util.Random; 
 
-import com.boothj5.shithead.game.card.Hand;
+import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
 
@@ -30,7 +30,7 @@ public class RandomPlayer extends ComputerPlayer {
 	
     @Override
 	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-		Hand myHand = getHand() ;
+        List<Card> myHand = getHand() ;
 		
 		int random = generator.nextInt( 2 );
 		if (random == 0) 
@@ -41,7 +41,7 @@ public class RandomPlayer extends ComputerPlayer {
 
     @Override
 	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-		Hand myHand = getFaceUp() ;
+        List<Card> myHand = getFaceUp() ;
 
 		int random = generator.nextInt( 2 );
 		if (random == 0) 
