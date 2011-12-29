@@ -7,54 +7,110 @@ import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Hand;
 
 public abstract class Player {
+    protected String name ;
+    protected int handSize ;
     
-	public abstract boolean isComputer() ;
-	
-	public abstract boolean askSwapMore() ;
-		
-	public abstract SwapResponse askSwapChoice() throws ShitheadException;
-	
-	public abstract void swapCards(SwapResponse swapResponse) ;
-	
-	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
+    protected final Hand faceDown = new Hand() ;
+    protected final Hand faceUp = new Hand() ;
+    protected final Hand hand = new Hand() ;  
 
+	public abstract boolean isComputer() ;
+	public abstract boolean askSwapMore() ;
+	public abstract SwapResponse askSwapChoice() throws ShitheadException;
+	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
 	public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 	
-	public abstract String getName() ;
+	public final String getName() {
+	    return name ;
+	}
 
-	public abstract Hand getFaceDown() ;
+	public final Hand getFaceDown() {
+	    return faceDown ;
+	}
 
-	public abstract Hand getFaceUp() ;
+	public final Hand getFaceUp() {
+	    return faceUp ;
+	}
 
-	public abstract Hand getHand() ;
+	public final Hand getHand() {
+	    return hand ;
+	}
 	
-	public abstract Card getLowestHandCard() ;
-	
-    public abstract int getFaceDownSize() ;
+    public final Card getLowestHandCard() {
+        return hand.lowest() ;
+    }
 
-    public abstract int getFaceUpSize() ;
+    public final int getFaceDownSize() {
+        return faceDown.size();
+    }
 
-    public abstract int getHandSize() ;
-	
-	public abstract boolean hasCards() ;
+    public final int getFaceUpSize() {
+        return faceUp.size();
+    }
 
-    public abstract boolean hasCardsInHand() ;
-
-    public abstract boolean hasCardsInFaceUp() ;
+    public final int getHandSize() {
+        return hand.size();
+    }   
     
-    public abstract boolean hasCardsInFaceDown() ;
-	
-	public abstract void recieve(List<Card> cards) ;
+    public final boolean hasCards() {
+        if (!faceUp.isEmpty()) 
+            return true ;
+        else if (!faceDown.isEmpty())
+            return true ;
+        else if (!hand.isEmpty())
+            return true ;
+        else 
+            return false ;
+    }
+    
+    public final void recieve(List<Card> cards) {
+        hand.addAll(cards) ;
+        hand.sort() ;
+    }
 
-	public abstract void dealToHand(Card card) ;
+    public final boolean hasCardsInHand() {
+        return (getHandSize() > 0) ;
+    }
 
-	public abstract void sortHand() ;
-	
-	public abstract void dealToFaceUp(Card card) ;
+    public final boolean hasCardsInFaceUp() {
+        return (getFaceUpSize() > 0) ;
+    }
+    
+    public final boolean hasCardsInFaceDown() {
+        return (getFaceDownSize() > 0) ;
+    }
+    
+    public final void dealToHand(Card card) {
+        hand.add(card) ;
+    }
+    
+    public final void sortHand() {
+        hand.sort() ;
+    }
 
-	public abstract void dealToFaceDown(Card card) ;
+    public final void dealToFaceUp(Card card) {
+        faceUp.add(card) ;
+    }
 
-    public int getCurrentHandSize() {
+    public final void dealToFaceDown(Card card) {
+        faceDown.add(card) ;
+    }
+    
+    public final void swapCards(SwapResponse swapResponse) {
+        if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
+                (swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
+            return ;
+        }
+        else {
+            Card savedFromHand = hand.get(swapResponse.getHandCard()) ;
+            Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
+            faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
+            hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;     
+            hand.sort() ;
+        }
+    }   
+
+    public final int getCurrentHandSize() {
         if (getHandSize() > 0) 
             return getHandSize() ;
         else if (getFaceUpSize() > 0) 
@@ -63,14 +119,14 @@ public abstract class Player {
             return getFaceDownSize() ;
     }
     
-    public boolean playingFromHand() {
+    public final boolean playingFromHand() {
         if (getHandSize() > 0) 
             return true ;
         else 
             return false ;
     }
 
-    public boolean playingFromFaceUp() {
+    public final boolean playingFromFaceUp() {
         if (playingFromHand()) 
             return false ;
         else if (getFaceUpSize() > 0) 
@@ -79,14 +135,14 @@ public abstract class Player {
             return false;
     }
     
-    public boolean playingFromFaceDown() {
+    public final boolean playingFromFaceDown() {
         if (playingFromHand() || playingFromFaceUp()) 
             return false ;
         else 
             return true ;
     }
     
-    public Hand getHandPlayingFrom() {
+    public final Hand getHandPlayingFrom() {
         if (playingFromHand()) 
             return getHand() ;
         else if (playingFromFaceUp())
@@ -95,7 +151,7 @@ public abstract class Player {
             return getFaceDown() ;
     }
     
-    public List<Card> getAllOfSameRankFromHand(Card card) {
+    public final List<Card> getAllOfSameRankFromHand(Card card) {
         List<Card> result = new ArrayList<Card>() ;
         for(Card current : getHand().cards()) {
             if (current.equalsRank(card)) {

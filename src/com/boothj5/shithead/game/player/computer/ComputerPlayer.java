@@ -14,131 +14,27 @@ import java.util.*;
 
 public abstract class ComputerPlayer extends Player {
 
-    private String name ;
-	private int handSize ;
-	
-	private final Hand faceDown = new Hand() ;
-	private final Hand faceUp = new Hand() ;
-	private final Hand hand = new Hand() ;	
-
 	public ComputerPlayer(String name, int handSize) {
 		this.name = name ;
 		this.handSize = handSize ;
 	}
+
+	@Override
+    public abstract boolean askSwapMore() ;
+    
+    @Override
+    public abstract SwapResponse askSwapChoice() throws ShitheadException ;
+    
+    @Override
+    public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
+    
+    @Override
+    public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 	
     @Override
     public boolean isComputer() {
     	return true ;
     }
-	
-	@Override
-	public String getName() {
-		return name ;
-	}
-
-    @Override
-	public Hand getFaceDown() {
-		return faceDown;
-	}
-
-    @Override
-	public Hand getFaceUp() {
-		return faceUp;
-	}
-
-    @Override
-	public Hand getHand() {
-		return hand;
-	}	
-
-    @Override
-    public int getFaceDownSize() {
-        return faceDown.size();
-    }
-
-    @Override
-    public int getFaceUpSize() {
-        return faceUp.size();
-    }
-
-    @Override
-    public int getHandSize() {
-        return hand.size();
-    }   
-    
-    
-    @Override
-	public boolean hasCards() {
-		if (!faceUp.isEmpty()) 
-			return true ;
-		else if (!faceDown.isEmpty())
-			return true ;
-		else if (!hand.isEmpty())
-			return true ;
-		else 
-			return false ;
-	}
-	
-    @Override
-	public void recieve(List<Card> cards) {
-		hand.addAll(cards) ;
-		hand.sort() ;
-	}
-
-    @Override
-    public boolean hasCardsInHand() {
-        return (getHandSize() > 0) ;
-    }
-
-    @Override
-    public boolean hasCardsInFaceUp() {
-        return (getFaceUpSize() > 0) ;
-    }
-    
-    @Override
-    public boolean hasCardsInFaceDown() {
-        return (getFaceDownSize() > 0) ;
-    }
-    
-    @Override
-	public void dealToHand(Card card) {
-		hand.add(card) ;
-	}
-    
-    @Override
-    public void sortHand() {
-        hand.sort() ;
-    }
-    
-    @Override
-    public Card getLowestHandCard() {
-        return hand.lowest() ;
-    }
-
-    @Override
-	public void dealToFaceUp(Card card) {
-		faceUp.add(card) ;
-	}
-
-    @Override
-	public void dealToFaceDown(Card card) {
-		faceDown.add(card) ;
-	}
-	
-    @Override
-	public void swapCards(SwapResponse swapResponse) {
-		if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
-				(swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
-			return ;
-		}
-		else {
-			Card savedFromHand = hand.get(swapResponse.getHandCard()) ;
-			Card savedFromFaceUp = faceUp.get(swapResponse.getFaceUpCard()) ;
-			faceUp.set(swapResponse.getFaceUpCard(), savedFromHand) ;
-			hand.set(swapResponse.getHandCard(), savedFromFaceUp) ;		
-			hand.sort() ;
-		}
-	}		
 	
 	protected boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
 		Stack<Card> pile = helper.getPile() ;
@@ -250,17 +146,4 @@ public abstract class ComputerPlayer extends Player {
 		}
 		return helper.getPlayers().get(nextPlayer) ;
 	}
-	
-	@Override
-	public abstract boolean askSwapMore() ;
-	
-    @Override
-	public abstract SwapResponse askSwapChoice() throws ShitheadException ;
-	
-    @Override
-	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
-	
-    @Override
-	public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
-
 }
