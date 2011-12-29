@@ -71,65 +71,13 @@ public final class ShitheadGame {
 		    return false ;
 	}
 
-	private boolean canLay(Card card, Stack<Card> cards) {
-	    if (cards.isEmpty()) {
-	        return true ;
-	    }
-	    else if (ShitheadRules.isSpecial(card)) {
-	        return true ;
-	    }
-	    else if (ShitheadRules.isInvisible(cards.peek())) {
-	        Stack<Card> newPile = new Stack<Card>() ;
-	        newPile.addAll(cards) ;
-	        newPile.pop() ;
-	        return canLay(card, newPile) ;
-	    }
-	    else if ((card.compareTo(cards.peek())) < 0) {
-	        return false ;
-	    }
-	    else {
-	        return true ;
-	    }	    
-	}
-	
-	public boolean checkValidMove(List<Integer> choice) {
-		List<Card> cardsToLay = getCards(choice) ;
-        Card firstCard = cardsToLay.get(0) ;
-		boolean validRank = true ;
-		validRank = checkValidMove(firstCard) ;
-		
-		if (!validRank) 
-			return false ;
-		else {
-			for (Card otherCard : cardsToLay) {
-				if (firstCard.compareTo(otherCard)!=0)
-					return false ;
-			}
-			return true ;
-		}
-	}	
-	
-	private List<Card> getCards(List<Integer> cardChoice) {
-		Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
-		List<Card> returnCards = new ArrayList<Card>() ;
-
-		for (int cardIndex : cardChoice) {
-			returnCards.add(handToPlayFrom.get(cardIndex)) ;
-		}
-		return returnCards ;
-	}	
-	
-	private Hand getCurrentPlayersActiveHand() {
-		Player player = getCurrentPlayer() ;
-		
-		if (player.playingFromHand()) 
-			return player.getHand() ;
-		else if (player.playingFromFaceUp())
-			return player.getFaceUp() ;
+	public boolean validMove(List<Integer> choice) {
+		List<Card> cardsToLay = getCardsFromIndexes(choice) ;
+		if (!Card.allRanksEqual(cardsToLay)) 
+		    return false ;
 		else
-			return player.getFaceDown() ;
-	}
-	
+		    return canLay(cardsToLay.get(0), pile) ;
+	}	
 	
 	public void playerPickUpPile() {
 		Player currentPlayer = getCurrentPlayer() ;
@@ -145,7 +93,7 @@ public final class ShitheadGame {
 	}
 	
 	public void play(List<Integer> choice) {
-		List<Card> cardsToPlay = getCards(choice) ;
+		List<Card> cardsToPlay = getCardsFromIndexes(choice) ;
 		Player player = getCurrentPlayer() ;
 		
 		if (player.playingFromHand()) 
@@ -209,31 +157,6 @@ public final class ShitheadGame {
         return details ;
     }
 	
-	private boolean checkValidMove(Card cardToLay) {
-		if (pile.empty()) 
-			return true ;
-		else if (Card.Rank.SEVEN.equals(pile.peek().getRank())) {
-			Card testCard = pile.peek() ;
-			for (int i = pile.size() -1 ; (i >=0 && (testCard.getRank().equals(Card.Rank.SEVEN))) ; i-- ) {
-				testCard = pile.get(i) ;
-			}
-			if (testCard.getRank().equals(Card.Rank.SEVEN))
-				return true ;
-			else
-				return checkValidMove(testCard, cardToLay) ;
-		}
-		else 
-			return checkValidMove(pile.peek(), cardToLay) ;	
-	}
-	
-	private boolean checkValidMove(Card onPile, Card toLay) {
-		if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.getRank())) 
-			return true ;
-		else {
-			return (onPile.compareTo(toLay) <= 0);
-		}
-	}	
-
 	private boolean burnIfPossible() {
 		boolean didBurn = false ;
 
@@ -350,6 +273,48 @@ public final class ShitheadGame {
         }
         return cardsToLay ;
     }
+
+    private boolean canLay(Card card, Stack<Card> cards) {
+        if (cards.isEmpty()) {
+            return true ;
+        }
+        else if (ShitheadRules.isSpecial(card)) {
+            return true ;
+        }
+        else if (ShitheadRules.isInvisible(cards.peek())) {
+            Stack<Card> newPile = new Stack<Card>() ;
+            newPile.addAll(cards) ;
+            newPile.pop() ;
+            return canLay(card, newPile) ;
+        }
+        else if ((card.compareTo(cards.peek())) < 0) {
+            return false ;
+        }
+        else {
+            return true ;
+        }       
+    }
     
+    
+    private List<Card> getCardsFromIndexes(List<Integer> cardChoice) {
+        Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
+        List<Card> returnCards = new ArrayList<Card>() ;
+
+        for (int cardIndex : cardChoice) {
+            returnCards.add(handToPlayFrom.get(cardIndex)) ;
+        }
+        return returnCards ;
+    }   
+    
+    private Hand getCurrentPlayersActiveHand() {
+        Player player = getCurrentPlayer() ;
+        
+        if (player.playingFromHand()) 
+            return player.getHand() ;
+        else if (player.playingFromFaceUp())
+            return player.getFaceUp() ;
+        else
+            return player.getFaceDown() ;
+    }
     
 }

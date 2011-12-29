@@ -1,4 +1,7 @@
 package com.boothj5.shithead.game.card;
+
+import java.util.List;
+
 public class Card {
 
 	public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
@@ -51,5 +54,13 @@ public class Card {
 	
 	public boolean equalsRank(Card card) {
 	    return this.rank == card.rank ;
+	}
+	
+	public static boolean allRanksEqual(List<Card> cards) {
+	    Card first = cards.get(0) ;
+	    for (Card card : cards)
+	        if (!card.equalsRank(first)) 
+	            return false ;
+	    return true ;
 	}
 }

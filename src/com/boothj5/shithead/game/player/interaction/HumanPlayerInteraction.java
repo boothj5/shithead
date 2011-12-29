@@ -40,12 +40,12 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
         final int handSize = currentPlayer.getCurrentHandSize() ;
         final String playerName = currentPlayer.getName() ;
         List<Integer> cardChoice = cli.requestMove(playerName, handSize, false) ;
-        boolean validMove = game.checkValidMove(cardChoice) ;
+        boolean validMove = game.validMove(cardChoice) ;
 
         // we know there is a valid move, since we've checked, so loop until they pick it
         while (!validMove) {
             cardChoice = cli.requestMove(playerName, handSize, true) ;
-            validMove = game.checkValidMove(cardChoice) ;
+            validMove = game.validMove(cardChoice) ;
         }
 
         // once they've picked, play and move game on 
@@ -63,7 +63,7 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
         cardChoice.add(cardChoiceFromFaceDown) ;
         
         // play if valid card
-        if (game.checkValidMove(cardChoice)) {
+        if (game.validMove(cardChoice)) {
             cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
             game.play(cardChoice) ;
         }
