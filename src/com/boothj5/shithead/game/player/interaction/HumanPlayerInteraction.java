@@ -10,16 +10,16 @@ import com.boothj5.shithead.game.player.SwapResponse;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public final class HumanPlayerInteraction extends PlayerInteraction {
-    
+
     private final ShitheadGame game ;
     private final ShitheadCli cli ;
-    
+
     public HumanPlayerInteraction(final Player player, final ShitheadGame game, final ShitheadCli cli) {
         this.player = player ;
         this.game = game ; 
         this.cli = cli ;
     }
-    
+
     public void swap() {
         final ShitheadGameDetails details = game.getGameDetails() ;
         cli.showPlayerSwap(details, player) ;
@@ -61,7 +61,7 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
 
         final int cardChoiceFromFaceDown = cli.requestFromFaceDown(playerName, handSize) ;
         cardChoice.add(cardChoiceFromFaceDown) ;
-        
+
         // play if valid card
         if (game.validMove(cardChoice)) {
             cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;

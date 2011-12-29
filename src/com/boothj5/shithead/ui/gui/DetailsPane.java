@@ -38,20 +38,20 @@ public class DetailsPane extends JPanel implements ActionListener {
      * Create the panel.
      */
     public DetailsPane() throws ShitheadException {
-        
+
         // Heading
         JLabel welcomeLabel = new JLabel("Welcome to Javahead!");
         welcomeLabel.setFont(new Font("Dialog", Font.BOLD, 22));
-        
+
         JLabel playerNameLabel = new JLabel("Player name: ");
         playerName = new JTextField();
         playerName.setColumns(10);
-        
+
         JLabel computerLabel = new JLabel("Computer type: ");
-        
+
         Set<String> set = PlayerFactory.computerPlayerList().keySet() ;
         compTypesChoice = set.toArray(compTypesChoice) ;
-                
+
         compType = new JComboBox(compTypesChoice);
         compType.setSelectedItem("SimplePlayer") ;
         compType.setActionCommand("selectComp") ;
@@ -64,10 +64,10 @@ public class DetailsPane extends JPanel implements ActionListener {
         compDescription.setLineWrap(true) ;
         compDescription.setWrapStyleWord(true) ;
         compDescription.setEditable(false) ;
-        
+
         JPanel entryPanel = new JPanel(new GridBagLayout()) ;
         entryPanel.setBorder(BorderFactory.createTitledBorder("Enter game details")) ;
-        
+
         GridBagConstraints labelConstraints = new GridBagConstraints() ;
         labelConstraints.gridx = 0 ;
         labelConstraints.anchor = GridBagConstraints.LINE_END ;
@@ -79,7 +79,7 @@ public class DetailsPane extends JPanel implements ActionListener {
         entryPanel.add(computerLabel, labelConstraints) ;
         labelConstraints.gridy = 2 ;
         entryPanel.add(compTacticsLabel, labelConstraints) ;
-        
+
         GridBagConstraints fieldConstraints = new GridBagConstraints() ;
         fieldConstraints.gridx = 1 ;
         fieldConstraints.anchor = GridBagConstraints.LINE_START ;
@@ -91,15 +91,15 @@ public class DetailsPane extends JPanel implements ActionListener {
         entryPanel.add(compType, fieldConstraints) ;
         fieldConstraints.gridy = 2 ;
         entryPanel.add(compDescription, fieldConstraints) ;
-        
+
         // deal (start) button
         JButton dealButton = new JButton("Deal");
         dealButton.setActionCommand("deal") ;
         dealButton.addActionListener(this) ;
-        
+
         // complete layout
         setLayout(new GridBagLayout()) ;
-        
+
         GridBagConstraints wc = new GridBagConstraints() ;
         wc.ipady = 20 ;
         wc.weightx = 1.0 ; 
@@ -108,7 +108,7 @@ public class DetailsPane extends JPanel implements ActionListener {
         wc.gridy = 0 ;
         wc.anchor = GridBagConstraints.PAGE_START ;
         add(welcomeLabel, wc) ;
-        
+
         GridBagConstraints pc = new GridBagConstraints() ;
         pc.weightx = 1.0 ; 
         pc.weighty = 1.0 ; 
@@ -117,8 +117,8 @@ public class DetailsPane extends JPanel implements ActionListener {
         pc.gridy = 1 ;
         pc.anchor = GridBagConstraints.PAGE_START ;
         add(entryPanel, pc) ;
-        
-        
+
+
         GridBagConstraints dc = new GridBagConstraints() ;
         dc.weightx = 1.0 ; 
         dc.weighty = 1.0 ; 
@@ -155,7 +155,7 @@ public class DetailsPane extends JPanel implements ActionListener {
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
-            
+
         }
         if (("selectComp").equals(e.getActionCommand())) {
             try {

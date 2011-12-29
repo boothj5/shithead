@@ -14,52 +14,52 @@ import static org.junit.Assert.* ;
 
 public class DeckTest {
 
-	@Test
-	public void createDeckContains52Cards() {
-		final Deck deck = new Deck(18) ;
-		
-		assertEquals(52, deck.size()) ;
-	}
-	
-	@Test
-	public void createDeckContainsCorrectCards() {
+    @Test
+    public void createDeckContains52Cards() {
         final Deck deck = new Deck(18) ;
-        
+
+        assertEquals(52, deck.size()) ;
+    }
+
+    @Test
+    public void createDeckContainsCorrectCards() {
+        final Deck deck = new Deck(18) ;
+
         for (Suit suit : Suit.values())
             for (Rank rank : Rank.values())
                 assertTrue(deck.contains(new Card(rank, suit))) ;
-	    
-	}
-	
-	@Test 
-	public void sizeReturnsCorrectSize() {
-	    final Deck deck = new Deck(18) ;
-	    
-	    assertEquals(52, deck.size()) ;
-	}
-	
+
+    }
+
+    @Test 
+    public void sizeReturnsCorrectSize() {
+        final Deck deck = new Deck(18) ;
+
+        assertEquals(52, deck.size()) ;
+    }
+
     @Test 
     public void sizeReturnsCorrectSizeAfterRemovingOne() {
         final Deck deck = new Deck(18) ;
         deck.takeCard() ;
-        
+
         assertEquals(51, deck.size()) ;
     }
 
     @Test
     public void addDeckResultsIn104MoreCards() {
         final Deck deck = new Deck(90) ;
-        
+
         assertEquals(104, deck.size()) ;
     }
 
     @Test
     public void addTwoDecksResultsIn156MoreCards() {
         final Deck deck = new Deck(120) ;
-        
+
         assertEquals(156, deck.size()) ;
     }
-    
+
     @Test
     public void removeAllRemovesAllCards() {
         final Deck deck = new Deck(18) ;

@@ -16,83 +16,83 @@ import static org.junit.Assert.* ;
 
 
 public class PyromaniacTest {
-	@Test
-	public void picksTenWhenOnlyOneCard() {
-		int numCardsPerHand = 3 ;
-		Player james = new Pyromaniac("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
-		james.dealToHand(hand1) ;
+    @Test
+    public void picksTenWhenOnlyOneCard() {
+        int numCardsPerHand = 3 ;
+        Player james = new Pyromaniac("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
+        james.dealToHand(hand1) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.SPADES)), is(true)) ;
-	}	
-	
-	@Test
-	public void picksTenWhenTwoCardsOneTenOtherNormal() {
-		int numCardsPerHand = 3 ;
-		Player james = new Pyromaniac("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.FOUR, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
-	}	
-	
-	@Test
-	public void picksTenWhenTwoCardsOneTenOtherSpecial() {
-		int numCardsPerHand = 3 ;
-		Player james = new Pyromaniac("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.SPADES)), is(true)) ;
+    }	
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+    @Test
+    public void picksTenWhenTwoCardsOneTenOtherNormal() {
+        int numCardsPerHand = 3 ;
+        Player james = new Pyromaniac("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
-	}
-	
-	@Test
-	public void picksOnlyOneTenWhenTwo() {
-		int numCardsPerHand = 3 ;
-		Player james = new Pyromaniac("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+        Card hand1 = new Card(Card.Rank.FOUR, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		
-		assertThat(choices.size(), is(1)) ;
-	}
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
+
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
+    }	
+
+    @Test
+    public void picksTenWhenTwoCardsOneTenOtherSpecial() {
+        int numCardsPerHand = 3 ;
+        Player james = new Pyromaniac("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
+
+        Card hand1 = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
+
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
+
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
+    }
+
+    @Test
+    public void picksOnlyOneTenWhenTwo() {
+        int numCardsPerHand = 3 ;
+        Player james = new Pyromaniac("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
+
+        Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
+
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+
+        assertThat(choices.size(), is(1)) ;
+    }
 }

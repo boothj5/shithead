@@ -24,7 +24,7 @@ public class PlayerFactoryTest {
     @Test
     public void computerPlayerListContainsAllPlayers() {
         Map<String, String> players = PlayerFactory.computerPlayerList() ;
-        
+
         assertEquals("s", players.get("SimplePlayer")) ;
         assertEquals("a", players.get("Aggressive")) ;
         assertEquals("r", players.get("RandomPlayer")) ;
@@ -34,7 +34,7 @@ public class PlayerFactoryTest {
         assertEquals("l", players.get("LikesRankOrder")) ;
         assertEquals("o", players.get("RankOrderSwapper")) ;
     }
-    
+
     @Test
     public void computerPlayerDescriptionsContainsAllPlayers() throws ShitheadException {
         Map<String, String> descriptions = PlayerFactory.computerPlayerDescriptions() ;
@@ -48,15 +48,15 @@ public class PlayerFactoryTest {
         assertEquals(LikesRankOrder.description, descriptions.get("LikesRankOrder")) ;
         assertEquals(RankOrderSwapper.description, descriptions.get("RankOrderSwapper")) ;
     }
-    
+
     private void assertDetails(Player player) {
         assertEquals(player.getName(), "James") ;
     }
-    
+
     @Test
     public void createHumanPlayer() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("h", "James", 4) ;
-        
+
         assertTrue(player instanceof HumanPlayer) ;
         assertDetails(player) ;
     }
@@ -64,7 +64,7 @@ public class PlayerFactoryTest {
     @Test
     public void createSimplePlayer() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("s", "James", 4) ;
-        
+
         assertTrue(player instanceof SimplePlayer) ;
         assertDetails(player) ;
     }
@@ -72,7 +72,7 @@ public class PlayerFactoryTest {
     @Test
     public void createAggressive() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("a", "James", 4) ;
-        
+
         assertTrue(player instanceof Aggressive) ;
         assertDetails(player) ;
     }
@@ -80,7 +80,7 @@ public class PlayerFactoryTest {
     @Test
     public void createRandomPlayer() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("r", "James", 4) ;
-        
+
         assertTrue(player instanceof RandomPlayer) ;
         assertDetails(player) ;
     }
@@ -88,7 +88,7 @@ public class PlayerFactoryTest {
     @Test
     public void createPyromaniac() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("p", "James", 4) ;
-        
+
         assertTrue(player instanceof Pyromaniac) ;
         assertDetails(player) ;
     }
@@ -96,7 +96,7 @@ public class PlayerFactoryTest {
     @Test
     public void createDeviousPyro() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("d", "James", 4) ;
-        
+
         assertTrue(player instanceof DeviousPyro) ;
         assertDetails(player) ;
     }
@@ -104,7 +104,7 @@ public class PlayerFactoryTest {
     @Test
     public void createFaceDownChecker() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("f", "James", 4) ;
-        
+
         assertTrue(player instanceof FaceDownChecker) ;
         assertDetails(player) ;
     }
@@ -112,7 +112,7 @@ public class PlayerFactoryTest {
     @Test
     public void createLikesRankOrder() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("l", "James", 4) ;
-        
+
         assertTrue(player instanceof LikesRankOrder) ;
         assertDetails(player) ;
     }
@@ -120,11 +120,11 @@ public class PlayerFactoryTest {
     @Test
     public void createRankOrderSwapper() throws ShitheadException {
         Player player = PlayerFactory.createPlayer("o", "James", 4) ;
-        
+
         assertTrue(player instanceof RankOrderSwapper) ;
         assertDetails(player) ;
     }
-    
+
     @Test (expected=ShitheadException.class)
     public void createInvalidPlayerThrowsException() throws ShitheadException {
         PlayerFactory.createPlayer("ZZZ", "James", 4) ;

@@ -4,63 +4,63 @@ import java.util.List;
 
 public class Card {
 
-	public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
-		JACK, QUEEN, KING, ACE} ;
-	
-	public static enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
-		
-	private final Rank rank  ;
-	private final Suit suit ;
+    public static enum Rank {TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE,TEN,
+        JACK, QUEEN, KING, ACE} ;
 
-	public Rank getRank() {
-		return rank;
-	}
+    public static enum Suit {HEARTS, SPADES, DIAMONDS, CLUBS} ;
 
-	public Suit getSuit() {
-		return suit;
-	}	
+    private final Rank rank  ;
+    private final Suit suit ;
 
-	public Card(Rank rank, Suit suit) {
-		this.rank = rank ;
-		this.suit = suit ;
-	}
-	
-	public String toString () {
-		return (rank + " of " + suit) ;
-	}
+    public Rank getRank() {
+        return rank;
+    }
 
-	public int compareTo(Object o) {
-		Card otherCard = (Card) o ;
-		return this.rank.compareTo(otherCard.rank) ;
-	}
-	
-	public boolean equals(Object o) {
-		if (!(o instanceof Card)) {
-				return false ;
-		}
-		else {
-			Card other = (Card) o ;
-			return (this.rank == other.rank && this.suit == other.suit) ;
-		}
-	}
-	
-	public String getImage() {
-	    return "/" + rank.toString() + suit.toString() + ".png" ;
-	}
-	
-	public boolean sameRankDifferentSuit(Card card) {
+    public Suit getSuit() {
+        return suit;
+    }	
+
+    public Card(Rank rank, Suit suit) {
+        this.rank = rank ;
+        this.suit = suit ;
+    }
+
+    public String toString () {
+        return (rank + " of " + suit) ;
+    }
+
+    public int compareTo(Object o) {
+        Card otherCard = (Card) o ;
+        return this.rank.compareTo(otherCard.rank) ;
+    }
+
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) {
+            return false ;
+        }
+        else {
+            Card other = (Card) o ;
+            return (this.rank == other.rank && this.suit == other.suit) ;
+        }
+    }
+
+    public String getImage() {
+        return "/" + rank.toString() + suit.toString() + ".png" ;
+    }
+
+    public boolean sameRankDifferentSuit(Card card) {
         return ((this.rank == card.rank) && (this.suit != card.suit)) ; 
-	}
-	
-	public boolean equalsRank(Card card) {
-	    return this.rank == card.rank ;
-	}
-	
-	public static boolean allRanksEqual(List<Card> cards) {
-	    Card first = cards.get(0) ;
-	    for (Card card : cards)
-	        if (!card.equalsRank(first)) 
-	            return false ;
-	    return true ;
-	}
+    }
+
+    public boolean equalsRank(Card card) {
+        return this.rank == card.rank ;
+    }
+
+    public static boolean allRanksEqual(List<Card> cards) {
+        Card first = cards.get(0) ;
+        for (Card card : cards)
+            if (!card.equalsRank(first)) 
+                return false ;
+        return true ;
+    }
 }

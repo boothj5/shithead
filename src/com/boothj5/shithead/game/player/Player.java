@@ -9,33 +9,33 @@ import com.boothj5.shithead.game.card.ShitheadCardComparator;
 public abstract class Player {
     protected String name ;
     protected int handSize ;
-    
+
     protected final List<Card> hand = new ArrayList<Card>() ;
     protected final List<Card> faceUp= new ArrayList<Card>() ;
     protected final List<Card> faceDown = new ArrayList<Card>() ;  
 
-	public abstract boolean isComputer() ;
-	public abstract boolean askSwapMore() ;
-	public abstract SwapResponse askSwapChoice() throws ShitheadException;
-	public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
-	public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
-	
-	public final String getName() {
-	    return name ;
-	}
+    public abstract boolean isComputer() ;
+    public abstract boolean askSwapMore() ;
+    public abstract SwapResponse askSwapChoice() throws ShitheadException;
+    public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
+    public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 
-	public final List<Card> getFaceDown() {
-	    return faceDown ;
-	}
+    public final String getName() {
+        return name ;
+    }
 
-	public final List<Card> getFaceUp() {
-	    return faceUp ;
-	}
+    public final List<Card> getFaceDown() {
+        return faceDown ;
+    }
 
-	public final List<Card> getHand() {
-	    return hand ;
-	}
-	
+    public final List<Card> getFaceUp() {
+        return faceUp ;
+    }
+
+    public final List<Card> getHand() {
+        return hand ;
+    }
+
     public final int getFaceDownSize() {
         return faceDown.size();
     }
@@ -47,7 +47,7 @@ public abstract class Player {
     public final int getHandSize() {
         return hand.size();
     }   
-    
+
     public final boolean hasCards() {
         if (!faceUp.isEmpty()) 
             return true ;
@@ -58,7 +58,7 @@ public abstract class Player {
         else 
             return false ;
     }
-    
+
     public final void recieve(List<Card> cards) {
         hand.addAll(cards) ;
         sortHand() ;
@@ -71,15 +71,15 @@ public abstract class Player {
     public final boolean hasCardsInFaceUp() {
         return (getFaceUpSize() > 0) ;
     }
-    
+
     public final boolean hasCardsInFaceDown() {
         return (getFaceDownSize() > 0) ;
     }
-    
+
     public final void dealToHand(Card card) {
         hand.add(card) ;
     }
-    
+
     public final void sortHand() {
         Collections.sort(hand, new ShitheadCardComparator()) ;
     }
@@ -91,7 +91,7 @@ public abstract class Player {
     public final void dealToFaceDown(Card card) {
         faceDown.add(card) ;
     }
-    
+
     public final void swapCards(SwapResponse swapResponse) {
         if ((swapResponse.getHandCard() < 0) || !(swapResponse.getHandCard() < handSize) ||
                 (swapResponse.getFaceUpCard() < 0) || !(swapResponse.getFaceUpCard() < handSize)) {
@@ -114,7 +114,7 @@ public abstract class Player {
         else 
             return getFaceDownSize() ;
     }
-    
+
     public final boolean playingFromHand() {
         if (getHandSize() > 0) 
             return true ;
@@ -130,14 +130,14 @@ public abstract class Player {
         else 
             return false;
     }
-    
+
     public final boolean playingFromFaceDown() {
         if (playingFromHand() || playingFromFaceUp()) 
             return false ;
         else 
             return true ;
     }
-    
+
     public final List<Card> getHandPlayingFrom() {
         if (playingFromHand()) 
             return getHand() ;
@@ -146,7 +146,7 @@ public abstract class Player {
         else
             return getFaceDown() ;
     }
-    
+
     public final List<Card> getAllOfSameRankFromHand(Card card) {
         List<Card> result = new ArrayList<Card>() ;
         for(Card current : getHand()) {

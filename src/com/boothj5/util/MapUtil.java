@@ -12,14 +12,14 @@ public class MapUtil {
         List<Integer> sortedValues = new ArrayList<Integer>(originalMap.values());
         Collections.sort(sortedValues);
         Collections.sort(sortedKeys);
-            
+
         LinkedHashMap<String, Integer> newSortedMap = new LinkedHashMap<String, Integer>();
-        
+
         for (Integer val : sortedValues) {
             for (String key : sortedKeys) {
                 Integer valFromOriginalMap = originalMap.get(key);
                 Integer valFromSortedValues = val;
-                
+
                 if (valFromOriginalMap.equals(valFromSortedValues)) {
                     originalMap.remove(key);
                     sortedKeys.remove(key);

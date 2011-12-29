@@ -23,17 +23,17 @@ public class CliEngineTest {
     String[] args = {"i"} ;
     ShitheadEngine engine ;
     ShitheadCli cli = mock(ShitheadCli.class); 
-    
+
     @Before 
     public void setup() throws Exception {
         engine = (CliEngine) EngineFactory.createEngine(cli, args) ;
     }
-    
+
     @Test
     public void hasCorrectNumGames() throws ShitheadException {
         assertEquals(1, engine.numGames) ; 
     }
-    
+
     @Test
     public void screenIsClearedOnInit() throws ShitheadException {
         engine.init() ;
@@ -45,24 +45,24 @@ public class CliEngineTest {
         engine.init() ;
         verify(cli).welcome() ;
     }
-    
+
     @Test
     public void numPlayersRequestedOnInit() throws ShitheadException {
         engine.init() ;
         verify(cli).requestNumPlayers() ;
     }
-    
+
     @Test
     public void numCardsEachRequestedOnInit() throws ShitheadException {
         engine.init() ;
         verify(cli).requestNumCardsPerHand() ;
     }
-    
+
     @Test
     public void requestCorrectNumPlayerNamesOnInit() throws ShitheadException {
         respondWithGameDetails();
         engine.init() ;
-        
+
         verify(cli).requestPlayerName(1) ;
         verify(cli).requestPlayerName(2) ;
         verify(cli).requestPlayerName(3) ;
@@ -72,12 +72,12 @@ public class CliEngineTest {
     public void requestCorrectNumPlayerTypesOnInit() throws ShitheadException {
         respondWithGameDetails();
         engine.init() ;
-        
+
         verify(cli).requestPlayerType("James");
         verify(cli).requestPlayerType("Mike");
         verify(cli).requestPlayerType("Comp");
     }
-    
+
     @Test
     public void initCreatesGameWithCorrectNumberOfCards() throws ShitheadException {
         respondWithGameDetails();
@@ -91,14 +91,14 @@ public class CliEngineTest {
         engine.init() ;
         assertEquals(3, engine.game.getGameDetails().getNumPlayers()) ;
     }
-    
+
     @Test
     public void initCreatesGameWithCorrectPlayerNames() throws ShitheadException {
         respondWithGameDetails();
         engine.init() ;
         String[] names = { "James", "Mike", "Comp" };
         List<String> namesExpected = Arrays.asList(names) ;
-        
+
         for (Player player : engine.game.getGameDetails().getPlayers()) {
             assertTrue(namesExpected.contains(player.getName())) ;
         }
@@ -111,17 +111,17 @@ public class CliEngineTest {
         String[] types = {"h", "s", "r" } ;
         List<String> typesExpected = Arrays.asList(types) ;
         List<String> playerTypesInGame = new ArrayList<String>() ;
-        
+
         for (Player player : engine.game.getGameDetails().getPlayers()) {
             String type = PlayerFactory.computerPlayerList().get(player.getClass().getSimpleName()) ;
             playerTypesInGame.add(type) ;
         }
-        
+
         for (String type : typesExpected) {
             assertTrue(playerTypesInGame.contains(PlayerFactory.computerPlayerList().get(type))) ;
         }
     }
-    
+
     private void respondWithGameDetails() throws ShitheadException {
         when(cli.requestNumPlayers()).thenReturn(3) ;
         when(cli.requestNumCardsPerHand()).thenReturn(4) ;

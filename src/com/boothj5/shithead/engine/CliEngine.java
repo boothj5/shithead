@@ -16,95 +16,95 @@ public class CliEngine extends ShitheadEngine {
         this.cli = cli ;
         numGames = 1 ;
     }
-    
-	@Override
-	public void init() throws ShitheadException {
-		int numPlayers ;
-		int numCards ;
-		List<String> playerNames = new ArrayList<String>() ;
-		List<String> playerTypes = new ArrayList<String>() ;
 
-		cli.clearScreen() ;
-		cli.welcome() ;
+    @Override
+    public void init() throws ShitheadException {
+        int numPlayers ;
+        int numCards ;
+        List<String> playerNames = new ArrayList<String>() ;
+        List<String> playerTypes = new ArrayList<String>() ;
 
-		numPlayers = cli.requestNumPlayers() ;
-		numCards = cli.requestNumCardsPerHand() ;
-		
-		String name, type ;
-		for (int i = 1 ; i <= numPlayers ; i++) { 
-			name = cli.requestPlayerName(i) ;
-			playerNames.add(name) ;
-				
-			type = cli.requestPlayerType(name) ;
-			playerTypes.add(type) ;
-		}
-		
-		game = new ShitheadGame(playerNames, playerTypes, numCards) ;		
-	}
-	
-	@Override
-	public void deal() {
-		game.deal() ;
-		cli.showGame(game.getGameDetails(), true);
-		cli.showCardsDealtMessage() ;
-		cli.waitOnUser() ;
-	}
+        cli.clearScreen() ;
+        cli.welcome() ;
 
-	@Override
-	public void swap() throws ShitheadException {
-		ShitheadGameDetails details = game.getGameDetails() ;
+        numPlayers = cli.requestNumPlayers() ;
+        numCards = cli.requestNumCardsPerHand() ;
 
-		for (Player player : details.getPlayers()) {
-		    final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
-			playerInteraction.swap() ;
-		}
-		
-		cli.showGame(game.getGameDetails(), true) ;
-	}
+        String name, type ;
+        for (int i = 1 ; i <= numPlayers ; i++) { 
+            name = cli.requestPlayerName(i) ;
+            playerNames.add(name) ;
 
-	@Override
-	public void firstMove() {
-		game.firstMove() ;
-		final ShitheadGameDetails details = game.getGameDetails() ;
-		cli.showGame(details, true) ;
-		cli.showLastMove(details) ;
-		cli.line() ;
-		cli.showNextMoveMessage() ;
-		cli.waitOnUser() ;
-	}
-	
-	@Override
-	public void play() throws ShitheadException {
-		while (game.canContinue()) {
-		    cli.showGameWithWait(game.getGameDetails(), false) ;
+            type = cli.requestPlayerType(name) ;
+            playerTypes.add(type) ;
+        }
 
-		    final Player currentPlayer = game.getCurrentPlayer() ;
-		    
-		    if (game.currentPlayerCanMove()) {
-		        final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
-	            playerInteraction.makeMove() ;
-		        if (currentPlayer.isComputer())
-		    		cli.showGameWithWait(game.getGameDetails(), true) ;
-		    }
-		    else {
-	    		showPickupAndWait();
-		    	game.playerPickUpPile() ;
-		    	game.moveToNextPlayer() ;
-		    }
-		}
-	}
+        game = new ShitheadGame(playerNames, playerTypes, numCards) ;		
+    }
 
-	@Override
-	public void end() throws ShitheadException {
-		cli.showGameOver(game.getShithead()) ;
-	}
+    @Override
+    public void deal() {
+        game.deal() ;
+        cli.showGame(game.getGameDetails(), true);
+        cli.showCardsDealtMessage() ;
+        cli.waitOnUser() ;
+    }
+
+    @Override
+    public void swap() throws ShitheadException {
+        ShitheadGameDetails details = game.getGameDetails() ;
+
+        for (Player player : details.getPlayers()) {
+            final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
+            playerInteraction.swap() ;
+        }
+
+        cli.showGame(game.getGameDetails(), true) ;
+    }
+
+    @Override
+    public void firstMove() {
+        game.firstMove() ;
+        final ShitheadGameDetails details = game.getGameDetails() ;
+        cli.showGame(details, true) ;
+        cli.showLastMove(details) ;
+        cli.line() ;
+        cli.showNextMoveMessage() ;
+        cli.waitOnUser() ;
+    }
+
+    @Override
+    public void play() throws ShitheadException {
+        while (game.canContinue()) {
+            cli.showGameWithWait(game.getGameDetails(), false) ;
+
+            final Player currentPlayer = game.getCurrentPlayer() ;
+
+            if (game.currentPlayerCanMove()) {
+                final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
+                playerInteraction.makeMove() ;
+                if (currentPlayer.isComputer())
+                    cli.showGameWithWait(game.getGameDetails(), true) ;
+            }
+            else {
+                showPickupAndWait();
+                game.playerPickUpPile() ;
+                game.moveToNextPlayer() ;
+            }
+        }
+    }
+
+    @Override
+    public void end() throws ShitheadException {
+        cli.showGameOver(game.getShithead()) ;
+    }
 
     @Override
     public void globalEnd() {
     }
-	
-	
-	@Override
+
+
+    @Override
     public void error(final ShitheadException e) {
         cli.bail(e, game.getGameDetails()) ;
     }

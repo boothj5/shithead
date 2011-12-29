@@ -14,7 +14,7 @@ public class EngineFactoryTest {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {"i"} ;
         final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
-        
+
         assertTrue(engine instanceof CliEngine) ;
     }
 
@@ -23,7 +23,7 @@ public class EngineFactoryTest {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {"b", "100"} ;
         final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
-        
+
         assertTrue(engine instanceof BattleEngine) ;
     }
 
@@ -32,7 +32,7 @@ public class EngineFactoryTest {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {"g"} ;
         final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
-        
+
         assertTrue(engine instanceof GuiEngine) ;
     }
 
@@ -40,7 +40,7 @@ public class EngineFactoryTest {
     public void ThrowsExceptionOnEmptyString() throws ShitheadException {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {""} ;
-        
+
         EngineFactory.createEngine(cli, args) ;
     }
 
@@ -48,17 +48,17 @@ public class EngineFactoryTest {
     public void ThrowsExceptionOnNullString() throws ShitheadException {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {} ;
-        
+
         EngineFactory.createEngine(cli, args) ;
     }
-    
+
     @Test (expected=ShitheadException.class)
     public void ThrowsExceptionOnInvalidString() throws ShitheadException {
         final ShitheadCli cli = new ShitheadCli() ;
         final String[] args = {"p"} ;
-        
+
         EngineFactory.createEngine(cli, args) ;
     }
-    
-    
+
+
 }

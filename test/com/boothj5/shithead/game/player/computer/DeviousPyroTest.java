@@ -18,93 +18,93 @@ import static org.junit.Assert.* ;
 
 public class DeviousPyroTest {
 
-	
-	@Test
-	public void picksTenWhenOnlyOneCard() {
-		int numCardsPerHand = 3 ;
-		Player james = new DeviousPyro("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
-		james.dealToHand(hand1) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+    @Test
+    public void picksTenWhenOnlyOneCard() {
+        int numCardsPerHand = 3 ;
+        Player james = new DeviousPyro("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.SPADES)), is(true)) ;
-	}	
-	
-	@Test
-	public void picksTenWhenMoreThanThresholdOnPile() {
-		int numCardsPerHand = 3 ;
-		Player james = new DeviousPyro("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.ACE, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+        Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
+        james.dealToHand(hand1) ;
 
-		Stack<Card> pile = new Stack<Card>() ;
-		for (int i = 0 ; i < ((DeviousPyro)james).getThreshold() ; i++)
-			pile.push(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, pile, null, null) ;
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
-	}	
-	
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.SPADES)), is(true)) ;
+    }	
 
-	@Test
-	public void picksOtherWhenLessThanFiveOnPile() {
-		int numCardsPerHand = 3 ;
-		Player james = new DeviousPyro("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+    @Test
+    public void picksTenWhenMoreThanThresholdOnPile() {
+        int numCardsPerHand = 3 ;
+        Player james = new DeviousPyro("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
 
-		Stack<Card> pile = new Stack<Card>() ;
-		for (int i = 0 ; i < (((DeviousPyro)james).getThreshold()-1) ; i++)
-			pile.push(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
+        Card hand1 = new Card(Card.Rank.ACE, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, pile, null, null) ;
+        Stack<Card> pile = new Stack<Card>() ;
+        for (int i = 0 ; i < ((DeviousPyro)james).getThreshold() ; i++)
+            pile.push(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		Card chosenCard = james.getHand().get(choices.get(0)) ;
-		
-		assertThat(choices.size(), is(1)) ;
-		assertThat(chosenCard.equals(new Card(Card.Rank.JACK, Card.Suit.SPADES)), is(true)) ;
-	}	
-	
-	@Test
-	public void picksOnlyOneTenWhenTwo() {
-		int numCardsPerHand = 3 ;
-		Player james = new DeviousPyro("James", numCardsPerHand) ;
-		List<Player> players = new ArrayList<Player>();
-		players.add(james) ;
-		
-		Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
-		Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
-		james.dealToHand(hand1) ;
-		james.dealToHand(hand2) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, pile, null, null) ;
 
-		PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
 
-		List<Integer> choices = james.askCardChoiceFromHand(helper) ;
-		
-		assertThat(choices.size(), is(1)) ;
-	}
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.TEN, Card.Suit.DIAMONDS)), is(true)) ;
+    }	
+
+
+    @Test
+    public void picksOtherWhenLessThanFiveOnPile() {
+        int numCardsPerHand = 3 ;
+        Player james = new DeviousPyro("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
+
+        Card hand1 = new Card(Card.Rank.JACK, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
+
+        Stack<Card> pile = new Stack<Card>() ;
+        for (int i = 0 ; i < (((DeviousPyro)james).getThreshold()-1) ; i++)
+            pile.push(new Card(Card.Rank.FOUR, Card.Suit.DIAMONDS)) ;
+
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, pile, null, null) ;
+
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+        Card chosenCard = james.getHand().get(choices.get(0)) ;
+
+        assertThat(choices.size(), is(1)) ;
+        assertThat(chosenCard.equals(new Card(Card.Rank.JACK, Card.Suit.SPADES)), is(true)) ;
+    }	
+
+    @Test
+    public void picksOnlyOneTenWhenTwo() {
+        int numCardsPerHand = 3 ;
+        Player james = new DeviousPyro("James", numCardsPerHand) ;
+        List<Player> players = new ArrayList<Player>();
+        players.add(james) ;
+
+        Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
+        Card hand2 = new Card(Card.Rank.TEN, Card.Suit.DIAMONDS) ;
+        james.dealToHand(hand1) ;
+        james.dealToHand(hand2) ;
+
+        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+
+        List<Integer> choices = james.askCardChoiceFromHand(helper) ;
+
+        assertThat(choices.size(), is(1)) ;
+    }
 }

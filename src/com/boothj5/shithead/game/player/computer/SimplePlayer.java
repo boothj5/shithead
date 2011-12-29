@@ -12,28 +12,28 @@ public class SimplePlayer extends ComputerPlayer {
     public static final String description = "Always lays lowest";
 
     public SimplePlayer(String name, int handSize) {
-		super(name, handSize) ;
-	}
+        super(name, handSize) ;
+    }
 
     @Override
     public boolean askSwapMore() {
-		return false ;
-	}
-	
-    @Override
-	public SwapResponse askSwapChoice() {
-		return null ;
-	}
+        return false ;
+    }
 
     @Override
-	public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        List<Card> myHand = getHand() ;
-		return pickLowCards(helper, myHand);
-	}	
-	
+    public SwapResponse askSwapChoice() {
+        return null ;
+    }
+
     @Override
-	public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-		List<Card> myHand = getFaceUp() ;
-		return pickLowCards(helper, myHand);
-	}	
+    public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
+        List<Card> myHand = getHand() ;
+        return pickLowCards(helper, myHand);
+    }	
+
+    @Override
+    public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
+        List<Card> myHand = getFaceUp() ;
+        return pickLowCards(helper, myHand);
+    }	
 }

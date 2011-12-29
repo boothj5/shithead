@@ -42,7 +42,7 @@ public class MainWindow {
         frame = new JFrame();
         frame.setBounds(100, 100, 500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         DetailsPane detailsPane = new DetailsPane();
         frame.getContentPane().add(detailsPane, BorderLayout.CENTER);
     }

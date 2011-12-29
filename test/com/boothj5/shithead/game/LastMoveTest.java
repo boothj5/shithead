@@ -17,7 +17,7 @@ public class LastMoveTest {
     Player player ;
     List<Card> cards ;
     LastMove lastMove ;
-    
+
     @Test
     public void constructorSetsPlayer() throws ShitheadException {
         createLastMoveWithNoCards(false, false);
@@ -32,11 +32,11 @@ public class LastMoveTest {
         cards.add(new Card(Rank.ACE, Suit.SPADES)) ;
         lastMove = new LastMove(player, cards, false, false) ;
         final Card resultCard = lastMove.getCards().get(0) ;
-        
+
         assertEquals(1, lastMove.getCards().size()) ;        
         assertEquals(cards.get(0), resultCard) ;
     }
-    
+
     @Test
     public void constructorSetsBurntFalse() throws ShitheadException {
         createLastMoveWithNoCards(false, false);
@@ -47,7 +47,7 @@ public class LastMoveTest {
     @Test
     public void constructorSetsBurntTrue() throws ShitheadException {
         createLastMoveWithNoCards(true, false);
- 
+
         assertTrue(lastMove.getBurnt()) ;
     }
 

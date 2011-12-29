@@ -6,7 +6,7 @@ import com.boothj5.shithead.game.ShitheadGame;
 public abstract class ShitheadEngine {
     protected ShitheadGame game ;
     protected int numGames ;
-    
+
     public final int getNumGames() {
         return numGames ;
     }
