@@ -10,6 +10,7 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
+import static com.boothj5.shithead.game.ShitheadRules.canLay;
 
 public final class ShitheadGame {
 	private final List<Player> players = new ArrayList<Player>() ;
@@ -51,7 +52,7 @@ public final class ShitheadGame {
 	public void firstMove() {
 	    currentPlayer = playerWithLowest() ;
 	    Player player = getCurrentPlayer() ;
-	    List<Card> cardsToLay = getAllLowest(player);
+	    List<Card> cardsToLay = player.getAllOfSameRankFromHand(player.getHand().get(0));
 		playFromHand(cardsToLay) ;
 		moveToNextPlayer() ;
 	}
@@ -92,7 +93,7 @@ public final class ShitheadGame {
 		currentPlayer.getFaceDown().remove(cardFromFaceDown) ;
 	}
 	
-	public void play(List<Integer> choice) {
+	public void makeMove(List<Integer> choice) {
 		List<Card> cardsToPlay = getCardsFromIndexes(choice) ;
 		Player player = getCurrentPlayer() ;
 		
@@ -263,41 +264,9 @@ public final class ShitheadGame {
         return lowestPlayer ;
     }
 
-    private List<Card> getAllLowest(Player player) {
-        List<Card> cardsToLay = new ArrayList<Card>() ;
-        Card first = player.getHand().get(0) ;
-        for(Card current : player.getHand().cards()) {
-            if (current.equalsRank(first)) {
-                cardsToLay.add(current) ;
-            }
-        }
-        return cardsToLay ;
-    }
-
-    private boolean canLay(Card card, Stack<Card> cards) {
-        if (cards.isEmpty()) {
-            return true ;
-        }
-        else if (ShitheadRules.isSpecial(card)) {
-            return true ;
-        }
-        else if (ShitheadRules.isInvisible(cards.peek())) {
-            Stack<Card> newPile = new Stack<Card>() ;
-            newPile.addAll(cards) ;
-            newPile.pop() ;
-            return canLay(card, newPile) ;
-        }
-        else if ((card.compareTo(cards.peek())) < 0) {
-            return false ;
-        }
-        else {
-            return true ;
-        }       
-    }
-    
-    
     private List<Card> getCardsFromIndexes(List<Integer> cardChoice) {
-        Hand handToPlayFrom = getCurrentPlayersActiveHand() ;
+        Player player = getCurrentPlayer() ;
+        Hand handToPlayFrom = player.getHandPlayingFrom() ;
         List<Card> returnCards = new ArrayList<Card>() ;
 
         for (int cardIndex : cardChoice) {
@@ -305,16 +274,5 @@ public final class ShitheadGame {
         }
         return returnCards ;
     }   
-    
-    private Hand getCurrentPlayersActiveHand() {
-        Player player = getCurrentPlayer() ;
-        
-        if (player.playingFromHand()) 
-            return player.getHand() ;
-        else if (player.playingFromFaceUp())
-            return player.getFaceUp() ;
-        else
-            return player.getFaceDown() ;
-    }
     
 }

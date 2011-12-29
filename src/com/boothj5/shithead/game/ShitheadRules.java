@@ -1,6 +1,7 @@
 package com.boothj5.shithead.game;
 
 import java.util.EnumSet;
+import java.util.Stack;
 
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Card.Rank;
@@ -23,4 +24,26 @@ public class ShitheadRules {
 	public static boolean isInvisible(Card card) {
 	    return INVISIBLE.equals(card.getRank()) ;
 	}
+	
+    public static boolean canLay(Card card, Stack<Card> cards) {
+        if (cards.isEmpty()) {
+            return true ;
+        }
+        else if (ShitheadRules.isSpecial(card)) {
+            return true ;
+        }
+        else if (ShitheadRules.isInvisible(cards.peek())) {
+            Stack<Card> newPile = new Stack<Card>() ;
+            newPile.addAll(cards) ;
+            newPile.pop() ;
+            return canLay(card, newPile) ;
+        }
+        else if ((card.compareTo(cards.peek())) < 0) {
+            return false ;
+        }
+        else {
+            return true ;
+        }       
+    }
+	
 }

@@ -49,7 +49,7 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
         }
 
         // once they've picked, play and move game on 
-        game.play(cardChoice) ;
+        game.makeMove(cardChoice) ;
         game.moveToNextPlayer() ;
     }
 
@@ -65,7 +65,7 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
         // play if valid card
         if (game.validMove(cardChoice)) {
             cli.showHandDownOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
-            game.play(cardChoice) ;
+            game.makeMove(cardChoice) ;
         }
         // pick up if not
         else {

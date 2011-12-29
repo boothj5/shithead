@@ -42,7 +42,7 @@ public final class ComputerPlayerInteraction extends PlayerInteraction {
             cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;                      
             
         if (game.validMove(cardChoice)) 
-            game.play(cardChoice) ;
+            game.makeMove(cardChoice) ;
         else
             throw new ShitheadException("Computer player chose invalid move") ;
 
@@ -54,7 +54,7 @@ public final class ComputerPlayerInteraction extends PlayerInteraction {
         cardChoice.add(0) ;
 
         if (game.validMove(cardChoice)) 
-            game.play(cardChoice) ;
+            game.makeMove(cardChoice) ;
         else 
             game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
         

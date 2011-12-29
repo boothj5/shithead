@@ -85,4 +85,23 @@ public abstract class Player {
         else 
             return true ;
     }
+    
+    public Hand getHandPlayingFrom() {
+        if (playingFromHand()) 
+            return getHand() ;
+        else if (playingFromFaceUp())
+            return getFaceUp() ;
+        else
+            return getFaceDown() ;
+    }
+    
+    public List<Card> getAllOfSameRankFromHand(Card card) {
+        List<Card> result = new ArrayList<Card>() ;
+        for(Card current : getHand().cards()) {
+            if (current.equalsRank(card)) {
+                result.add(current) ;
+            }
+        }
+        return result ;
+    }
 }
