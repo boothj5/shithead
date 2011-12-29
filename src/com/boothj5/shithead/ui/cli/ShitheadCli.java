@@ -10,6 +10,7 @@ import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
+import static com.boothj5.util.IterationUtil.* ;
 
 public class ShitheadCli {
 
@@ -117,7 +118,7 @@ public class ShitheadCli {
         int pileRemaining = details.getPile().size() ;
         System.out.println(pileRemaining + " on pile:") ;
 
-        for (int i = pileRemaining - 1 ; i >= 0 ; i--) {
+        for (int i : toZeroFrom(pileRemaining - 1)) {
             Card card = details.getPile().get(i) ;
             if (card.equals(details.getPile().peek())) 
                 System.out.println("\t(*)" + card.toString()) ;

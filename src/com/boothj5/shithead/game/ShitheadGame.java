@@ -10,6 +10,7 @@ import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
 import static com.boothj5.shithead.game.ShitheadRules.canLay;
+import static com.boothj5.util.IterationUtil.*;
 
 public final class ShitheadGame {
     private final List<Player> players = new ArrayList<Player>() ;
@@ -29,7 +30,7 @@ public final class ShitheadGame {
         currentPlayer = 0 ;
         lastMove = null ;
 
-        for (int i = 0 ; i < numPlayers ; i++) {
+        for (int i : upTo(numPlayers)) {
             String playerType = playerTypes.get(i) ;
             String playerName = playerNames.get(i) ;
             Player player = PlayerFactory.createPlayer(playerType, playerName, numCardsPerHand) ;
@@ -39,7 +40,7 @@ public final class ShitheadGame {
 
     public void deal() {
         for (Player player : players) {
-            for (int i = 0 ; i < numCardsPerHand ; i++) {
+            for (int i : upTo(numCardsPerHand)) {
                 player.dealToHand(deck.takeCard()) ;
                 player.dealToFaceUp(deck.takeCard()) ;
                 player.dealToFaceDown(deck.takeCard()) ;
@@ -253,7 +254,7 @@ public final class ShitheadGame {
         int lowestPlayer = 0 ;
         ShitheadCardComparator comp = new ShitheadCardComparator() ;
 
-        for (int i = 1 ; i < players.size() ; i++) {
+        for (int i : range(1, players.size())) {
             Card playersLowest = players.get(i).getHand().get(0) ;
             Card currentLowest = players.get(lowestPlayer).getHand().get(0);
             if (comp.compare(playersLowest, currentLowest) < 0)

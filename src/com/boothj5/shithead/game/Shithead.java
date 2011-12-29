@@ -3,6 +3,7 @@ package com.boothj5.shithead.game;
 import com.boothj5.shithead.engine.ShitheadEngine;
 import com.boothj5.shithead.engine.EngineFactory;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
+import static com.boothj5.util.IterationUtil.upTo ;
 
 public class Shithead {
 
@@ -11,7 +12,7 @@ public class Shithead {
         final ShitheadEngine engine = EngineFactory.createEngine(cli, args) ;
 
         try {
-            for (int i = 0 ; i < engine.getNumGames() ; i++) {
+            for (int i : upTo(engine.getNumGames())) {
                 engine.init() ;
                 engine.deal() ;
                 engine.swap() ;

@@ -1,5 +1,8 @@
 package com.boothj5.shithead.game.card;
+
 import java.util.* ;
+
+import static com.boothj5.util.IterationUtil.* ;
 
 public final class Deck {
 
@@ -9,7 +12,7 @@ public final class Deck {
         int decksRequired = calcDecksRequired(totalCards) ;
         cards = new ArrayList<Card>() ;
 
-        for (int i = 0 ; i < decksRequired ; i++) {
+        for (int i : upTo(decksRequired)) {
             for (Card.Suit suit : Card.Suit.values())
                 for (Card.Rank rank : Card.Rank.values())
                     cards.add(new Card(rank, suit)) ;
