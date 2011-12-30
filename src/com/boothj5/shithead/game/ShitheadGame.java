@@ -9,7 +9,7 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
-import static com.boothj5.shithead.game.ShitheadRules.canLay;
+import static com.boothj5.shithead.game.ShitheadRules.*;
 import static com.boothj5.util.IterationUtil.*;
 
 public final class ShitheadGame {
@@ -176,13 +176,7 @@ public final class ShitheadGame {
     private boolean burnIfPossible() {
         boolean didBurn = false ;
 
-        boolean burnCardOnPile = (!pile.empty()) && (pile.peek().getRank().equals(ShitheadRules.BURN)) ;
-        boolean fourOfAKindOnPile = (pile.size() >= 4) && 
-                ((pile.get(pile.size()-1).getRank().equals(pile.get(pile.size()-2).getRank())) && 
-                        (pile.get(pile.size()-2).getRank().equals(pile.get(pile.size()-3).getRank())) &&
-                        (pile.get(pile.size()-3).getRank().equals(pile.get(pile.size()-4).getRank()))) ;
-
-        if (burnCardOnPile || fourOfAKindOnPile) {
+        if (burnCardLaid()) {
             currentPlayer-- ;
             if (currentPlayer < 0)
                 currentPlayer = numPlayers - 1 ;
@@ -192,6 +186,25 @@ public final class ShitheadGame {
         }
 
         return didBurn ;
+    }
+    
+    private boolean burnCardLaid() {
+        boolean result = false ;
+        
+        if (!pile.empty() && isBurn(pile.peek())) {
+            result = true ;
+        }
+        else if (pile.size() >= 4) {
+            List<Card> lastFour = new ArrayList<Card>() ;
+            lastFour.add(pile.get(pile.size()-1)) ;
+            lastFour.add(pile.get(pile.size()-2)) ;
+            lastFour.add(pile.get(pile.size()-3)) ;
+            lastFour.add(pile.get(pile.size()-4)) ;
+
+            result = Card.allRanksEqual(lastFour) ;
+        }
+        
+        return result ;
     }
 
     private boolean missAGoIfRequied() {

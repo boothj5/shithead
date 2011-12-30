@@ -25,6 +25,10 @@ public class ShitheadRules {
         return INVISIBLE.equals(card.getRank()) ;
     }
 
+    public static boolean isBurn(Card card) {
+        return BURN.equals(card.getRank()) ;
+    }
+    
     public static boolean canLay(Card card, Stack<Card> cards) {
         if (cards.isEmpty()) {
             return true ;
