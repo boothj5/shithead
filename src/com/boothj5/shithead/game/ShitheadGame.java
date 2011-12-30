@@ -228,7 +228,7 @@ public final class ShitheadGame {
 
     private void pickupFromDeck(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
-        for (int i = 0 ; i < toPlay.size() ; i++) {
+        for (int i : upTo(toPlay.size())) {
             boolean deckIsEmpty = deck.isEmpty() ;
             boolean playersHandLessThanGameHandSize = 
                     player.getHandSize() < numCardsPerHand ;
