@@ -28,7 +28,7 @@ public class AgressiveTest {
         Card hand1 = new Card(Card.Rank.SEVEN, Card.Suit.SPADES) ;
         james.dealToHand(hand1) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, null, null, null) ;
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
 
@@ -48,7 +48,7 @@ public class AgressiveTest {
         james.dealToHand(hand1) ;
         james.dealToHand(hand2) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -70,7 +70,7 @@ public class AgressiveTest {
         james.dealToHand(hand1) ;
         james.dealToHand(hand2) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -96,7 +96,7 @@ public class AgressiveTest {
         james.dealToHand(hand3) ;
         james.dealToHand(hand4) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -119,7 +119,7 @@ public class AgressiveTest {
         james.dealToHand(hand2) ;
         james.dealToHand(hand3) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         List<Card> chosenCards = new ArrayList<Card>() ;
@@ -149,7 +149,7 @@ public class AgressiveTest {
         james.dealToHand(hand3) ;
         james.dealToHand(hand4) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 
@@ -170,7 +170,7 @@ public class AgressiveTest {
         james.dealToHand(hand2) ;
         james.dealToHand(hand3) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         assertThat(choices.size(), is(1)) ;
@@ -190,7 +190,7 @@ public class AgressiveTest {
         james.dealToHand(hand2) ;
         james.dealToHand(hand3) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, new Stack<Card>(), null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         assertThat(choices.size(), is(1)) ;

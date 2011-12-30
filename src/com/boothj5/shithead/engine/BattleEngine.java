@@ -11,7 +11,6 @@ import java.util.StringTokenizer;
 
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
@@ -63,8 +62,7 @@ public final class BattleEngine extends ShitheadEngine {
 
     @Override
     public void swap() throws ShitheadException {
-        final ShitheadGameDetails details = game.getGameDetails() ;
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
             playerInteraction.swap() ;
         }
@@ -121,7 +119,7 @@ public final class BattleEngine extends ShitheadEngine {
 
     @Override
     public void error(ShitheadException e) {
-        cli.bail(e, game.getGameDetails()) ;
+        cli.bail(e, game) ;
     }
 
     private float getAverageGameTime(long duration, int numGames) {

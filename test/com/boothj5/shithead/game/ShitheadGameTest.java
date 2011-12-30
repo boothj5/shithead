@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test ;
 
 import com.boothj5.shithead.game.ShitheadGame;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.card.*;
 import com.boothj5.shithead.game.player.Player;
 
@@ -18,23 +17,21 @@ public class ShitheadGameTest {
         int numPlayers = 3 ;
         int numCardsPerHand = 4 ;
         ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
-        ShitheadGameDetails details = game.getGameDetails() ;
 
-        assertThat("Correct number of players", details.getPlayers().size(), is(numPlayers)) ;
-        assertThat("Correct cards per hand", details.getNumCardsPerHand(), is(numCardsPerHand)) ;
+        assertThat("Correct number of players", game.getPlayers().size(), is(numPlayers)) ;
+        assertThat("Correct cards per hand", game.getNumCardsPerHand(), is(numCardsPerHand)) ;
     }
 
     @Test
     public void dealResultsIn52CardsInGame() throws Exception {
         ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
         game.deal();
-        ShitheadGameDetails details = game.getGameDetails() ;
-        int totalCardsInGame = details.getDeck().size() + 
-                details.getPile().size() + 
-                details.getBurnt().size() ;
+        int totalCardsInGame = game.getDeck().size() + 
+                game.getPile().size() + 
+                game.getBurnt().size() ;
 
         int playerCards = 0 ;
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             playerCards += player.getHand().size() ;
             playerCards += player.getFaceUp().size() ;
             playerCards += player.getFaceDown().size() ;
@@ -50,15 +47,14 @@ public class ShitheadGameTest {
     public void dealResultsIn104CardsInGame() throws Exception {
         ShitheadGame game = createGameWith3HumanPlayersTenCards() ;
         game.deal();
-        ShitheadGameDetails details = game.getGameDetails() ;
 
         int totalCardsExpected = 104 ;
-        int totalCardsInGame = details.getDeck().size() + 
-                details.getPile().size() + 
-                details.getBurnt().size() ;
+        int totalCardsInGame = game.getDeck().size() + 
+                game.getPile().size() + 
+                game.getBurnt().size() ;
 
         int playerCards = 0 ;
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             playerCards += player.getHand().size() ;
             playerCards += player.getFaceUp().size() ;
             playerCards += player.getFaceDown().size() ;
@@ -74,15 +70,14 @@ public class ShitheadGameTest {
     public void dealResultsIn156CardsInGame() throws Exception {
         ShitheadGame game = createGameWith5HumanPlayersTenCards() ;
         game.deal();
-        ShitheadGameDetails details = game.getGameDetails() ;
 
         int totalCardsExpected = 156;
-        int totalCardsInGame = details.getDeck().size() + 
-                details.getPile().size() + 
-                details.getBurnt().size() ;
+        int totalCardsInGame = game.getDeck().size() + 
+                game.getPile().size() + 
+                game.getBurnt().size() ;
 
         int playerCards = 0 ;
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             playerCards += player.getHand().size() ;
             playerCards += player.getFaceUp().size() ;
             playerCards += player.getFaceDown().size() ;
@@ -102,10 +97,9 @@ public class ShitheadGameTest {
 
         ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
         game.deal();
-        ShitheadGameDetails details = game.getGameDetails() ;
         int numberOfCardsThatShouldBeLeft = 52 - ((numPlayers * numCardsPerHand) * 3) ;
 
-        assertThat(details.getDeck().size(), is(numberOfCardsThatShouldBeLeft)) ;
+        assertThat(game.getDeck().size(), is(numberOfCardsThatShouldBeLeft)) ;
     }
 
     @Test
@@ -113,14 +107,13 @@ public class ShitheadGameTest {
         ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
         game.deal();
         game.firstMove() ;
-        ShitheadGameDetails details = game.getGameDetails() ;
 
-        List<Card> laid = details.getLastmove().getCards() ;
+        List<Card> laid = game.getLastMove().getCards() ;
         Card testCard = laid.get(0) ;
 
         boolean foundLower = false ;
 
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             List<Card> hand = player.getHand() ;
 
             for (Card card : hand) {
@@ -138,9 +131,8 @@ public class ShitheadGameTest {
         ShitheadGame game = createGameWith3HumanPlayersFourCards() ;
         game.deal();
         game.firstMove() ;
-        ShitheadGameDetails details = game.getGameDetails() ;
 
-        List<Card> laid = details.getLastmove().getCards() ;
+        List<Card> laid = game.getLastMove().getCards() ;
         Card firstCard = laid.get(0) ;
 
         boolean foundDifferent = false ;

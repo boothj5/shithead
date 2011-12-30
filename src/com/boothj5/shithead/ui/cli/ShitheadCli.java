@@ -6,7 +6,7 @@ import java.util.* ;
 
 import com.boothj5.shithead.game.LastMove;
 import com.boothj5.shithead.game.ShitheadException;
-import com.boothj5.shithead.game.ShitheadGameDetails;
+import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
@@ -111,16 +111,16 @@ public class ShitheadCli {
         return Integer.parseInt(c.readLine(playerName + ", enter cards to lay from your face down cards: "))-1 ;
     }
 
-    public void showGame(ShitheadGameDetails details, boolean indicateCurrent) {
+    public void showGame(ShitheadGame game, boolean indicateCurrent) {
         clearScreen() ;
 
         // show pile
-        int pileRemaining = details.getPile().size() ;
+        int pileRemaining = game.getPile().size() ;
         System.out.println(pileRemaining + " on pile:") ;
 
         for (int i : toZeroFrom(pileRemaining - 1)) {
-            Card card = details.getPile().get(i) ;
-            if (card.equals(details.getPile().peek())) 
+            Card card = game.getPile().get(i) ;
+            if (card.equals(game.getPile().peek())) 
                 System.out.println("\t(*)" + card.toString()) ;
             else
                 System.out.println("\t" + card.toString()) ;
@@ -128,16 +128,16 @@ public class ShitheadCli {
         System.out.println() ;
 
         // deck left
-        System.out.println(details.getDeck().size() + " remaining on deck") ;
+        System.out.println(game.getDeck().size() + " remaining on deck") ;
         System.out.println() ;		
 
         // burnt
-        System.out.println(details.getBurnt().size() + " burnt") ;
+        System.out.println(game.getBurnt().size() + " burnt") ;
         System.out.println() ;		
 
-        for (Player player : details.getPlayers()) {
-            showPlayerName(details, player, indicateCurrent);
-            showHand(details, player, indicateCurrent);
+        for (Player player : game.getPlayers()) {
+            showPlayerName(game, player, indicateCurrent);
+            showHand(game, player, indicateCurrent);
             showFaceUp(player);
             showFaceDown(player);
 
@@ -145,8 +145,8 @@ public class ShitheadCli {
         }
     }
 
-    public void showLastMove(ShitheadGameDetails details) {
-        LastMove lastMove = details.getLastmove() ;
+    public void showLastMove(ShitheadGame game) {
+        LastMove lastMove = game.getLastMove() ;
         String missAGo = "" ;
         String burnt = "" ;
 
@@ -181,8 +181,8 @@ public class ShitheadCli {
         System.out.println() ;
     }
 
-    public void showHand(ShitheadGameDetails details, Player player, boolean hideWhenNotCurrent) {
-        if (hideWhenNotCurrent && !details.isCurrentPlayer(player)) {
+    public void showHand(ShitheadGame game, Player player, boolean hideWhenNotCurrent) {
+        if (hideWhenNotCurrent && !game.getCurrentPlayer().equals(player)) {
             System.out.print("HAND:    ") ;
             System.out.println(player.getHandSize() + " cards."); 
         }
@@ -195,9 +195,9 @@ public class ShitheadCli {
         }
     }
 
-    public void showPlayerName(ShitheadGameDetails details, Player player, boolean indicateCurrent) {
+    public void showPlayerName(ShitheadGame game, Player player, boolean indicateCurrent) {
         String currentPlayer = "" ;
-        if (indicateCurrent && (details.isCurrentPlayer(player))) 
+        if (indicateCurrent && (game.getCurrentPlayer().equals(player))) 
             currentPlayer = "(*)" ;
         // player name
         System.out.println("-----------------------------------------") ;
@@ -277,11 +277,11 @@ public class ShitheadCli {
 
     }
 
-    public void showPlayerSwap(ShitheadGameDetails details, Player player) {
+    public void showPlayerSwap(ShitheadGame game, Player player) {
         clearScreen() ;
-        showPlayerName(details, player, false);
+        showPlayerName(game, player, false);
         line() ;
-        showHand(details, player, false) ;
+        showHand(game, player, false) ;
         showFaceUp(player) ;
         line() ;
     }
@@ -307,16 +307,16 @@ public class ShitheadCli {
         System.out.print(".") ;
     }
 
-    public void bail(Exception e, ShitheadGameDetails details) {
-        showGame(details, false) ;
-        showLastMove(details) ;
+    public void bail(Exception e, ShitheadGame game) {
+        showGame(game, false) ;
+        showLastMove(game) ;
         System.out.println("Exception message: " + e.getMessage()) ;
         e.printStackTrace() ;
     }
 
-    public void showGameWithWait(final ShitheadGameDetails details, final boolean wait) {
-        showGame(details, true) ;
-        showLastMove(details) ;
+    public void showGameWithWait(final ShitheadGame game, final boolean wait) {
+        showGame(game, true) ;
+        showLastMove(game) ;
         if (wait) 
             waitPressEnter() ;
         else

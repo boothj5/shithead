@@ -24,7 +24,7 @@ public class GamePane extends JPanel {
     public GamePane(ShitheadGame game) {
         super() ;
 
-        JLabel lblWoop = new JLabel(game.getGameDetails().getPlayers().get(0).getName() + " VS Computer");
+        JLabel lblWoop = new JLabel(game.getPlayers().get(0).getName() + " VS Computer");
         lblWoop.setFont(new Font("Dialog", Font.BOLD, 22));
 
         JPanel player1 = new JPanel();
@@ -33,9 +33,9 @@ public class GamePane extends JPanel {
         JPanel computer = new JPanel();
         computer.setBackground(new Color(143, 188, 143));
 
-        JLabel player1Name = new JLabel(game.getGameDetails().getPlayers().get(0).getName());
+        JLabel player1Name = new JLabel(game.getPlayers().get(0).getName());
 
-        JLabel computerName = new JLabel(game.getGameDetails().getPlayers().get(1).getName());
+        JLabel computerName = new JLabel(game.getPlayers().get(1).getName());
         GroupLayout groupLayout = new GroupLayout(this);
         groupLayout.setHorizontalGroup(
                 groupLayout.createParallelGroup(Alignment.LEADING)
@@ -79,14 +79,14 @@ public class GamePane extends JPanel {
         gbl_computer.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         computer.setLayout(gbl_computer);
 
-        Card p2h1 = game.getGameDetails().getPlayers().get(1).getHand().get(0) ;
-        Card p2h2 = game.getGameDetails().getPlayers().get(1).getHand().get(1) ;
-        Card p2h3 = game.getGameDetails().getPlayers().get(1).getHand().get(2) ;
-        Card p2h4 = game.getGameDetails().getPlayers().get(1).getHand().get(3) ;
-        Card p2f1 = game.getGameDetails().getPlayers().get(1).getFaceUp().get(0) ;
-        Card p2f2 = game.getGameDetails().getPlayers().get(1).getFaceUp().get(1) ;
-        Card p2f3 = game.getGameDetails().getPlayers().get(1).getFaceUp().get(2) ;
-        Card p2f4 = game.getGameDetails().getPlayers().get(1).getFaceUp().get(3) ;
+        Card p2h1 = game.getPlayers().get(1).getHand().get(0) ;
+        Card p2h2 = game.getPlayers().get(1).getHand().get(1) ;
+        Card p2h3 = game.getPlayers().get(1).getHand().get(2) ;
+        Card p2h4 = game.getPlayers().get(1).getHand().get(3) ;
+        Card p2f1 = game.getPlayers().get(1).getFaceUp().get(0) ;
+        Card p2f2 = game.getPlayers().get(1).getFaceUp().get(1) ;
+        Card p2f3 = game.getPlayers().get(1).getFaceUp().get(2) ;
+        Card p2f4 = game.getPlayers().get(1).getFaceUp().get(3) ;
 
         JLabel player2Hand1 = new JLabel("");
         player2Hand1.setIcon(new ImageIcon(GamePane.class.getResource(p2h1.getImage())));
@@ -158,14 +158,14 @@ public class GamePane extends JPanel {
         gbl_player1.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         player1.setLayout(gbl_player1);
 
-        Card p1h1 = game.getGameDetails().getPlayers().get(0).getHand().get(0) ;
-        Card p1h2 = game.getGameDetails().getPlayers().get(0).getHand().get(1) ;
-        Card p1h3 = game.getGameDetails().getPlayers().get(0).getHand().get(2) ;
-        Card p1h4 = game.getGameDetails().getPlayers().get(0).getHand().get(3) ;
-        Card p1f1 = game.getGameDetails().getPlayers().get(0).getFaceUp().get(0) ;
-        Card p1f2 = game.getGameDetails().getPlayers().get(0).getFaceUp().get(1) ;
-        Card p1f3 = game.getGameDetails().getPlayers().get(0).getFaceUp().get(2) ;
-        Card p1f4 = game.getGameDetails().getPlayers().get(0).getFaceUp().get(3) ;
+        Card p1h1 = game.getPlayers().get(0).getHand().get(0) ;
+        Card p1h2 = game.getPlayers().get(0).getHand().get(1) ;
+        Card p1h3 = game.getPlayers().get(0).getHand().get(2) ;
+        Card p1h4 = game.getPlayers().get(0).getHand().get(3) ;
+        Card p1f1 = game.getPlayers().get(0).getFaceUp().get(0) ;
+        Card p1f2 = game.getPlayers().get(0).getFaceUp().get(1) ;
+        Card p1f3 = game.getPlayers().get(0).getFaceUp().get(2) ;
+        Card p1f4 = game.getPlayers().get(0).getFaceUp().get(3) ;
 
         JLabel player1Hand1 = new JLabel("");
         player1Hand1.setIcon(new ImageIcon(GamePane.class.getResource(p1h1.getImage())));

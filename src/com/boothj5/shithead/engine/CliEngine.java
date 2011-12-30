@@ -4,7 +4,6 @@ import java.util.* ;
 
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.*;
 import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
@@ -45,29 +44,26 @@ public class CliEngine extends ShitheadEngine {
     @Override
     public void deal() {
         game.deal() ;
-        cli.showGame(game.getGameDetails(), true);
+        cli.showGame(game, true);
         cli.showCardsDealtMessage() ;
         cli.waitOnUser() ;
     }
 
     @Override
     public void swap() throws ShitheadException {
-        ShitheadGameDetails details = game.getGameDetails() ;
-
-        for (Player player : details.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
             playerInteraction.swap() ;
         }
 
-        cli.showGame(game.getGameDetails(), true) ;
+        cli.showGame(game, true) ;
     }
 
     @Override
     public void firstMove() {
         game.firstMove() ;
-        final ShitheadGameDetails details = game.getGameDetails() ;
-        cli.showGame(details, true) ;
-        cli.showLastMove(details) ;
+        cli.showGame(game, true) ;
+        cli.showLastMove(game) ;
         cli.line() ;
         cli.showNextMoveMessage() ;
         cli.waitOnUser() ;
@@ -76,7 +72,7 @@ public class CliEngine extends ShitheadEngine {
     @Override
     public void play() throws ShitheadException {
         while (game.canContinue()) {
-            cli.showGameWithWait(game.getGameDetails(), false) ;
+            cli.showGameWithWait(game, false) ;
 
             final Player currentPlayer = game.getCurrentPlayer() ;
 
@@ -84,7 +80,7 @@ public class CliEngine extends ShitheadEngine {
                 final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
                 playerInteraction.makeMove() ;
                 if (currentPlayer.isComputer())
-                    cli.showGameWithWait(game.getGameDetails(), true) ;
+                    cli.showGameWithWait(game, true) ;
             }
             else {
                 showPickupAndWait();
@@ -106,7 +102,7 @@ public class CliEngine extends ShitheadEngine {
 
     @Override
     public void error(final ShitheadException e) {
-        cli.bail(e, game.getGameDetails()) ;
+        cli.bail(e, game) ;
     }
 
     private void showPickupAndWait() {

@@ -26,7 +26,7 @@ public class PyromaniacTest {
         Card hand1 = new Card(Card.Rank.TEN, Card.Suit.SPADES) ;
         james.dealToHand(hand1) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, null, null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -47,7 +47,7 @@ public class PyromaniacTest {
         james.dealToHand(hand1) ;
         james.dealToHand(hand2) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, null, null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -68,7 +68,7 @@ public class PyromaniacTest {
         james.dealToHand(hand1) ;
         james.dealToHand(hand2) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, null, null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
         Card chosenCard = james.getHand().get(choices.get(0)) ;
@@ -89,7 +89,7 @@ public class PyromaniacTest {
         james.dealToHand(hand1) ;
         james.dealToHand(hand2) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 1, 1, numCardsPerHand, 0, null, null, null) ;
+        PlayerHelper helper = new PlayerHelper(0, 1, numCardsPerHand, 0, null, null, null) ;
 
         List<Integer> choices = james.askCardChoiceFromHand(helper) ;
 

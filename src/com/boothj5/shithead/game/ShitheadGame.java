@@ -38,6 +38,30 @@ public final class ShitheadGame {
         }
     }
 
+    public Stack<Card> getPile() {
+        return pile ;
+    }
+    
+    public Deck getDeck() {
+        return deck ;
+    }
+    
+    public List<Card> getBurnt() {
+        return burnt ;
+    }
+    
+    public List<Player> getPlayers() {
+        return players ;
+    }
+    
+    public LastMove getLastMove() {
+        return lastMove ;
+    }
+    
+    public int getNumCardsPerHand() {
+        return numCardsPerHand ;
+    }
+    
     public void deal() {
         for (Player player : players) {
             for (int i : doTimes(numCardsPerHand)) {
@@ -132,32 +156,23 @@ public final class ShitheadGame {
         throw new ShitheadException("Game finished but no Shithead found!") ;
     }
 
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer) ;
+    }
+
     public PlayerHelper getPlayerHelper() {
-        int numPlayersStillPlaying = 0 ;
         List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
 
         for (Player player : players) {
-            if (player.hasCards()) 
-                numPlayersStillPlaying++ ;
             PlayerSummary playerSummary = new PlayerSummary(player.getName(), player.getHandSize(), 
                     Collections.unmodifiableList(player.getFaceUp()), player.getFaceDownSize(), player.hasCards()) ;
             playerSummaries.add(playerSummary) ;
         }
 
-        return new PlayerHelper(deck.size(), numPlayers, numPlayersStillPlaying, numCardsPerHand, currentPlayer, 
+        return new PlayerHelper(deck.size(), numPlayers, numCardsPerHand, currentPlayer, 
                 pile, Collections.unmodifiableList(burnt), playerSummaries) ;
     }
-
-    public Player getCurrentPlayer() {
-        return players.get(currentPlayer) ;
-    }
-
-    public ShitheadGameDetails getGameDetails() {
-        ShitheadGameDetails details = new ShitheadGameDetails(players, deck, numPlayers, 
-                numCardsPerHand, currentPlayer, pile, burnt, lastMove) ;
-        return details ;
-    }
-
+    
     private boolean burnIfPossible() {
         boolean didBurn = false ;
 

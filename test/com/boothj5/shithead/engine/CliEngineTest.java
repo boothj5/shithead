@@ -82,14 +82,14 @@ public class CliEngineTest {
     public void initCreatesGameWithCorrectNumberOfCards() throws ShitheadException {
         respondWithGameDetails();
         engine.init() ;
-        assertEquals(4, engine.game.getGameDetails().getNumCardsPerHand()) ;
+        assertEquals(4, engine.game.getNumCardsPerHand()) ;
     }
 
     @Test
     public void initCreatesGameWithCorrectNumberOfPlayers() throws ShitheadException {
         respondWithGameDetails();
         engine.init() ;
-        assertEquals(3, engine.game.getGameDetails().getNumPlayers()) ;
+        assertEquals(3, engine.game.getPlayers().size()) ;
     }
 
     @Test
@@ -99,7 +99,7 @@ public class CliEngineTest {
         String[] names = { "James", "Mike", "Comp" };
         List<String> namesExpected = Arrays.asList(names) ;
 
-        for (Player player : engine.game.getGameDetails().getPlayers()) {
+        for (Player player : engine.game.getPlayers()) {
             assertTrue(namesExpected.contains(player.getName())) ;
         }
     }
@@ -112,7 +112,7 @@ public class CliEngineTest {
         List<String> typesExpected = Arrays.asList(types) ;
         List<String> playerTypesInGame = new ArrayList<String>() ;
 
-        for (Player player : engine.game.getGameDetails().getPlayers()) {
+        for (Player player : engine.game.getPlayers()) {
             String type = PlayerFactory.computerPlayerList().get(player.getClass().getSimpleName()) ;
             playerTypesInGame.add(type) ;
         }

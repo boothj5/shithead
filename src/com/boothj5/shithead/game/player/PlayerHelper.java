@@ -12,24 +12,16 @@ public class PlayerHelper {
 
     private final int numberOnDeck ;
     private final int numPlayersInGame ;
-    private final int numPlayersStillPlaying ;
     private final int numCardsPerHand ;
     private final int currentPlayer ;
     private final Stack<Card> pile  ;
     private final List<Card> burnt ;
     private final List<PlayerSummary> players ;
 
-    public PlayerHelper(final int numberOnDeck, 
-            final int numPlayersInGame, 
-            final int numPlayersStillPlaying, 
-            final int numCardsPerHand,
-            final int currenPlayer, 
-            final Stack<Card> pile, 
-            final List<Card> burnt,
-            final List<PlayerSummary> players) {
+    public PlayerHelper(final int numberOnDeck, final int numPlayersInGame, final int numCardsPerHand,
+            final int currenPlayer, final Stack<Card> pile, final List<Card> burnt, final List<PlayerSummary> players) {
         this.numberOnDeck = numberOnDeck ;
         this.numPlayersInGame = numPlayersInGame ;
-        this.numPlayersStillPlaying = numPlayersStillPlaying ;
         this.numCardsPerHand = numCardsPerHand ;
         this.currentPlayer = currenPlayer ;
         this.pile = pile ;
@@ -43,10 +35,6 @@ public class PlayerHelper {
 
     public int getNumPlayersInGame() {
         return numPlayersInGame;
-    }
-
-    public int getNumPlayersStillPlaying() {
-        return numPlayersStillPlaying;
     }
 
     public int getNumCardsPerHand() {

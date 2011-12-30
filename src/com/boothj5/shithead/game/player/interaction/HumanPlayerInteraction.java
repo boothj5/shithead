@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boothj5.shithead.game.ShitheadGame;
-import com.boothj5.shithead.game.ShitheadGameDetails;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.SwapResponse;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
@@ -21,16 +20,15 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
     }
 
     public void swap() {
-        final ShitheadGameDetails details = game.getGameDetails() ;
-        cli.showPlayerSwap(details, player) ;
+        cli.showPlayerSwap(game, player) ;
 
         boolean wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
         while (wantsToSwap) {
-            final int cardFromHand = cli.requestCardFromHandToSwap(details.getNumCardsPerHand()) ;
-            final int cardFromPile = cli.requestCardFromPileToSwap(details.getNumCardsPerHand()) ;
+            final int cardFromHand = cli.requestCardFromHandToSwap(game.getNumCardsPerHand()) ;
+            final int cardFromPile = cli.requestCardFromPileToSwap(game.getNumCardsPerHand()) ;
             final SwapResponse response = new SwapResponse(cardFromHand, cardFromPile) ;
             player.swapCards(response) ;
-            cli.showPlayerSwap(details, player) ;
+            cli.showPlayerSwap(game, player) ;
             wantsToSwap = cli.requestIfWantsToSwapCards(player.getName()) ;
         }
     }

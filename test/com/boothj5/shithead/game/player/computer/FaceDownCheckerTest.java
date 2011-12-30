@@ -52,7 +52,7 @@ public class FaceDownCheckerTest {
         playerSummaries.add(playerSummaryFaceDown) ;
         playerSummaries.add(playerSummaryOther) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 2, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
+        PlayerHelper helper = new PlayerHelper(0, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
         List<Integer> choices = faceDown.askCardChoiceFromHand(helper) ;
         Card chosenCard = faceDown.getHand().get(choices.get(0)) ;
@@ -92,7 +92,7 @@ public class FaceDownCheckerTest {
         playerSummaries.add(playerSummaryFaceDown) ;
         playerSummaries.add(playerSummaryOther) ;
 
-        PlayerHelper helper = new PlayerHelper(0, 2, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
+        PlayerHelper helper = new PlayerHelper(0, 2, numCardsPerHand, 0, new Stack<Card>(), new ArrayList<Card>(), playerSummaries) ;
 
         List<Integer> choices = checker.askCardChoiceFromHand(helper) ;
         Card chosenCard = checker.getHand().get(choices.get(0)) ;

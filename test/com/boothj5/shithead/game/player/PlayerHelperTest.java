@@ -53,14 +53,6 @@ public class PlayerHelperTest {
     }
 
     @Test
-    public void newPlayerHelperContainsCorrectNumPlayersStillInGame() throws Exception {
-        ShitheadGame game = createGameWith3HumanPlayersTenCards() ;
-        PlayerHelper helper = game.getPlayerHelper() ;
-
-        assertThat(helper.getNumPlayersStillPlaying(), is(3)) ;
-    }
-
-    @Test
     public void newPlayerHelperContainsEmptyStack() throws Exception {
         ShitheadGame game = createGameWith3HumanPlayersTenCards() ;
         PlayerHelper helper = game.getPlayerHelper() ;

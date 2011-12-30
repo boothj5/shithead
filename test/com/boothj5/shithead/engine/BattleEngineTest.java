@@ -90,7 +90,7 @@ public class BattleEngineTest {
     @Test 
     public void initCreatesGameWithCorrectNumPlayers() throws ShitheadException {
         engine.init();
-        int numPlayersInGame = engine.game.getGameDetails().getNumPlayers() ;
+        int numPlayersInGame = engine.game.getPlayers().size() ;
         assertEquals(engine.numPlayers, numPlayersInGame) ;
     }
 
@@ -98,7 +98,7 @@ public class BattleEngineTest {
     public void initCreatesGameWithCorrectPlayerNames() throws ShitheadException {
         engine.init() ;
         List<String> playerNamesInGame = new ArrayList<String>() ;
-        for (Player player : engine.game.getGameDetails().getPlayers()) {
+        for (Player player : engine.game.getPlayers()) {
             playerNamesInGame.add(player.getName()) ;
         }
 
@@ -111,7 +111,7 @@ public class BattleEngineTest {
     public void initCreatesGameWithCorrectPlayerTypes() throws ShitheadException {
         engine.init() ;
         List<String> playerClassesInGame = new ArrayList<String>() ;
-        for (Player player : engine.game.getGameDetails().getPlayers()) {
+        for (Player player : engine.game.getPlayers()) {
             playerClassesInGame.add(player.getClass().getSimpleName()) ;
         }
 
@@ -123,7 +123,7 @@ public class BattleEngineTest {
     @Test
     public void initCreatesGameWithCorrectNumCardsPerHand() throws ShitheadException {
         engine.init();
-        assertEquals(engine.numCards, engine.game.getGameDetails().getNumCardsPerHand()) ;
+        assertEquals(engine.numCards, engine.game.getNumCardsPerHand()) ;
     }
 
     @Test
