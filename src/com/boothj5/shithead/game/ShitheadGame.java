@@ -162,15 +162,11 @@ public final class ShitheadGame {
 
     public PlayerHelper getPlayerHelper() {
         List<PlayerSummary> playerSummaries = new ArrayList<PlayerSummary>() ;
+        for (Player player : players)
+            playerSummaries.add(player.getSummary()) ;
 
-        for (Player player : players) {
-            PlayerSummary playerSummary = new PlayerSummary(player.getName(), player.getHandSize(), 
-                    Collections.unmodifiableList(player.getFaceUp()), player.getFaceDownSize(), player.hasCards()) ;
-            playerSummaries.add(playerSummary) ;
-        }
-
-        return new PlayerHelper(deck.size(), numPlayers, numCardsPerHand, currentPlayer, 
-                pile, Collections.unmodifiableList(burnt), playerSummaries) ;
+        return new PlayerHelper(deck.size(), numPlayers, numCardsPerHand, currentPlayer, pile, 
+                Collections.unmodifiableList(burnt), playerSummaries) ;
     }
     
     private boolean burnIfPossible() {

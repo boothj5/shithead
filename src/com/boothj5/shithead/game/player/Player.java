@@ -47,6 +47,11 @@ public abstract class Player {
     public final int getHandSize() {
         return hand.size();
     }   
+    
+    public final PlayerSummary getSummary() {
+        return new PlayerSummary(getName(), getHandSize(), Collections.unmodifiableList(getFaceUp()), 
+                getFaceDownSize(), hasCards()) ;
+    }
 
     public final boolean hasCards() {
         if (!faceUp.isEmpty()) 
