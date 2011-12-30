@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IterationUtil {
-    public static List<Integer> upTo(int max) {
+    public static List<Integer> doTimes(int max) {
         List<Integer> result = new ArrayList<Integer>() ;
         int i = 0 ;
         while (i < max)

@@ -19,7 +19,7 @@ public class IterationUtilTest {
         for(int i = 0 ; i < 10 ; i++)
             usingFor.add(i) ;
         
-        for(int i : upTo(10)) 
+        for(int i : doTimes(10)) 
             usingUtil.add(i) ;
 
         assertEquals(usingFor, usingUtil) ;

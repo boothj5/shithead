@@ -30,7 +30,7 @@ public final class ShitheadGame {
         currentPlayer = 0 ;
         lastMove = null ;
 
-        for (int i : upTo(numPlayers)) {
+        for (int i : doTimes(numPlayers)) {
             String playerType = playerTypes.get(i) ;
             String playerName = playerNames.get(i) ;
             Player player = PlayerFactory.createPlayer(playerType, playerName, numCardsPerHand) ;
@@ -40,7 +40,7 @@ public final class ShitheadGame {
 
     public void deal() {
         for (Player player : players) {
-            for (int i : upTo(numCardsPerHand)) {
+            for (int i : doTimes(numCardsPerHand)) {
                 player.dealToHand(deck.takeCard()) ;
                 player.dealToFaceUp(deck.takeCard()) ;
                 player.dealToFaceDown(deck.takeCard()) ;
@@ -228,7 +228,7 @@ public final class ShitheadGame {
 
     private void pickupFromDeck(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
-        for (int i : upTo(toPlay.size())) {
+        for (int i : doTimes(toPlay.size())) {
             boolean deckIsEmpty = deck.isEmpty() ;
             boolean playersHandLessThanGameHandSize = 
                     player.getHandSize() < numCardsPerHand ;

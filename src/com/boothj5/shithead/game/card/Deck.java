@@ -12,7 +12,7 @@ public final class Deck {
         int decksRequired = calcDecksRequired(totalCards) ;
         cards = new ArrayList<Card>() ;
 
-        for (int i : upTo(decksRequired)) {
+        for (int i : doTimes(decksRequired)) {
             for (Card.Suit suit : Card.Suit.values())
                 for (Card.Rank rank : Card.Rank.values())
                     cards.add(new Card(rank, suit)) ;

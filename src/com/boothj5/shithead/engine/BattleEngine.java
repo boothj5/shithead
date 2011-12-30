@@ -16,7 +16,7 @@ import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
 import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
-import static com.boothj5.util.IterationUtil.upTo ;
+import static com.boothj5.util.IterationUtil.doTimes ;
 import com.boothj5.util.MapUtil;
 
 public final class BattleEngine extends ShitheadEngine {
@@ -140,7 +140,7 @@ public final class BattleEngine extends ShitheadEngine {
         String name = null;
         final List<String> result = new ArrayList<String>() ;
 
-        for (int i : upTo(types.size())) { 
+        for (int i : doTimes(types.size())) { 
             final String className = (PlayerFactory.createPlayer(types.get(i), "", numCards)).getClass().getName() ;
             final StringTokenizer st = new StringTokenizer(className, ".") ;
 
