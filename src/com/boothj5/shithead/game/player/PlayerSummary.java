@@ -10,16 +10,13 @@ public class PlayerSummary {
     private final int handSize ;
     private final List<Card> faceUp ;
     private final int handDownSize ;
-    private final boolean hasCards ;
 
     public PlayerSummary(final String name, final int handSize, 
-            final List<Card> faceUp, final int handDownSize,
-            final boolean hasCards) {
+            final List<Card> faceUp, final int handDownSize) {
         this.name = name ;
         this.handSize = handSize ;
         this.faceUp = faceUp ;
         this.handDownSize = handDownSize ;
-        this.hasCards = hasCards ;
     }
 
     public String getName() {
@@ -39,7 +36,7 @@ public class PlayerSummary {
     }
 
     public boolean hasCards() {
-        return hasCards;
+        return (handSize > 0 || faceUp.size() > 0 || handDownSize > 0);
     }
 
 

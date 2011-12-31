@@ -63,7 +63,7 @@ public abstract class Player {
 
     public final PlayerSummary getSummary() {
         return new PlayerSummary(getName(), getHandSize(), Collections.unmodifiableList(getFaceUp()), 
-                getFaceDownSize(), hasCards()) ;
+                getFaceDownSize()) ;
     }
 
     public final boolean hasCards() {
