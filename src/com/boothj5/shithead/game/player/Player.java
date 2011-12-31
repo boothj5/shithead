@@ -46,8 +46,20 @@ public abstract class Player {
 
     public final int getHandSize() {
         return hand.size();
-    }   
+    } 
     
+    public void removeFromHand(List<Card> cards) {
+        hand.removeAll(cards) ;
+    }
+    
+    public void removeFromFaceUp(List<Card> cards) {
+        faceUp.removeAll(cards) ;
+    }
+
+    public void removeFromFaceDown(List<Card> cards) {
+        faceDown.removeAll(cards) ;
+    }
+
     public final PlayerSummary getSummary() {
         return new PlayerSummary(getName(), getHandSize(), Collections.unmodifiableList(getFaceUp()), 
                 getFaceDownSize(), hasCards()) ;

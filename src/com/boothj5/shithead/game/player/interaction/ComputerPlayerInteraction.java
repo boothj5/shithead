@@ -41,12 +41,10 @@ public final class ComputerPlayerInteraction extends PlayerInteraction {
         else // play from hand
             cardChoice = currentPlayer.askCardChoiceFromHand(helper) ;                      
 
-        if (game.validMove(cardChoice)) 
-            game.makeMove(cardChoice) ;
-        else
+        if (!game.validMove(cardChoice)) 
             throw new ShitheadException("Computer player chose invalid move") ;
 
-        game.moveToNextPlayer() ;
+        game.makeMove(cardChoice) ;
     }
 
     public void faceDownMove() {
@@ -57,7 +55,5 @@ public final class ComputerPlayerInteraction extends PlayerInteraction {
             game.makeMove(cardChoice) ;
         else 
             game.playerPickUpPileAndFaceDownCard(cardChoice.get(0)) ;
-
-        game.moveToNextPlayer() ;
     }    
 }

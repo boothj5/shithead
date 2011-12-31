@@ -79,6 +79,10 @@ public final class ShitheadGame {
         List<Card> cardsToLay = player.getAllOfSameRankFromHand(player.getHand().get(0));
         playFromHand(cardsToLay) ;
         moveToNextPlayer() ;
+        boolean didBurn = burnIfPossible() ;
+        boolean missedAGo = missAGoIfRequied() ;
+        lastMove = new LastMove(player, cardsToLay, didBurn, missedAGo) ;
+        
     }
 
     public boolean currentPlayerCanMove() {
@@ -108,13 +112,16 @@ public final class ShitheadGame {
         Player currentPlayer = getCurrentPlayer() ;
         currentPlayer.recieve(pile) ;
         pile.removeAllElements() ;
+        moveToNextPlayer() ;
     }
 
     public void playerPickUpPileAndFaceDownCard(int cardFromFaceDown) {
-        playerPickUpPile() ;
         Player currentPlayer = getCurrentPlayer() ;
+        currentPlayer.recieve(pile) ;
+        pile.removeAllElements() ;
         currentPlayer.getHand().add(currentPlayer.getFaceDown().get(cardFromFaceDown)) ;
         currentPlayer.getFaceDown().remove(cardFromFaceDown) ;
+        moveToNextPlayer() ;
     }
 
     public void makeMove(List<Integer> choice) {
@@ -127,9 +134,14 @@ public final class ShitheadGame {
             playFromFaceUp(cardsToPlay) ;
         else
             playFromFaceDown(cardsToPlay) ;
+        
+        boolean didBurn = burnIfPossible() ;
+        boolean missedAGo = missAGoIfRequied() ;
+        lastMove = new LastMove(player, cardsToPlay, didBurn, missedAGo) ;
+        moveToNextPlayer() ;
     }	
 
-    public void moveToNextPlayer() {
+    private void moveToNextPlayer() {
         currentPlayer ++ ;
         if (currentPlayer >= players.size())
             currentPlayer = 0 ;
@@ -217,52 +229,30 @@ public final class ShitheadGame {
     private void playFromHand(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
         pile.addAll(toPlay) ;
-        player.getHand().removeAll(toPlay) ;
-        pickupFromDeck(toPlay);
+        player.removeFromHand(toPlay) ;
+        pickupFromDeck();
         player.sortHand() ;
-
-        boolean didBurn = burnIfPossible() ;
-        boolean missedAGo = missAGoIfRequied() ;
-        lastMove = new LastMove(getCurrentPlayer(), toPlay, didBurn, missedAGo) ;
     }	
 
     private void playFromFaceUp(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
-
         pile.addAll(toPlay) ;
-        player.getFaceUp().removeAll(toPlay) ;
-        pickupFromDeck(toPlay);
-
-        boolean didBurn = burnIfPossible() ;
-        boolean missedAGo = missAGoIfRequied() ;
-        lastMove = new LastMove(player, toPlay, didBurn, missedAGo) ;
+        player.removeFromFaceUp(toPlay) ;
     }
 
     private void playFromFaceDown(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
-
         pile.addAll(toPlay) ;
-        player.getFaceDown().removeAll(toPlay) ;
-        pickupFromDeck(toPlay);
-
-        boolean didBurn = burnIfPossible() ;
-        boolean missedAGo = missAGoIfRequied() ;
-        lastMove = new LastMove(player, toPlay, didBurn, missedAGo) ;
+        player.removeFromFaceDown(toPlay) ;
     }	
 
-    private void pickupFromDeck(List<Card> toPlay) {
+    private void pickupFromDeck() {
         Player player = getCurrentPlayer() ;
-        for (int i : doTimes(toPlay.size())) {
-            boolean deckIsEmpty = deck.isEmpty() ;
-            boolean playersHandLessThanGameHandSize = 
-                    player.getHandSize() < numCardsPerHand ;
-            if (!deckIsEmpty && playersHandLessThanGameHandSize) {
-                Card pickup = deck.takeCard() ;
-                List<Card> pickupList = new ArrayList<Card>();
-                pickupList.add(pickup) ;
-                player.recieve(pickupList) ;
-                player.sortHand() ;
-            }
+        while (!deck.isEmpty() && player.getHandSize() < numCardsPerHand) {
+            Card pickup = deck.takeCard() ;
+            List<Card> pickupList = new ArrayList<Card>();
+            pickupList.add(pickup) ;
+            player.recieve(pickupList) ;
         }
     }	
 

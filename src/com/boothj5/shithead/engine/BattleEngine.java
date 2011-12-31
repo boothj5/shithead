@@ -90,7 +90,6 @@ public final class BattleEngine extends ShitheadEngine {
                 } 
                 else {
                     game.playerPickUpPile() ;
-                    game.moveToNextPlayer() ;
                 }
                 turns++ ;
             }

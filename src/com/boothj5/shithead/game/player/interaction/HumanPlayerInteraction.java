@@ -48,7 +48,6 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
 
         // once they've picked, play and move game on 
         game.makeMove(cardChoice) ;
-        game.moveToNextPlayer() ;
     }
 
     public void faceDownMove() {
@@ -70,7 +69,5 @@ public final class HumanPlayerInteraction extends PlayerInteraction {
             cli.showHandDownNotOk(playerName, game.getCurrentPlayer().getFaceDown().get(cardChoiceFromFaceDown)) ;
             game.playerPickUpPileAndFaceDownCard(cardChoiceFromFaceDown) ;
         }
-        // move game on
-        game.moveToNextPlayer() ;
     }
 }

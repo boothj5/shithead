@@ -85,7 +85,6 @@ public class CliEngine extends ShitheadEngine {
             else {
                 showPickupAndWait();
                 game.playerPickUpPile() ;
-                game.moveToNextPlayer() ;
             }
         }
     }
