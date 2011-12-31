@@ -3,9 +3,9 @@ package com.boothj5.shithead.game.player.computer;
 import com.boothj5.shithead.game.card.*;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
+import static com.boothj5.shithead.game.player.computer.Intelligence.* ;
 
 import java.util.*;
-
 
 public class SimplePlayer extends ComputerPlayer {
 

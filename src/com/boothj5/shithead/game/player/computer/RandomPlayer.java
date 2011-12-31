@@ -6,7 +6,7 @@ import java.util.Random;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
-
+import static com.boothj5.shithead.game.player.computer.Intelligence.* ;
 
 public class RandomPlayer extends ComputerPlayer {
 

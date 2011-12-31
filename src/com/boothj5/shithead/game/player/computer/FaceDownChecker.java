@@ -4,6 +4,7 @@ import com.boothj5.shithead.game.card.*;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.PlayerSummary;
 import com.boothj5.shithead.game.player.SwapResponse;
+import static com.boothj5.shithead.game.player.computer.Intelligence.* ;
 
 import java.util.*;
 
