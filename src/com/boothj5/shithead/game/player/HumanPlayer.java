@@ -35,4 +35,9 @@ public final class HumanPlayer extends Player {
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
         throw new IllegalStateException("Human players must be asked questions via the user interface") ;
     }
+
+    @Override
+    public int askCardChoiceFromFaceDown(PlayerHelper helper) {
+        throw new IllegalStateException("Human players must be asked questions via the user interface") ;
+    }
 }

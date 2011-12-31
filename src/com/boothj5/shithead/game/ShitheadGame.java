@@ -141,17 +141,6 @@ public final class ShitheadGame {
         moveToNextPlayer() ;
     }	
 
-    private void moveToNextPlayer() {
-        currentPlayer ++ ;
-        if (currentPlayer >= players.size())
-            currentPlayer = 0 ;
-        while (!getCurrentPlayer().hasCards()) {
-            currentPlayer++ ;
-            if (currentPlayer >= players.size())
-                currentPlayer = 0 ;
-        }
-    }
-
     public boolean canContinue() {
         int numPlayersWithCards = 0 ;
         for (Player player : players) 
@@ -226,6 +215,17 @@ public final class ShitheadGame {
         return missAGo ;
     }
 
+    private void moveToNextPlayer() {
+        currentPlayer ++ ;
+        if (currentPlayer >= players.size())
+            currentPlayer = 0 ;
+        while (!getCurrentPlayer().hasCards()) {
+            currentPlayer++ ;
+            if (currentPlayer >= players.size())
+                currentPlayer = 0 ;
+        }
+    }
+    
     private void playFromHand(List<Card> toPlay) {
         Player player = getCurrentPlayer() ;
         pile.addAll(toPlay) ;

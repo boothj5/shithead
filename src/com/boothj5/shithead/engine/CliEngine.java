@@ -5,7 +5,8 @@ import java.util.* ;
 import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.player.*;
-import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
+import com.boothj5.shithead.game.player.interaction.PlayerMove;
+import com.boothj5.shithead.game.player.interaction.PlayerSwap;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 
 public class CliEngine extends ShitheadEngine {
@@ -52,8 +53,8 @@ public class CliEngine extends ShitheadEngine {
     @Override
     public void swap() throws ShitheadException {
         for (Player player : game.getPlayers()) {
-            final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
-            playerInteraction.swap() ;
+            final PlayerSwap playerSwap = PlayerSwap.forPlayer(player, game, cli) ;
+            playerSwap.swap() ;
         }
 
         cli.showGame(game, true) ;
@@ -77,8 +78,8 @@ public class CliEngine extends ShitheadEngine {
             final Player currentPlayer = game.getCurrentPlayer() ;
 
             if (game.currentPlayerCanMove()) {
-                final PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
-                playerInteraction.makeMove() ;
+                final PlayerMove playerMove = PlayerMove.forCurrentPlayer(game, cli) ;
+                playerMove.makeMove() ;
                 if (currentPlayer.isComputer())
                     cli.showGameWithWait(game, true) ;
             }

@@ -19,6 +19,7 @@ public abstract class Player {
     public abstract SwapResponse askSwapChoice() throws ShitheadException;
     public abstract List<Integer> askCardChoiceFromHand(PlayerHelper helper) ;
     public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
+    public abstract int askCardChoiceFromFaceDown(PlayerHelper helper) ;
 
     public final String getName() {
         return name ;

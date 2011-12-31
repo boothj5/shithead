@@ -31,6 +31,11 @@ public abstract class ComputerPlayer extends Player {
     public abstract List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) ;
 
     @Override
+    public int askCardChoiceFromFaceDown(PlayerHelper helper) {
+        return 0 ;
+    }
+    
+    @Override
     public boolean isComputer() {
         return true ;
     }

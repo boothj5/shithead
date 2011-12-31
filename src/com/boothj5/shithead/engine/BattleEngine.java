@@ -13,7 +13,8 @@ import com.boothj5.shithead.game.ShitheadException;
 import com.boothj5.shithead.game.ShitheadGame;
 import com.boothj5.shithead.game.player.Player;
 import com.boothj5.shithead.game.player.PlayerFactory;
-import com.boothj5.shithead.game.player.interaction.PlayerInteraction;
+import com.boothj5.shithead.game.player.interaction.PlayerMove;
+import com.boothj5.shithead.game.player.interaction.PlayerSwap;
 import com.boothj5.shithead.ui.cli.ShitheadCli;
 import static com.boothj5.util.IterationUtil.doTimes ;
 import com.boothj5.util.MapUtil;
@@ -63,8 +64,8 @@ public final class BattleEngine extends ShitheadEngine {
     @Override
     public void swap() throws ShitheadException {
         for (Player player : game.getPlayers()) {
-            PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(player, game, cli) ;
-            playerInteraction.swap() ;
+            PlayerSwap playerSwap = PlayerSwap.forPlayer(player, game, cli) ;
+            playerSwap.swap() ;
         }
     }
 
@@ -82,11 +83,9 @@ public final class BattleEngine extends ShitheadEngine {
                 return ;
             } 
             else {
-                final Player currentPlayer = game.getCurrentPlayer() ;
-
                 if (game.currentPlayerCanMove()) {
-                    PlayerInteraction playerInteraction = PlayerInteraction.forPlayer(currentPlayer, game, cli) ;
-                    playerInteraction.makeMove() ;
+                    PlayerMove playerMove = PlayerMove.forCurrentPlayer(game, cli) ;
+                    playerMove.makeMove() ;
                 } 
                 else {
                     game.playerPickUpPile() ;
