@@ -3,7 +3,6 @@ package com.boothj5.shithead.game.player.computer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
@@ -11,37 +10,10 @@ import com.boothj5.shithead.game.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.player.PlayerHelper;
 
 public class Intelligence {
-    public static boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
-        Stack<Card> pile = helper.getPile() ;
-        if (pile.isEmpty()) {
-            return true ;
-        }
-        else if (ShitheadRules.INVISIBLE.equals(pile.peek().getRank())) {
-            //look for first non invisible and check that
-            Card testCard = pile.peek() ;
-            for (int i = pile.size() -1 ; (i >=0 && (testCard.getRank().equals(ShitheadRules.INVISIBLE))) ; i-- ) {
-                testCard = pile.get(i) ;
-            }
-            if (testCard.getRank().equals(ShitheadRules.INVISIBLE)) {
-                return true ;
-            }
-            else {
-                return checkValidMove(testCard, cardToLay) ;
-            }
-        }
-        else {
-            return checkValidMove(pile.peek(), cardToLay) ; 
-        }   
-    }
 
-    private static boolean checkValidMove(Card onPile, Card toLay) {
-        if (ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(toLay.getRank())) {
-            return true ;
-        }
-        else {
-            return (onPile.compareTo(toLay) <= 0);
-        }
-    }   
+    public static boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
+        return ShitheadRules.canLay(cardToLay, helper.getPile()) ;
+    }
 
     public static List<Integer> pickHighCards(PlayerHelper helper, List<Card> myHand) {
         List<Integer> returnChoice = new ArrayList<Integer>() ;
