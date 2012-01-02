@@ -9,10 +9,9 @@ import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.ShitheadCardComparator;
 import com.boothj5.shithead.game.player.PlayerHelper;
-import com.boothj5.shithead.game.player.PlayerSummary;
 
 public class Intelligence {
-    protected static boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
+    public static boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
         Stack<Card> pile = helper.getPile() ;
         if (pile.isEmpty()) {
             return true ;
@@ -44,7 +43,7 @@ public class Intelligence {
         }
     }   
 
-    protected static List<Integer> pickHighCards(PlayerHelper helper, List<Card> myHand) {
+    public static List<Integer> pickHighCards(PlayerHelper helper, List<Card> myHand) {
         List<Integer> returnChoice = new ArrayList<Integer>() ;
         List<Card> handMinusSpecial = new ArrayList<Card>() ;
 
@@ -82,7 +81,7 @@ public class Intelligence {
         }
     }
 
-    protected static List<Integer> pickLowCards(PlayerHelper helper, List<Card> myHand) {
+    public static List<Integer> pickLowCards(PlayerHelper helper, List<Card> myHand) {
         List<Integer> chosenCards = null; 
 
         for (Card tryCard : myHand) {
@@ -106,21 +105,6 @@ public class Intelligence {
                     chosenCards.add(myHand.indexOf(toCompare)) ;    
             return chosenCards;
         }
-    }
-
-    protected static PlayerSummary getNextPlayer(PlayerHelper helper) {
-        int nextPlayer = helper.getCurrentPlayer();
-        List<PlayerSummary> players = helper.getPlayers() ;
-
-        nextPlayer ++ ;
-        if (nextPlayer >= players.size())
-            nextPlayer = 0 ;
-        while (!players.get(nextPlayer).hasCards()) {
-            nextPlayer++ ;
-            if (nextPlayer >= players.size())
-                nextPlayer = 0 ;
-        }
-        return helper.getPlayers().get(nextPlayer) ;
     }
 
 }

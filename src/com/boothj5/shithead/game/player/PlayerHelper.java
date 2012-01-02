@@ -56,5 +56,19 @@ public class PlayerHelper {
     public List<PlayerSummary> getPlayers() {
         return players;
     }
+    
+    public PlayerSummary getNextPlayer() {
+        int nextPlayer = getCurrentPlayer();
+        List<PlayerSummary> players = getPlayers() ;
 
+        nextPlayer ++ ;
+        if (nextPlayer >= players.size())
+            nextPlayer = 0 ;
+        while (!players.get(nextPlayer).hasCards()) {
+            nextPlayer++ ;
+            if (nextPlayer >= players.size())
+                nextPlayer = 0 ;
+        }
+        return getPlayers().get(nextPlayer) ;
+    }
 }

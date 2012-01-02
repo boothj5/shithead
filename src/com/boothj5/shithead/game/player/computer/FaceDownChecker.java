@@ -31,7 +31,7 @@ public class FaceDownChecker extends ComputerPlayer {
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
         List<Card> myHand = getHand() ;
-        PlayerSummary nextPlayer = getNextPlayer(helper) ;
+        PlayerSummary nextPlayer = helper.getNextPlayer() ;
 
         if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
             return pickHighCards(helper, myHand);
@@ -42,7 +42,7 @@ public class FaceDownChecker extends ComputerPlayer {
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
         List<Card> myHand = getFaceUp() ;
-        PlayerSummary nextPlayer = getNextPlayer(helper) ;
+        PlayerSummary nextPlayer = helper.getNextPlayer() ;
 
         if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
             return pickHighCards(helper, myHand);
