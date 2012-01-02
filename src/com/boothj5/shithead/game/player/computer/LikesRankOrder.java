@@ -59,7 +59,7 @@ public class LikesRankOrder extends ComputerPlayer {
             for (Card cardFromHand : myHand) {
                 if (cardFromHand.getRank().compareTo(testRank) == 0) {
                     // check I can lay it
-                    if (checkValidMove(cardFromHand, helper)) {
+                    if (ShitheadRules.canLay(cardFromHand, helper.getPile())) {
                         choices.add(myHand.indexOf(cardFromHand)) ;
                         // pick more of the same if not special card 
                         if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
@@ -89,7 +89,7 @@ public class LikesRankOrder extends ComputerPlayer {
             for (Card cardFromHand : myHand) {
                 if (cardFromHand.getRank().compareTo(testRank) == 0) 
                     // check I can lay it
-                    if (checkValidMove(cardFromHand, helper)) {
+                    if (ShitheadRules.canLay(cardFromHand, helper.getPile())) {
                         choices.add(myHand.indexOf(cardFromHand)) ;
                         // pick more of the same if not special card 
                         if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {

@@ -11,10 +11,6 @@ import com.boothj5.shithead.game.player.PlayerHelper;
 
 public class Intelligence {
 
-    public static boolean checkValidMove(Card cardToLay, PlayerHelper helper) {
-        return ShitheadRules.canLay(cardToLay, helper.getPile()) ;
-    }
-
     public static List<Integer> pickHighCards(PlayerHelper helper, List<Card> myHand) {
         List<Integer> returnChoice = new ArrayList<Integer>() ;
         List<Card> handMinusSpecial = new ArrayList<Card>() ;
@@ -32,7 +28,7 @@ public class Intelligence {
                     myHand.get(myHand.indexOf(Collections.max(handMinusSpecial, new ShitheadCardComparator()))) ;
 
             // if valid search for more and add them to choice
-            if (checkValidMove(maxNormalCard, helper)) {
+            if (ShitheadRules.canLay(maxNormalCard, helper.getPile())) {
                 returnChoice.add(myHand.indexOf(maxNormalCard)) ;
                 for (Card toCompare : myHand) {
                     if ((myHand.get(returnChoice.get(0)).getRank().compareTo(toCompare.getRank()) == 0) && 
@@ -57,7 +53,7 @@ public class Intelligence {
         List<Integer> chosenCards = null; 
 
         for (Card tryCard : myHand) {
-            if (checkValidMove(tryCard, helper)) {
+            if (ShitheadRules.canLay(tryCard, helper.getPile())) {
                 int chosen = myHand.indexOf(tryCard) ;
                 chosenCards = new ArrayList<Integer>() ;
                 chosenCards.add(chosen) ;
