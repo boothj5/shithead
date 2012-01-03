@@ -2,6 +2,8 @@ package com.boothj5.shithead.game.player.computer;
 
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
+import com.boothj5.shithead.game.player.computer.cardchooser.CardChooser;
+import com.boothj5.shithead.game.player.computer.cardchooser.LowChooser;
 
 import java.util.*;
 
@@ -25,13 +27,13 @@ public class SimplePlayer extends ComputerPlayer {
 
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getHand()) ;
-        return chooser.pickLowCards();
+        CardChooser chooser = new LowChooser(helper, getHand()) ;
+        return chooser.chooseCards();
     }	
 
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getFaceUp()) ;
-        return chooser.pickLowCards();
+        CardChooser chooser = new LowChooser(helper, getFaceUp()) ;
+        return chooser.chooseCards();
     }	
 }

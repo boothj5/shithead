@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
+import com.boothj5.shithead.game.player.computer.cardchooser.CardChooser;
+import com.boothj5.shithead.game.player.computer.cardchooser.RandomHighLowChooser;
 
 public class RandomPlayer extends ComputerPlayer {
 
@@ -25,13 +27,13 @@ public class RandomPlayer extends ComputerPlayer {
 
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getHand()) ;
-        return chooser.pickRandomHighOrLow() ;
+        CardChooser chooser = new RandomHighLowChooser(helper, getHand()) ;
+        return chooser.chooseCards();
     }
 
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getFaceUp()) ;
-        return chooser.pickRandomHighOrLow() ;
+        CardChooser chooser = new RandomHighLowChooser(helper, getFaceUp()) ;
+        return chooser.chooseCards();
     }	
 }

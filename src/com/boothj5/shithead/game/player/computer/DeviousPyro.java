@@ -2,6 +2,8 @@ package com.boothj5.shithead.game.player.computer;
 
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
+import com.boothj5.shithead.game.player.computer.cardchooser.BurnThenLowOnThresholdChooser;
+import com.boothj5.shithead.game.player.computer.cardchooser.CardChooser;
 
 import java.util.*;
 
@@ -31,13 +33,13 @@ public class DeviousPyro extends ComputerPlayer {
 
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getHand()) ;
-        return chooser.pickBurnThenLowWithPileThreshold(threshold) ;
+        CardChooser chooser = new BurnThenLowOnThresholdChooser(helper, getHand(), threshold) ;
+        return chooser.chooseCards() ;
     }
 
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        CardChooser chooser = new CardChooser(helper, getFaceUp()) ;
-        return chooser.pickBurnThenLowWithPileThreshold(threshold) ;
+        CardChooser chooser = new BurnThenLowOnThresholdChooser(helper, getFaceUp(), threshold) ;
+        return chooser.chooseCards() ;
     }
 }
