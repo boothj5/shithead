@@ -1,13 +1,9 @@
 package com.boothj5.shithead.game.player.computer;
 
-import com.boothj5.shithead.game.card.*;
 import com.boothj5.shithead.game.player.PlayerHelper;
-import com.boothj5.shithead.game.player.PlayerSummary;
 import com.boothj5.shithead.game.player.SwapResponse;
-import static com.boothj5.shithead.game.player.computer.Intelligence.* ;
 
 import java.util.*;
-
 
 public class FaceDownChecker extends ComputerPlayer {
 
@@ -16,7 +12,6 @@ public class FaceDownChecker extends ComputerPlayer {
     public FaceDownChecker(String name, int handSize) {
         super(name, handSize) ;
     }
-
 
     @Override
     public boolean askSwapMore() {
@@ -30,23 +25,13 @@ public class FaceDownChecker extends ComputerPlayer {
 
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        List<Card> myHand = getHand() ;
-        PlayerSummary nextPlayer = helper.getNextPlayer() ;
-
-        if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
-            return pickHighCards(helper, myHand);
-        else 
-            return pickLowCards(helper, myHand);
+        CardChooser chooser = new CardChooser(helper, getHand()) ;
+        return chooser.pickHighWhenNextPlayerOnFaceDown() ;
     }
 
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        List<Card> myHand = getFaceUp() ;
-        PlayerSummary nextPlayer = helper.getNextPlayer() ;
-
-        if ((nextPlayer.getHandSize() == 0) && (nextPlayer.getFaceUp().size() == 0) ) 
-            return pickHighCards(helper, myHand);
-        else 
-            return pickLowCards(helper, myHand);
+        CardChooser chooser = new CardChooser(helper, getFaceUp()) ;
+        return chooser.pickHighWhenNextPlayerOnFaceDown() ;
     }
 }

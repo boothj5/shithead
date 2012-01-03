@@ -2,10 +2,9 @@ package com.boothj5.shithead.game.player.computer;
 
 import java.util.List;
 
-import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
-import static com.boothj5.shithead.game.player.computer.Intelligence.* ;
+import com.boothj5.shithead.game.player.computer.CardChooser;
 
 public class Aggressive extends ComputerPlayer {
 
@@ -27,14 +26,13 @@ public class Aggressive extends ComputerPlayer {
 
     @Override
     public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        List<Card> myHand = getHand() ;
-        return pickHighCards(helper, myHand);
+        CardChooser chooser = new CardChooser(helper, getHand()) ;
+        return chooser.pickHighCards();
     }
 
     @Override
     public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        List<Card> myFaceUp = getFaceUp() ;
-        return pickHighCards(helper, myFaceUp);
+        CardChooser chooser = new CardChooser(helper, getFaceUp()) ;
+        return chooser.pickHighCards();
     }	
-
 }
