@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.boothj5.shithead.game.ShitheadException;
-import com.boothj5.shithead.game.ShitheadRules;
 import com.boothj5.shithead.game.card.Card;
 import com.boothj5.shithead.game.card.Card.Rank;
 import com.boothj5.shithead.game.player.PlayerHelper;
 import com.boothj5.shithead.game.player.SwapResponse;
+import com.boothj5.shithead.game.player.computer.cardchooser.CardChooser;
+import com.boothj5.shithead.game.player.computer.cardchooser.RankOrderChooser;
 
 public class RankOrderSwapper extends ComputerPlayer {
 
     public static final String description = "Has a set of ordered ranks to use, and swaps at beginning" ;
-
     private List<Card.Rank> rankOrder = new ArrayList<Card.Rank>() ;
 
     public RankOrderSwapper(String name, int handSize) {
@@ -50,6 +50,17 @@ public class RankOrderSwapper extends ComputerPlayer {
         throw new ShitheadException("Computer wanted to swap, but didn't when asked") ;
     }
 
+    @Override
+    public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
+        CardChooser chooser = new RankOrderChooser(helper, getHand(), rankOrder);
+        return chooser.chooseCards();
+    }
+
+    @Override
+    public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
+        CardChooser chooser = new RankOrderChooser(helper, getFaceUp(), rankOrder);
+        return chooser.chooseCards();
+    }
 
     private int getOrder(Rank testRank) {
         for (Rank rank : rankOrder) {
@@ -57,7 +68,6 @@ public class RankOrderSwapper extends ComputerPlayer {
                 return rankOrder.indexOf(testRank) ;
         }
         return -1 ;
-
     }
 
     private void initRankOrder() {
@@ -74,62 +84,5 @@ public class RankOrderSwapper extends ComputerPlayer {
         rankOrder.add(Card.Rank.SEVEN) ;
         rankOrder.add(Card.Rank.ACE) ;
         rankOrder.add(Card.Rank.TEN) ;
-    }	
-
-
-    @Override
-    public List<Integer> askCardChoiceFromHand(PlayerHelper helper) {
-        List<Card> myHand = getHand() ;
-        List<Integer> choices = new ArrayList<Integer>() ;
-
-        // go through my rank order
-        for (Card.Rank testRank : rankOrder) {
-            // go through my hand and see if I have one
-            for (Card cardFromHand : myHand) {
-                if (cardFromHand.getRank().compareTo(testRank) == 0) {
-                    // check I can lay it
-                    if (ShitheadRules.canLay(cardFromHand, helper.getPile())) {
-                        choices.add(myHand.indexOf(cardFromHand)) ;
-                        // pick more of the same if not special card 
-                        if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
-                            for (Card toCompare : myHand)
-                                if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
-                                        (!myHand.get(choices.get(0)).equals(toCompare))) 
-                                    choices.add(myHand.indexOf(toCompare)) ;	
-                        }
-                        return choices ;
-                    }
-                }
-            }
-        }
-        return choices ;
-
-    }
-
-    @Override
-    public List<Integer> askCardChoiceFromFaceUp(PlayerHelper helper) {
-        List<Card> myHand = getFaceUp();
-        List<Integer> choices = new ArrayList<Integer>() ;
-
-        // go through my rank order
-        for (Card.Rank testRank : rankOrder) {
-            // go through my hand and see if I have one
-            for (Card cardFromHand : myHand) {
-                if (cardFromHand.getRank().compareTo(testRank) == 0) 
-                    // check I can lay it
-                    if (ShitheadRules.canLay(cardFromHand, helper.getPile())) {
-                        choices.add(myHand.indexOf(cardFromHand)) ;
-                        // pick more of the same if not special card 
-                        if (!ShitheadRules.LAY_ON_ANYTHING_RANKS.contains(cardFromHand.getRank())) {
-                            for (Card toCompare : myHand)
-                                if ((myHand.get(choices.get(0)).compareTo(toCompare) == 0) && 
-                                        (!myHand.get(choices.get(0)).equals(toCompare))) 
-                                    choices.add(myHand.indexOf(toCompare)) ;	
-                        }
-                        return choices ;
-                    }
-            }
-        }
-        return choices ;
-    }
+    }   
 }
